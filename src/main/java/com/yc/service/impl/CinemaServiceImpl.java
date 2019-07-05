@@ -10,7 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.CinemaExample;
-import com.yc.bean.CinemaExample.Criteria;
+import com.yc.bean.Movie;
 import com.yc.dao.CinemaMapper;
 import com.yc.service.CinemaService;
 
