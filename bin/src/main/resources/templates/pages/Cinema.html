@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="ie8"><![endif]-->
-<!--[if IE 9]><html class="ie9"><![endif]-->
-<!--[if gt IE 9]><!-->
-<html><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>影院 - 猫眼电影 - 一网打尽好电影</title>
+<!-- saved from url=(0042)https://maoyan.com/cinema/9512?poi=5038539 -->
+<html xmlns:th="http://www.thymeleaf.org"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>万达影城（衡阳万象城店） - 猫眼电影 - 一网打尽好电影</title>
+  
+  <link rel="dns-prefetch" href="https://p0.meituan.net/">
+  <link rel="dns-prefetch" href="https://p1.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms0.meituan.net/">
+  <link rel="dns-prefetch" href="https://s0.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms1.meituan.net/">
+  <link rel="dns-prefetch" href="https://analytics.meituan.com/">
+  <link rel="dns-prefetch" href="https://report.meituan.com/">
+  <link rel="dns-prefetch" href="https://frep.meituan.com/">
 
-  <meta charset="utf-8">
+  
+  
   <meta name="keywords" content="">
   <meta name="description" content="">
   <meta http-equiv="cleartype" content="yes">
@@ -18,101 +25,172 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
- <script type="text/javascript" src="js/jquery.min.js"></script>
- <link rel="stylesheet" href="css/common.css">
-<link rel="stylesheet" href="css/cinemas-list.css">
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 
-</head>
+  <link rel="stylesheet" href="/css/common.d0f96cc2.css">
+<link rel="stylesheet" href="/css/cinemas-cinema.c339c8d8.css">
+<style type="text/css">@media screen{.smnoscreen {display:none}} @media print{.smnoprint{display:none}}</style><meta name="lx:autopv" content="off"><meta name="lx:appnm" content="movie"><meta name="lx:category" content="movie"></head>
+<body>
+
+
 <div th:replace="include::head(index=${index})" ></div>
 <div class="header-placeholder"></div>
 
+    <div class="banner cinema-banner">
+  <div class="wrapper clearfix">
+    <div class="cinema-left">
+      <div class="avatar-shadow">
+        <img class="avatar" src="img/cinema_img.jpg">
+        <div class="avatar-num">查看全部图片</div>
+      </div>
+    </div>
 
-    <div class="container" id="app">
-  <div class="tags-panel">
-    <ul class="tags-lines">
-    
-        <li class="tags-line" data-type="brand">
-          <div class="tags-title">品牌:</div>
-          <ul class="tags">
-            <li class="active">
-              <a data-act="tag-click" data-val="{TagName:'全部', city_id:265}" data-id="-1" href="https://maoyan.com/cinemas?brandId=-1" data-bid="b_x9tdpsnb">全部</a>
-            </li>
-            <li class="">
-              <a data-act="tag-click" data-val="{TagName:'星美国际影城', city_id:265}" data-id="30032" href="https://maoyan.com/cinemas?brandId=30032" data-bid="b_x9tdpsnb">星美国际影城</a>
-            </li>
-            <li class="">
-              <a data-act="tag-click" data-val="{TagName:'其他', city_id:265}" data-id="0" href="https://maoyan.com/cinemas?brandId=0" data-bid="b_x9tdpsnb">其他</a>
-            </li>
-          </ul>
-        </li>
-        <li class="tags-line tags-line-border" data-type="district">
-          <div class="tags-title">行政1区:</div>
-          <ul class="tags">
-            <li class="active">
-              <a data-act="tag-click" data-val="{TagName:'全部', city_id:265}" data-id="-1" href="https://maoyan.com/cinemas?districtId=-1" data-bid="b_arz3865r">全部</a>
-            </li>
-            <li class="">
-              <a data-act="tag-click" data-val="{TagName:'衡东县', city_id:265}" data-id="3547" href="https://maoyan.com/cinemas?districtId=3547" data-bid="b_arz3865r">衡东县</a>
-            </li>
-          </ul>
-        </li>
-		
-		
-        <li class="tags-line tags-line-border" data-type="hallType">
-          <div class="tags-title">特殊厅:</div>
-          <ul class="tags">
-            <li class="active">
-              <a data-act="tag-click" data-val="{TagName:'全部', city_id:265}" data-id="-1" href="https://maoyan.com/cinemas?hallType=-1" data-bid="b_bmcmwqi9">全部</a>
-            </li>
-            <li class="">
-              <a data-act="tag-click" data-val="{TagName:'IMAX厅', city_id:265}" data-id="2" href="https://maoyan.com/cinemas?hallType=2" data-bid="b_bmcmwqi9">IMAX厅</a>
-            </li>
-          </ul>
-        </li>
-    </ul>
-  </div>
-
-  <div class="cinemas-list">
-    <h2 class="cinemas-list-header">影院列表</h2>
-    
-      <div class="cinema-cell" th:each="i:${#numbers.sequence(0,5)}">
-        <div class="cinema-info">
-          <a href="https://maoyan.com/cinema/9749?poi=6575579" class="cinema-name" data-act="cinema-name-click" data-bid="b_4tkpau4m" data-val="{city_id: 265, cinema_id: 9749}">搏广电影院</a>
-          <p class="cinema-address">地址：衡南县雅园南路三元超市隔壁</p>
-        </div>
-
-        <div class="buy-btn">
-          <a href="https://maoyan.com/cinema/9749?poi=6575579" data-act="buy-btn-click" data-val="{city_id: 265, cinema_id: 9749}" data-bid="b_4tkpau4m">选座购票</a>
-        </div>
+    <div class="cinema-main clearfix">
+      <div class="cinema-brief-container">
+        <h3 class="name text-ellipsis">万达影城（衡阳万象城店）</h3>
+        <div class="address text-ellipsis">雁峰区解放大道121号4楼万达影城（永兴阁旁）</div>
+        <div class="telphone">电话：0734-8681188</div>
         
-        <div class="price">
-            <span class="rmb red">￥</span>
-            <span class="price-num red"><span class="stonefont">33.5</span></span>
-            <span>起</span>
+        <div class="features-group">
+          <div class="group-title">影院服务</div>
+
+          <div class="feature">
+            <span class="tag ">3D眼镜</span>
+            <p class="desc text-ellipsis" title="免押金">免押金</p>
+          </div>
+          <div class="feature">
+            <span class="tag ">儿童优惠</span>
+            <p class="desc text-ellipsis" title="1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票">1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票</p>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="cinema-map" data-lat="26.895079" data-lng="112.60325" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden; transform: translateZ(0px);">
+		这是地图
+	  </div>
+  </div>
+</div>
+
+
+	<!-- 所有影片 -->
+
+    <div class="container" id="app">
+    
+      <div class="movie-list-container" data-cinemaid="9512">
+        <div class="movie-list" id="ml">
+        
+          <div class="movie"  onclick="select(this)" th:each="i:${#numbers.sequence(0,3)}">
+            <img src="img/cinema_movie_cover.jpg" alt="" th:id="${i}">
+          </div>
+          
+           <div class="movie active"  onclick="select(this)" id="t">
+            <img src="img/cinema_movie_cover.jpg" >
+          </div>
+           <div class="movie"  onclick="select(this)" id="t1">
+            <img src="img/cinema_movie_cover.jpg" >
+          </div>
+        </div>
+
+        <span class="scroll-prev scroll-btn"></span>
+        <span class="scroll-next scroll-btn"></span>
+      </div>
+      
+		<script type="text/javascript">
+		
+		
+			function select(e){
+				var list = $("#ml").children();
+				for(var i = 0;i<list.length;i++){
+					if($(list[i]).attr("class")=="movie active"){
+						$(list[i]).attr("class","movie");
+					}
+				}
+				
+// 				$("#t").attr("class","movie");
+				$(e).attr("class","movie active");
+			}
+		</script>
+   
+	
+	  <div class="show-list active" data-index="1">
+        <div class="movie-info">
+  <div>
+    <h3 class="movie-name">千与千寻</h3>
+        <span class="score sc">9.3</span>
   </div>
 
- <div class="cinema-pager">
-  <ul class="list-pager">
-  <li>  <a class="page_2" href="#">上一页</a>
- </li>
-    <li class="active">
-    <a class="page_1" href="javascript:void(0);" style="cursor: default">1</a>
-	</li>
-  <li>
-    <a class="page_2" href="https://maoyan.com/cinemas?offset=12">2</a>
-	</li>
-  <li>
-    <a class="page_3" href="https://maoyan.com/cinemas?offset=24">3</a>
-</li>
-<li>  <a class="page_2" href="https://maoyan.com/cinemas?offset=12">下一页</a>
-</li>
-</ul>
+  <div class="movie-desc">
+    <div>
+      <span class="key">时长 :</span>
+      <span class="value">125分钟</span>
+    </div>
+    <div>
+      <span class="key">类型 :</span>
+      <span class="value"> 动画 </span>
+    </div>
+    <div>
+      <span class="key">主演 :</span>
+      <span class="value"> 柊瑠美,周冬雨,入野自由</span>
+    </div>
+  </div>
+</div>
+
+<div class="show-date">
+  <span>观影时间 :</span>
+    <span class="date-item active" data-index="0">今天 7月4</span>
+    <span class="date-item" data-index="1">明天 7月5</span>
+    <span class="date-item" data-index="2">周六 7月6</span>
+</div>
+
+  <div class="plist-container active">
+      
+<table class="plist">
+  <thead>
+    <tr>
+      <th>放映时间</th>
+      <th>语言版本</th>
+      <th>放映厅</th>
+      <th>售价（元）</th>
+      <th>选座购票</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr class="">
+      <td>
+        <span class="begin-time">22:50</span>
+        <br>
+        <span class="end-time">00:55散场</span>
+      </td>
+      <td>
+        <span class="lang">日语2D</span>
+      </td>
+      <td>
+        <span class="hall">4号厅</span>
+      </td>
+      <td>
+        <span class="sell-price"><span class="stonefont">.</span></span>
+      </td>
+      <td>
+        <a href="https://maoyan.com/xseats/201907040004084?movieId=1212&amp;cinemaId=9512" class="buy-btn normal" data-tip="" data-act="show-click" data-bid="b_gvh3l8gg" data-val="{movie_id: 1212, cinema_id:9512}">选座购票</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
   </div>
   
   
+  
+</div>
+
+      </div>
+
+
+  <div class="big-map-modal" style="display: none">
+	
+  </div>
     </div>
 
 <div class="footer" style="visibility: visible;">
@@ -152,8 +230,6 @@
     </p>
     <p>北京猫眼文化传媒有限公司</p>
 </div>
-
-   
-   
+ 
 
 </body></html>

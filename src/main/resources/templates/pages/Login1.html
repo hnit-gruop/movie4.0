@@ -44,9 +44,12 @@
 		var tel=$("#login-email").val();
 		validateTel(tel);
 		});
-
+	
 });   
-
+ function getCode(){
+		var phonenum =$("#login-email").val();
+		document.location.href='getCode?phonenum='+phonenum+'&type=2';
+	}
 </script>
 
 
@@ -85,7 +88,7 @@
                     <i class="right-arrow"></i>
                 </span>
             <input type="hidden" name="countrycode" value="86">        
-            <input th:value="${email}" type="text" id="login-email" class="f-text phone-input" name="phonenum" placeholder="手机号" value="" maxlength="15">
+            <input th:value="${phonenum}" type="text" id="login-email" class="f-text phone-input" name="phonenum" placeholder="手机号" value="" maxlength="15">
         </div>
         <div><font  color="red"style="visibility:hidden;" id="box">请输入正确的手机号</font></div>
         <div class="form-field form-field--icon pw-input-wrapper form-field--ok">
@@ -123,7 +126,7 @@
                     <i class="right-arrow"></i>
                 </span>
             <input type="hidden" name="countrycode" value="86"> 
-        <input th:value="${email}" type="text" id="login-email" class="f-text phone-input" name="phonenum" placeholder="手机号" value="" maxlength="15">
+        <input th:value="${phonenum}" type="text" id="login-email" class="f-text phone-input" name="phonenum" placeholder="手机号" value="" maxlength="15">
         </div>
         <div><font  color="red"style="visibility:hidden;" id="box">请输入正确的手机号</font></div>
 
@@ -131,7 +134,8 @@
             <i class="icon icon-password"></i>
             <input type="text" name="code" id="login-verify-code" class="f-text smscode-input" autocomplete="off" value="" placeholder="动态码">
             <div class="form-field form-field--verify-mobile" style="top:19px;">
-                <input type="button" class="btn-normal btn-mini" id="J-verify-btn" value="获取手机动态码">
+                <input type="button" class="btn-normal btn-mini" id="J-verify-btn" value="获取手机动态码" onclick="getCode()">
+                <input type="hidden" name="code2" th:value="${code}"> 
             </div>
             <i class="form-uuid" style="display:none">318f3177dcbb4a34a3b6.1561776141.1.0.0</i>
             <i class="risk_partner" style="display:none">0</i>
