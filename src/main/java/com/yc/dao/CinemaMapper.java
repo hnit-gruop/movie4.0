@@ -1,8 +1,8 @@
 package com.yc.dao;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Param;
 import com.yc.bean.Cinema;
 import com.yc.bean.CinemaExample;
 
@@ -14,7 +14,6 @@ public interface CinemaMapper {
     int deleteByPrimaryKey(Integer cinemaId);
 
     int insert(Cinema record);
-
     int insertSelective(Cinema record);
 
     List<Cinema> selectByExample(CinemaExample example);
