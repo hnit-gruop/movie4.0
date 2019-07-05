@@ -26,11 +26,21 @@ public class CinemaServiceImpl implements CinemaService{
 	}
 
 	@Override
-	public List<Cinema> getAllCinema(int pageNum) {
+	public PageInfo<Cinema> getAllCinema(int pageNum,String name) {
 		PageHelper.startPage(pageNum, 5);
-		List<Cinema> selectByExample = cinemaMapper.selectByExample(null);
+		List<Cinema> selectByExample;
+		if(name == null || name.trim().length() == 0) {
+			selectByExample = cinemaMapper.selectByExample(null);
+		}else {
+			CinemaExample ce = new CinemaExample();
+			PageHelper.startPage(pageNum, 5);
+			ce.createCriteria().andNameLike("%"+name+"%");
+			selectByExample = cinemaMapper.selectByExample(ce);
+			PageInfo<Cinema> page = new PageInfo<>(selectByExample);
+		}
+		
 		PageInfo<Cinema> page = new PageInfo<>(selectByExample);
-		return page.getList();
+		return page;
 	}
 
 	@Override
@@ -46,13 +56,13 @@ public class CinemaServiceImpl implements CinemaService{
 	}
 
 	@Override
-	public List<Cinema> getCinemaByName(String name,int pageNum) {
+	public PageInfo<Cinema> getCinemaByName(String name,int pageNum) {
 		CinemaExample ce = new CinemaExample();
 		PageHelper.startPage(pageNum, 5);
 		ce.createCriteria().andNameLike("%"+name+"%");
 		List<Cinema> selectByExample = cinemaMapper.selectByExample(ce);
 		PageInfo<Cinema> page = new PageInfo<>(selectByExample);
-		return page.getList();
+		return page;
 	}
 
 }

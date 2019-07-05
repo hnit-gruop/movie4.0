@@ -471,9 +471,17 @@ public class FrameController {
  	}
  	
  	@RequestMapping("allCinema")
- 	public String allCinema(Model model) {
- 		List<Cinema> allCinema = csi.getAllCinema(1);
+ 	public String allCinema(Model model,@RequestParam(name="name",required=false) String name) {
+ 		PageInfo<Cinema> page = csi.getAllCinema(1,name);
+ 		List<Cinema> allCinema = page.getList();
+ 		int total = (int) page.getTotal();
+ 		if(total % 5 == 0) {
+			total /= 5;
+		}else {
+			total = (total / 5) + 1;
+		}
  		model.addAttribute("allCinema", allCinema);
+ 		model.addAttribute("total", total);
  		return "manage/allCinema";
  	}
  	
@@ -517,8 +525,9 @@ public class FrameController {
  	
  	@RequestMapping("getCinemaByName")
  	@ResponseBody
- 	public List<Cinema> getCinemaByName(@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current){
- 		List<Cinema> cinemaByName = csi.getCinemaByName(name,current);
+ 	public List<Cinema> getCinemaByName(@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current,Model model){
+ 		PageInfo<Cinema> page = csi.getCinemaByName(name,current);
+ 		List<Cinema> cinemaByName = page.getList();
  		return cinemaByName;
  	}
  	

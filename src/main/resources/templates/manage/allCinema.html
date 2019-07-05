@@ -111,9 +111,32 @@
 		 			window.location.reload();
 		 		})
 		 	}
+			
+			 function search(){
+					var name = $("#aname").val();
+					$.post("getCinemaByName",{
+						name:name
+					},function(data){
+						$("#tbody").empty();
+						$.each(data,function(k,v){
+							$("#tbody").append(
+									 '	<tr>' +
+									 '		<td>'+v.name+'</td>' +
+									 '		<td>'+v.address+'</td>' +
+									 '		<td>' +
+									 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
+									 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+									 '		</td>' +
+									 '	</tr>'
+							)
+							
+						}); 
+					});
+				}
 		</script>
 	</head>
 	<body>
+	<input type="hidden" th:value="${total}" id="total">
 	<div id="win" class="easyui-window" title="影片详情" closed="true" style="width:550px;height:650px;padding:5px;">
 		<input type="text" id="cinemaId" hidden="hidden"> 
 		影院名称:<input class="easyui-text" type="text" id="mname"><br>
@@ -150,27 +173,7 @@
 		        $("#city").append(optionStr);
 		    }
 		    
-		    function search(){
-				var name = $("#aname").val();
-				$.post("getCinemaByName",{
-					name:name,
-				},function(data){
-					$("#tbody").empty();
-					$.each(data,function(k,v){
-						$("#tbody").append(
-								 '	<tr>' +
-								 '		<td>'+v.name+'</td>' +
-								 '		<td>'+v.address+'</td>' +
-								 '		<td>' +
-								 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
-								 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
-								 '		</td>' +
-								 '	</tr>'
-						)
-						
-					}); 
-				});
-			}
+		 
 		</script>
 		详细地址:<input class="easyui-text" type="text" id="address"><br>
 		经度:<input class="easyui-text" type="text" id="gps_1"><br>
@@ -246,12 +249,30 @@
 	<script type="text/javascript">
 	//翻页
 	var total = $("#total").val();
-	var num = $("#num").val();
 	$(".zxf_pagediv").createPage({
 		pageNum: total,
-		current: Number(num),
-		backfun: function(e) {
-
+		current: 1,
+		backfun: function(data) {
+			var name = $("#aname").val();
+			$.post("getCinemaByName",{
+				name:name,
+				current:data.current
+			},function(data){
+				$("#tbody").empty();
+				$.each(data,function(k,v){
+					$("#tbody").append(
+							 '	<tr>' +
+							 '		<td>'+v.name+'</td>' +
+							 '		<td>'+v.address+'</td>' +
+							 '		<td>' +
+							 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
+							 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+							 '		</td>' +
+							 '	</tr>'
+					)
+					
+				}); 
+			});
 		}
 	});
 	</script>

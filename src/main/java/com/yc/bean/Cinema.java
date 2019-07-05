@@ -50,4 +50,12 @@ public class Cinema {
     public void setImg(String img) {
         this.img = img == null ? null : img.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Cinema [cinemaId=" + cinemaId + ", name=" + name + ", address=" + address + ", gps=" + gps + ", img="
+				+ img + "]";
+	}
+    
+    
 }
