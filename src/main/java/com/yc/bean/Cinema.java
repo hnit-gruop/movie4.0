@@ -6,7 +6,7 @@ public class Cinema {
     private Integer cinemaId;
 
     private String name;
-
+ 
     private String address;
 
     private String location;
