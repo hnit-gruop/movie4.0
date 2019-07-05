@@ -1,6 +1,8 @@
 package com.yc.bean;
 
 public class Cinema {
+	
+	
     private Integer cinemaId;
 
     private String name;
