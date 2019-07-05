@@ -64,5 +64,22 @@ public class CinemaServiceImpl implements CinemaService{
 		PageInfo<Cinema> page = new PageInfo<>(selectByExample);
 		return page;
 	}
+	
+	@Override
+	public Cinema cinema(int cinemaId) {
+		Cinema selectByPrimaryKey = cinemaMapper.selectByPrimaryKey(cinemaId);
+		return selectByPrimaryKey;
+	}
+
+	@Override
+	public List<Movie> getCinemaMovieList() {
+		return null;
+	}
+
+	@Override
+	public List<Cinema> listCinema() {
+		List<Cinema> list = cinemaMapper.selectByExample(null);
+		return list;
+	}
 
 }
