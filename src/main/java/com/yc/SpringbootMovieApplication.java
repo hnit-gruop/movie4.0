@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 @EnableScheduling
 public class SpringbootMovieApplication {
-	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootMovieApplication.class, args);
 	}

@@ -28,12 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Actor;
+import com.yc.bean.Cinema;
 import com.yc.bean.Movie;
 import com.yc.bean.MovieImage;
 import com.yc.bean.MovieType;
 import com.yc.bean.Type;
 import com.yc.service.MovieImageService;
 import com.yc.service.impl.ActorServiceImpl;
+import com.yc.service.impl.CinemaServiceImpl;
 import com.yc.service.impl.MovieActorServiceImpl;
 import com.yc.service.impl.MovieImageServiceImpl;
 import com.yc.service.impl.MovieServiceImpl;
@@ -57,7 +59,8 @@ public class FrameController {
 	MovieActorServiceImpl masi;
 	@Resource
 	ActorServiceImpl asi;
-	
+	@Resource
+	CinemaServiceImpl csi;
 	
 	@Value("${coverPath}")
 	private String coverPath;
@@ -433,4 +436,107 @@ public class FrameController {
  		Result re = new Result(1, "添加成功!");
  		return re;
  	}
+ 	
+ 	@RequestMapping("toAddCinema")
+ 	public String toAddCinema() {
+ 		return "manage/addCinema";
+ 	}
+ 	
+ 	@RequestMapping("addCinema")
+ 	@ResponseBody
+ 	public Result AddCinema(Model model,Cinema cinema) {
+ 		int addCineme = csi.addCinema(cinema);
+ 		if(addCineme > 0) {
+ 			Result result = new Result(addCineme, "添加成功!");
+ 			return result;
+ 		}else {
+ 			Result result = new Result(addCineme, "添加失败!");
+ 			return result;
+ 		}
+ 		
+ 	}
+ 	
+ 	@RequestMapping("updataCinema")
+ 	@ResponseBody
+ 	public Result updataCinema(Model model,Cinema cinema) {
+ 		int addCineme = csi.updataCinema(cinema);
+ 		if(addCineme > 0) {
+ 			Result result = new Result(addCineme, "修改成功!");
+ 			return result;
+ 		}else {
+ 			Result result = new Result(addCineme, "修改失败!");
+ 			return result;
+ 		}
+ 		
+ 	}
+ 	
+ 	@RequestMapping("allCinema")
+ 	public String allCinema(Model model) {
+ 		List<Cinema> allCinema = csi.getAllCinema(1);
+ 		model.addAttribute("allCinema", allCinema);
+ 		return "manage/allCinema";
+ 	}
+ 	
+ 	@RequestMapping("cinemaDetails")
+ 	@ResponseBody
+ 	public Map<String,Object> cinemaDetail(@RequestParam(name="id")int id){
+ 		Cinema cinemaDetail = csi.getCinemaDetail(id);
+ 		String name = cinemaDetail.getName();
+ 		String address = cinemaDetail.getAddress();
+ 		
+ 		String[] split = address.split(",");
+ 		String province = split[0];
+ 		String city = split[1];
+ 		String path = split[2];
+ 		int cid = cinemaDetail.getCinemaId();
+ 		String gps = cinemaDetail.getGps();
+ 		String[] gps_s= null;
+ 		if(gps != null && gps.trim().length() > 0) {
+ 			gps_s  = gps.split(",");
+ 		}
+ 		
+ 		String gps_1 = "";
+ 		String gps_2 = "";
+ 		
+ 		if(gps_s != null && gps_s.length > 2) {
+ 			gps_1 = gps_s[0];
+ 			gps_2 = gps_s[1];
+ 		}
+ 		String img = cinemaDetail.getImg();
+ 		Map<String,Object> map = new HashMap<>();
+ 		map.put("name", name);
+ 		map.put("province",province);
+ 		map.put("city", city);
+ 		map.put("path", path);
+ 		map.put("id", cid);
+ 		map.put("img", img);
+ 		map.put("gps_1", gps_1);
+ 		map.put("gps_2",gps_2);
+ 		return map;
+ 	}
+ 	
+ 	@RequestMapping("getCinemaByName")
+ 	@ResponseBody
+ 	public List<Cinema> getCinemaByName(@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current){
+ 		List<Cinema> cinemaByName = csi.getCinemaByName(name,current);
+ 		return cinemaByName;
+ 	}
+ 	
+ 	@RequestMapping("addCinemaImg")
+ 	@ResponseBody
+    public String CinemaImg(@RequestParam("file") MultipartFile file) {
+  		
+         if (file.isEmpty()) {
+             return "上传失败，请选择文件";
+         }
+         String fileName = file.getOriginalFilename();
+         String filePath = "D:\\upload\\cinemaImg\\";
+         File dest = new File(filePath + fileName);
+         try {
+             file.transferTo(dest);
+             return "成功";
+         } catch (IOException e) {
+         }
+         return "失败！";
+     }
 }
