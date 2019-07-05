@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yc.dao.CinemaMapper">
-  <resultMap id="BaseResultMap" type="com.yc.bean.Cinema">
+<mapper namespace="com.yc.tdao.CinemaMapper">
+  <resultMap id="BaseResultMap" type="com.yc.tbean.Cinema">
     <id column="cinema_id" jdbcType="INTEGER" property="cinemaId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="gps" jdbcType="VARCHAR" property="gps" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,9 +67,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    cinema_id, name, address, location
+    cinema_id, name, address, gps, img
   </sql>
-  <select id="selectByExample" parameterType="com.yc.bean.CinemaExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.yc.tbean.CinemaExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -92,19 +93,19 @@
     delete from cinema
     where cinema_id = #{cinemaId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yc.bean.CinemaExample">
+  <delete id="deleteByExample" parameterType="com.yc.tbean.CinemaExample">
     delete from cinema
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yc.bean.Cinema">
+  <insert id="insert" parameterType="com.yc.tbean.Cinema">
     insert into cinema (cinema_id, name, address, 
-      location)
+      gps, img)
     values (#{cinemaId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{location,jdbcType=VARCHAR})
+      #{gps,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.yc.bean.Cinema">
+  <insert id="insertSelective" parameterType="com.yc.tbean.Cinema">
     insert into cinema
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cinemaId != null">
@@ -116,8 +117,11 @@
       <if test="address != null">
         address,
       </if>
-      <if test="location != null">
-        location,
+      <if test="gps != null">
+        gps,
+      </if>
+      <if test="img != null">
+        img,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -130,12 +134,15 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="location != null">
-        #{location,jdbcType=VARCHAR},
+      <if test="gps != null">
+        #{gps,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yc.bean.CinemaExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.yc.tbean.CinemaExample" resultType="java.lang.Long">
     select count(*) from cinema
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -153,8 +160,11 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
-      <if test="record.location != null">
-        location = #{record.location,jdbcType=VARCHAR},
+      <if test="record.gps != null">
+        gps = #{record.gps,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null">
+        img = #{record.img,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -166,12 +176,13 @@
     set cinema_id = #{record.cinemaId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
-      location = #{record.location,jdbcType=VARCHAR}
+      gps = #{record.gps,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yc.bean.Cinema">
+  <update id="updateByPrimaryKeySelective" parameterType="com.yc.tbean.Cinema">
     update cinema
     <set>
       <if test="name != null">
@@ -180,17 +191,21 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="location != null">
-        location = #{location,jdbcType=VARCHAR},
+      <if test="gps != null">
+        gps = #{gps,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
       </if>
     </set>
     where cinema_id = #{cinemaId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yc.bean.Cinema">
+  <update id="updateByPrimaryKey" parameterType="com.yc.tbean.Cinema">
     update cinema
     set name = #{name,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      location = #{location,jdbcType=VARCHAR}
+      gps = #{gps,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
     where cinema_id = #{cinemaId,jdbcType=INTEGER}
   </update>
 </mapper>

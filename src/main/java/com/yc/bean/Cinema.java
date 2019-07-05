@@ -1,15 +1,15 @@
 package com.yc.bean;
 
 public class Cinema {
-	
-	
     private Integer cinemaId;
 
     private String name;
- 
+
     private String address;
 
-    private String location;
+    private String gps;
+
+    private String img;
 
     public Integer getCinemaId() {
         return cinemaId;
@@ -35,11 +35,19 @@ public class Cinema {
         this.address = address == null ? null : address.trim();
     }
 
-    public String getLocation() {
-        return location;
+    public String getGps() {
+        return gps;
     }
 
-    public void setLocation(String location) {
-        this.location = location == null ? null : location.trim();
+    public void setGps(String gps) {
+        this.gps = gps == null ? null : gps.trim();
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img == null ? null : img.trim();
     }
 }

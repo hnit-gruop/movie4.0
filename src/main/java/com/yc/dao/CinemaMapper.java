@@ -1,9 +1,10 @@
 package com.yc.dao;
 
-import com.yc.bean.Cinema;
-import com.yc.bean.CinemaExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.yc.bean.Cinema;
+import com.yc.bean.CinemaExample;
 
 public interface CinemaMapper {
     long countByExample(CinemaExample example);

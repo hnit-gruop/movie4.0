@@ -19,17 +19,17 @@
 		</jdbcConnection>
 		
 		<!-- 实体类包名 -->
-		<javaModelGenerator targetPackage="com.yc.bean"
+		<javaModelGenerator targetPackage="com.yc.tbean"
 			targetProject="src/main/java">
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- Dao类包名 -->
-		<sqlMapGenerator targetPackage="com.yc.dao"
+		<sqlMapGenerator targetPackage="com.yc.tdao"
 			targetProject="src/main/java">
 		</sqlMapGenerator>
 
 		<javaClientGenerator type="MAPPER"
-			targetPackage="com.yc.dao" targetProject="src/main/java">
+			targetPackage="com.yc.tdao" targetProject="src/main/java">
 		</javaClientGenerator>
 
 
