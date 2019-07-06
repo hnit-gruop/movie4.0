@@ -29,6 +29,30 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
  $(function(){  
+	 
+	 var countdown=60; 
+ 	var obj=document.getElementById("get")
+ 	var msg1=$("#msg1").val()
+ 	if(msg1=="1"){
+ 		 settime(obj) 
+ 	}
+ 	function settime(obj) {    
+	    if (countdown == 0) { 
+	        obj.removeAttribute("disabled");    
+	        obj.setAttribute("class","btn-normal btn-mini verify-btn J-verify-btn")
+	        obj.value="免费获取动态验证码"; 
+	        countdown = 60; 
+	        return;
+	    } else { 
+	        obj.setAttribute("disabled", true); 
+	        obj.setAttribute("class","btn-normal btn-mini verify-btn J-verify-btn btn-disabled")
+	        obj.value="重新发送(" + countdown + ")"; 
+	        countdown--; 
+	    } 
+	setTimeout(function() { 
+	    settime(obj) }
+	    ,1000)     	
+	}
 	var TEL_REGEXP =/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
 	
 	function validateTel (tel){
@@ -111,6 +135,7 @@
 
     <form id="J-mobile-form" action="doLogin" method="POST" class="form form--stack J-wwwtracker-form" th:if="${type} eq '2'">
 			<input type="hidden" name="type" value="2"> 
+			<input type="hidden" id="msg1" th:value="${msg1}">
         <div class="validate-info"  th:if="${not  #strings.isEmpty(msg)}" ><i class="tip-status tip-status--opinfo"></i><i th:text="${msg}"></i></div>
         <span class="login-type login-type--normal" data-mtevent="login.normal.switch">
             <a id="J-normal-link" href="login?type=1">
@@ -134,7 +159,7 @@
             <i class="icon icon-password"></i>
             <input type="text" name="code" id="login-verify-code" class="f-text smscode-input" autocomplete="off" value="" placeholder="动态码">
             <div class="form-field form-field--verify-mobile" style="top:19px;">
-                <input type="button" class="btn-normal btn-mini" id="J-verify-btn" value="获取手机动态码" onclick="getCode()">
+                <input type="button" class="btn-normal btn-mini" id="get" value="获取手机动态码" onclick="getCode()">
                 <input type="hidden" name="code2" th:value="${code}"> 
             </div>
             <i class="form-uuid" style="display:none">318f3177dcbb4a34a3b6.1561776141.1.0.0</i>

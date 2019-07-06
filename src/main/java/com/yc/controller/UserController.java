@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.yc.bean.User;
 import com.yc.service.UserService;
+import com.yc.util.PhoneUtil;
 
 @Controller
 public class UserController {
@@ -113,34 +115,46 @@ public class UserController {
     }
     
     @RequestMapping("/doReg")
-    public void doReg( Model m, String mobile,String password,HttpServletResponse response ,HttpSession session) {
+    public void doReg( Model m, String mobile,String password
+    		,HttpServletResponse response ,HttpSession session
+    		,String code,String code2,String msg) {
     	User user = null;
     	Boolean user1;
     	m.addAttribute("phone",mobile);
     	m.addAttribute("password",password);
-    	user1= userService.isReg(mobile);
-    	if(user1==true){
-    		try {
-				response.getWriter().write("no");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    	if(code.trim().equals(code2.trim())){
+    		user1= userService.isReg(mobile);
+        	if(user1==true){
+        		try {
+    				response.getWriter().write("no");
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        	}else{
+        		userService.addUser(mobile,password);
+        		user = userService.login(mobile, password);
+        		Cookie cookie=new Cookie("uname",user.getUsername());
+    			cookie.setMaxAge(3*60);
+    			cookie.setPath("/");
+    			response.addCookie(cookie);
+    			session.setAttribute("user", user);
+        		try {
+    				response.getWriter().write("yes");
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        	}
     	}else{
-    		userService.addUser(mobile,password);
-    		user = userService.login(mobile, password);
-    		Cookie cookie=new Cookie("uname",user.getUsername());
-			cookie.setMaxAge(3*60);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-			session.setAttribute("user", user);
     		try {
-				response.getWriter().write("yes");
+				response.getWriter().write("nono");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
+    	
     		
     	
     	
@@ -149,9 +163,33 @@ public class UserController {
     
     @RequestMapping("/getCode")
     public String getCode(Model m,String type,String phonenum) {
-    	m.addAttribute("code",123456);
+    	if((phonenum.trim().equals("") || phonenum==null)&&type.endsWith("2")){
+    		m.addAttribute("msg","请输入手机号再获取动态码");
+    		m.addAttribute("type",type);
+    		 return "pages/Login1";
+    	}
+    	if((phonenum.trim().equals("") || phonenum==null)&&type.endsWith("3")){
+    		m.addAttribute("msg","请输入手机号再获取动态码");
+    		 return "pages/Register1";
+    	}
+    	PhoneUtil pu=new PhoneUtil();
+    	int a=(int) ((Math.random()*9+1)*1000);
+    	String code=String.valueOf(a);
+    	System.out.println(code);
+    			try {
+					pu.sendPhoneCode(phonenum, code);
+				} catch (ClientException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	m.addAttribute("code",code);
     	m.addAttribute("phonenum",phonenum);
+    	m.addAttribute("phone",phonenum);
     	m.addAttribute("type",type);
+    	m.addAttribute("msg1","1");
+    	if(type.endsWith("3")){  		
+    		return "pages/Register1";
+    	}
         return "pages/Login1";
     }
     

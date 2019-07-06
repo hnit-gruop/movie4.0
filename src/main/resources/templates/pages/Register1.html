@@ -36,6 +36,58 @@
         // http://docs.sankuai.com/doc/f2e_dp/owl/guide/
         "use strict";!function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:"_Owl_",a=window;a[e]||(a[e]={isRunning:!1,isReady:!1,preTasks:[],dataSet:[],pageData:[],disableMutaObserver:!1,observer:null,use:function(e,t){this.isReady&&a.Owl&&a.Owl[e](t),this.preTasks.push({api:e,data:[t]})},add:function(e){this.dataSet.push(e)},run:function(){var t=this;if(!this.isRunning){this.isRunning=!0;var e=a.onerror;a.onerror=function(){this.isReady||this.add({type:"jsError",data:arguments}),e&&e.apply(a,arguments)}.bind(this),(a.addEventListener||a.attachEvent)("error",function(e){t.isReady||t.add({type:"resError",data:[e]})},!0);var i=window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver,r=window.performance||window.WebKitPerformance;if(i&&r){var n=-1,s=window.navigator.userAgent;if(-1<s.indexOf("compatible")&&-1<s.indexOf("MSIE")?(new RegExp("MSIE (\\d+\\.\\d+);").test(s),n=parseFloat(RegExp.$1)):-1<s.indexOf("Trident")&&-1<s.indexOf("rv:11.0")&&(n=11),-1!==n&&n<=11)return void(this.disableMutaObserver=!0);try{this.observer=new i(function(e){t.pageData.push({mutations:e,startTime:r.now()})}),this.observer.observe(document,{childList:!0,subtree:!0})}catch(e){console.log("mutationObserver err")}}else this.disableMutaObserver=!0}}},a[e].run())}();
     </script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){  
+    	var countdown=60; 
+    	var obj=document.getElementById("get")
+    	var msg1=$("#msg1").val()
+    	if(msg1=="1"){
+    		 settime(obj) 
+    	}
+    	
+    	
+    	function settime(obj) {    
+    	    if (countdown == 0) { 
+    	        obj.removeAttribute("disabled");    
+    	        obj.setAttribute("class","btn-normal btn-mini verify-btn J-verify-btn")
+    	        obj.value="免费获取动态验证码"; 
+    	        countdown = 60; 
+    	        return;
+    	    } else { 
+    	        obj.setAttribute("disabled", true); 
+    	        obj.setAttribute("class","btn-normal btn-mini verify-btn J-verify-btn btn-disabled")
+    	        obj.value="重新发送(" + countdown + ")"; 
+    	        countdown--; 
+    	    } 
+    	setTimeout(function() { 
+    	    settime(obj) }
+    	    ,1000)     	
+    	}
+    	
+    	
+    });   
+    	
+    	
+    	
+    	
+    	
+    	/* function change(a){
+    		if(a=="1"){
+    			$("#get").attr("class","btn-normal btn-mini verify-btn J-verify-btn btn-disabled")
+    			$("#get").removeAttr("onclick");
+    			$("#get").attr("value","重新获取")
+    		}
+    	}
+    	var a=$("#msg").val()
+    	change(a); */
+ 
+    function getCode(){
+		var phonenum =$("#login-email").val();		
+		document.location.href='getCode?phonenum='+phonenum+'&type=3';
+		
+	}
+    </script>
 </head>
 
 <body class="pg-unitive-signup theme--maoyan">
@@ -53,10 +105,11 @@
 
     <div class="sheet" style="display:block">
     <form action="doReg" method="POST">
-            <div class="form-field form-field--mobile form-field--error">
+    <input type="hidden" id="msg1" th:value="${msg1}">
+            <div class="form-field form-field--mobile form-field--ok">
                 <label>手机号</label>
 
-                    <input type="text" name="mobile" class="f-text J-mobile" th:value="${phone}">
+                    <input type="text" name="mobile" class="f-text J-mobile" th:value="${phone}" id="login-email" >
                     
 
                 
@@ -74,19 +127,18 @@
                         <span class="J-captcha-tip inline-tip"></span>
                     </div>
                     <div class="verify-wrapper">
-                        <input type="button" class="btn-normal btn-mini verify-btn J-verify-btn111" value="免费获取短信动态码">
+                        <input type="button" id="get" class="btn-normal btn-mini verify-btn J-verify-btn" value="免费获取短信动态码" onclick="getCode()">
                         <span class="f1 verify-tip" id="J-verify-tip"></span>
                     </div>
 
 
 
             </div>
-            <div class="form-field form-field--sms11">
+            <div class="form-field form-field--sms">
                 <label>短信动态码</label>
 
-                    <input type="text" name="verifycode" class="f-text J-sms">
-<!-- <span class="inline-tip"><i class="tip-status tip-status--success"></i></span> -->
-                <span class="inline-tip"><i class="tip-status tip-status--opinfo"></i>请输入正确的短信动态码</span>
+                    <input type="text" name="code" class="f-text J-sms">
+                    <input type="hidden" name="code2" th:value="${code}">
 
             </div>
             <div class="form-field form-field--pwd form-field--error">
