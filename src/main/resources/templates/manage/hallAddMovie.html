@@ -43,25 +43,144 @@
 			
 			function getHall(){
 				var CinemaId = $("#selectCinema").val();
-				if(cinemaId != null && cinemaId != ""){
-					
+				if(CinemaId != null && CinemaId != "" && CinemaId != "-1"){
+					$.post("getAllHallByCinemaId",{
+						cid:CinemaId
+					},function(data){
+						$("#selectTheHall").empty();
+						$.each(data,function(k,v){
+							$("#selectTheHall").append(
+									 '<option value="'+v.hallId+'">'+v.name+'</option>'
+							)
+						}); 
+					})
 				}
 			}
 			
+			function selectTheHall(){
+				var hallId = $("#selectTheHall").val();
+				if(hallId == null){
+					alert("请选择正确的影厅");
+					return;
+				}
+				$("#selectHall").window("close");
+				$("#hallId").val(hallId);
+				$.post("getMovieListByHall",{
+					hallId:hallId
+				},function(data){
+					$("#tbody").empty();
+					$.each(data,function(k,v){
+						$("#tbody").append(
+								 '	<tr>' +
+								 '		<td>'+v.name+'</td>' +
+								 '		<td>'+v.startTime+'</td>' +
+								 '		<td>'+v.endTime+'</td>' +
+								 '		<td>'+v.price+'</td>' +
+								 '		<td>' +
+								 '			<button class="layui-btn" onclick="updata('+v.scheduleId+')">修改信息</button>\n' +
+								 '		</td>' +
+								 '	</tr>'
+						)
+						
+					}); 
+				})
+			}
+			
+			function updata(scheduleId){
+				
+			}
+			
+			function openAddSchedule(){
+				$("#addSchedule").window("open");
+			}
+			function addSchedule(){
+				var hallId = $("#hallId").val();
+				var mid = $("#selectMovie").val();
+				var date = new Date($("#dt").val());
+				var time = Date.parse(date);
+				var price = $("#price").val();
+				
+				$.post("addSchedule",{
+					hallId:hallId,
+					movieId:mid,
+					price:price,
+					startTime:time
+				},function(data){
+					alert(data.message);
+					if(data.code > 0){
+						selectTheHall();
+						$("#addSchedule").window("close");
+					}
+				})
+			}
 		</script>
 	</head>
 	<body>
-	<input type="text" hidden="hidden">
-	<div id="selectHall" class="easyui-window" title="新增影厅" closed="true" style="width:400px;height:150px;padding:5px;">
+	<input id="hallId" type="text" hidden="hidden">
+	<button class="layui-btn" onclick="openAddSchedule()">新增排片</button>
+	<div id="selectHall" class="easyui-window" title="选择影厅" closed="true" style="width:400px;height:150px;padding:5px;">
 		请选择影院与影厅:<br>
 		<select id="selectCinema" onchange="getHall()">
-			 <option th:each="c:${CinemaList}" th:value="${c.cinemaId}" th:text="${c.name}"></option>
+			<option value="-1">请选择</option>
+			<option th:each="c:${CinemaList}" th:value="${c.cinemaId}" th:text="${c.name}"></option>
 		</select>
-		<select id="selectHall"></select>
+		<select id="selectTheHall"></select>
 		<div id="dlg-buttons">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="selectTheHall()">确定</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#selectHall').window('close')">返回</a>
 		</div>
-	</div>	
+	</div>
+	
+	<div id="addSchedule" class="easyui-window" title="新增排片" closed="true" style="width:350px;height:350px;padding:5px;">
+		选择电影:<select id="selectMovie" onchange="getHall()">
+			<option value="-1">请选择</option>
+			<option th:each="m:${MovieList}" th:value="${m.movieId}" th:text="${m.name}"></option>
+		</select><br>
+		开始时间:<input id="dt" class="easyui-datetimebox" style="width:200px"><br>
+		价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格:<input class="easyui-text" type="text" id="price"><br>
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="addSchedule()">添加</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addSchedule').window('close')">返回</a>
+		</div>
+	</div>
+	
+	<div>
+	<table class="layui-table">
+				<thead>
+					<tr>
+						<th>电影名称</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
+						<th>价格</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					
+				</tbody>
+			</table>
+			<!-- 分页模块 -->		
+	<!-- 分页样式 -->
+	<script type="text/javascript" src="js/zxf_page.js"></script>
+	<div class="zxf_pagediv"></div>
+	<script type="text/javascript">
+	//翻页
+	var total = $("#total").val();
+	var num = $("#num").val();
+	$(".zxf_pagediv").createPage({
+		pageNum: total,
+		current: 1,
+		backfun: function(e) {
+			$.get("getAllActorByPage",{
+				current:e.current,
+				name:$("#aname").val(),
+				flag:$("#flag").val()
+			},function(data){
+				 
+			})
+		}
+	});
+	</script>
+			</div>	
 	</body>
 </html>

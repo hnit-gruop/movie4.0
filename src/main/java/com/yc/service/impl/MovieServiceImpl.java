@@ -390,4 +390,10 @@ public class MovieServiceImpl implements MovieService {
 		setScore(list);
 		return list;
 	}
+
+	@Override
+	public List<Movie> findAllMovie() {
+		List<Movie> result = movieMapper.selectByExample(null);
+		return result;
+	}
 }

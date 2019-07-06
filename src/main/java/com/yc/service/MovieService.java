@@ -107,6 +107,8 @@ public interface MovieService {
 
 	List<Movie> hotMovie();
 	
+	List<Movie> findAllMovie();
+	
 	
 	/**
 	 * 组合条件查询电影
