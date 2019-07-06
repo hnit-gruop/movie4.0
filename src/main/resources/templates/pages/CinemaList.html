@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)https://maoyan.com/cinemas -->
+<html xmlns:th="http://www.thymeleaf.org"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>影院 - 猫眼电影 - 一网打尽好电影</title>
+  
+  <link rel="dns-prefetch" href="https://p0.meituan.net/">
+  <link rel="dns-prefetch" href="https://p1.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms0.meituan.net/">
+  <link rel="dns-prefetch" href="https://s0.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms1.meituan.net/">
+  <link rel="dns-prefetch" href="https://analytics.meituan.com/">
+  <link rel="dns-prefetch" href="https://report.meituan.com/">
+  <link rel="dns-prefetch" href="https://frep.meituan.com/">
+
+  
+  
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta http-equiv="cleartype" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+
+  <meta name="HandheldFriendly" content="true">
+  <meta name="format-detection" content="email=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  <link rel="stylesheet" href="css/common.d0f96cc2.css">
+<link rel="stylesheet" href="css/cinemas-list.81574a4d.css">
+
+<meta name="lx:autopv" content="off"><meta name="lx:appnm" content="movie"><meta name="lx:category" content="movie"></head>
+<body>
+	
+	
+	<div th:replace="include::head(index=${index})"></div>
+	<div   style="height:450px;width:100%">
+		<img src="img/pic4.jpg" style="margin-top:80px;height:350px;width:80%;padding-left:160px;padding-buttom:50px"  >
+	</div>
+	
+	
+	
+    <div class="container" id="app">
+
+  <div class="cinemas-list">
+    <h2 class="cinemas-list-header">影院列表</h2>
+    
+      <div class="cinema-cell" th:each="c:${cs}">
+        <div class="cinema-info">
+          <a th:href="@{/cinemaDetail?cinemaId={id} (id=${c.cinemaId})}" class="cinema-name" th:text="${c.name}"></a>
+          <p class="cinema-address">地址：<span th:text="${c.address}"></span></p>
+        </div>
+
+        <div class="buy-btn">
+          <a href="#">选座购票</a>
+        </div>
+        
+          <div class="price">
+            <span class="rmb red">￥</span>
+            <span class="price-num red"><span class="stonefont">46.5</span></span>
+            <span>起</span>
+        </div>
+      </div>
+     
+
+
+  </div>
+
+
+
+
+    </div>
+
+<div class="footer" style="visibility: visible;">
+    <p class="friendly-links">
+        关于猫眼 :
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll0" target="_blank">关于我们</a>
+        <span></span>
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll1" target="_blank">管理团队</a>
+        <span></span>
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll2" target="_blank">投资者关系</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        友情链接 :
+        <a href="http://www.meituan.com/" data-query="utm_source=wwwmaoyan" target="_blank">美团网</a>
+        <span></span>
+        <a href="http://www.gewara.com/" data-query="utm_source=wwwmaoyan">格瓦拉</a>
+        <span></span>
+        <a href="http://i.meituan.com/client" data-query="utm_source=wwwmaoyan" target="_blank">美团下载</a>
+        <span></span>
+        <a href="https://www.huanxi.com/" data-query="utm_source=maoyan_pc" target="_blank">欢喜首映</a>
+    </p>
+    <p class="friendly-links">
+      商务合作邮箱：v@maoyan.com
+      客服电话：10105335
+      违法和不良信息举报电话：4006018900
+      <br>
+      投诉举报邮箱：tousujubao@meituan.com
+      舞弊线索举报邮箱：wubijubao@maoyan.com
+    </p>
+    <p>
+        ©2016
+        猫眼电影 maoyan.com
+        <a href="https://tsm.miit.gov.cn/pages/EnterpriseSearchList_Portal.aspx?type=0&amp;keyword=%E4%BA%ACICP%E8%AF%81160733%E5%8F%B7&amp;pageNo=1" target="_blank">京ICP证160733号</a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备16022489号-1</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102003232" target="_blank">京公网安备 11010102003232号</a>
+        <a href="https://maoyan.com/about/licence" target="_blank">网络文化经营许可证</a>
+        <a href="http://www.meituan.com/about/rules" target="_blank">电子公告服务规则</a>
+    </p>
+    <p>北京猫眼文化传媒有限公司</p>
+</div>
+
+</body></html>
