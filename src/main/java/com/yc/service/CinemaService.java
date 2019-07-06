@@ -2,6 +2,7 @@ package com.yc.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.Movie;
 
@@ -20,6 +21,6 @@ public interface CinemaService {
 	
 	int updataCinema(Cinema cinema);
 	
-	List<Cinema> getCinemaByName(String name,int pageNum);
+	PageInfo<Cinema> getCinemaByName(String name,int pageNum);
 
 }

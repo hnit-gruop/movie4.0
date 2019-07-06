@@ -25,7 +25,6 @@ public class CinemaServiceImpl implements CinemaService{
 		return result;
 	}
 
-	@Override
 	public PageInfo<Cinema> getAllCinema(int pageNum,String name) {
 		PageHelper.startPage(pageNum, 5);
 		List<Cinema> selectByExample;
@@ -81,5 +80,11 @@ public class CinemaServiceImpl implements CinemaService{
 		List<Cinema> list = cinemaMapper.selectByExample(null);
 		return list;
 	}
+
+	@Override
+	public List<Cinema> getAllCinema(int pageNum) {
+		return null;
+	}
+
 
 }
