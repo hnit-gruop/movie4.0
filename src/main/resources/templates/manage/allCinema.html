@@ -126,6 +126,7 @@
 									 '		<td>' +
 									 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
 									 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+									 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
 									 '		</td>' +
 									 '	</tr>'
 							)
@@ -133,6 +134,104 @@
 						}); 
 					});
 				}
+			function addHall(cid){
+				$("#cineid").val(cid);
+				$("#addHall").window("open");
+			}
+			
+			function add(){
+				var hname = $("#hname").val();
+				var htype = $("#htype").val();
+				var capacity = $("#capacity").val();
+				var cineid = $("#cineid").val();
+				if(cineid == null || cineid == ""){
+					alert("未知错误，请重试!");
+					return;
+				}
+				if(hname == null || hname == "" || htype == null || htype == "" || capacity == null ||capacity == ""){
+					alert("请填写完整信息!");
+					return;
+				}
+				$.post("addHall",{
+					name:hname,
+					hallType:htype,
+					capacity:capacity,
+					cinemaId:cineid
+				},function(data){
+					alert(data.message);
+					$("#hname").val("");
+					$("#htype").val("");
+					$("#capacity").val("");
+					$("#cineid").val("");
+					if(data.code > 0){
+						$("#addHall").window("close");
+					}
+				})
+			}
+			
+			function updataHall(cid){
+				$.get("getAllHallByCinemaId",{
+					cid:cid
+				},function(data){
+					$("#selectUpdataHall").empty();
+					$.each(data,function(k,v){
+						$("#selectUpdataHall").append(
+								 '<option value="'+v.hallId+'">'+v.name+'</option>'
+						)
+					}); 
+					$("#selectHall").window("open");
+				})
+			}
+			
+			function upHall(){
+				$("#selectHall").window("close");
+				var hallId = $("#selectUpdataHall").val();
+				$.post("getDetailByHallId",{
+					hallId:hallId
+				},function(data){
+					$("#uphname").val(data.name);
+					$("#uphtype").val(data.hallId);
+					$("#upcapacity").val(data.capacity);
+					$("#upcineid").val(data.cinemaId);
+					$("#uphallId").val(data.hallId);
+					$("#updataTheHall").window("open");
+				})
+			}
+			
+			function updataH(){
+				var hname = $("#uphname").val();
+				var htype = $("#uphtype").val();
+				var capacity = $("#upcapacity").val();
+				var cineid = $("#upcineid").val();
+				var hallId = $("#uphallId").val();
+				if(cineid == null || cineid == "" || hallId == null || hallId == ""){
+					alert("未知错误，请重试!");
+					return;
+				}
+				if(hname == null || hname == "" || htype == null || htype == "" || capacity == null ||capacity == ""){
+					alert("请填写完整信息!");
+					return;
+				}
+				
+				$.post("updataHall",{
+					name:hname,
+					hallType:htype,
+					capacity:capacity,
+					cinemaId:cineid,
+					hallId:hallId
+				},function(data){
+					alert(data.message);
+					$("#uphname").val("");
+					$("#uphtype").val("");
+					$("#upcapacity").val("");
+					$("#upcineid").val("");
+					$("#uphallId").val("");
+					if(data.code > 0){
+						$("#updataTheHall").window("close");
+					}
+				})
+			}
+			
 		</script>
 	</head>
 	<body>
@@ -178,12 +277,12 @@
 		详细地址:<input class="easyui-text" type="text" id="address"><br>
 		经度:<input class="easyui-text" type="text" id="gps_1"><br>
 		纬度:<input class="easyui-text" type="text" id="gps_1"><br>
-	<div id="cinemaImage">
+		<div id="cinemaImage">
 		影院图片:
-		<form id="ImgUpload" action="addCinemaImg" method="post" enctype="multipart/form-data" onsubmit="return addImage();">
-			<input type="file" id="file" name="file" style="display:none;" onchange="filechange(event)">
-			<img src="" width="200px" height="200px" id="img-change">
-		</form>
+			<form id="ImgUpload" action="addCinemaImg" method="post" enctype="multipart/form-data" onsubmit="return addImage();">
+				<input type="file" id="file" name="file" style="display:none;" onchange="filechange(event)">
+				<img src="" width="200px" height="200px" id="img-change">
+			</form>
 		</div>
 		<script type="text/javascript">
 			$("#img-change").click(function () {
@@ -214,6 +313,39 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#win').window('close')">返回</a>
 		</div>
 	</div>
+	
+	<div id="addHall" class="easyui-window" title="新增影厅" closed="true" style="width:350px;height:350px;padding:5px;">
+		影院名称:<input class="easyui-text" type="text" id="hname"><br>
+		影院类型:<input class="easyui-text" type="text" id="htype"><br>
+		容纳人数:<input class="easyui-text" type="text" id="capacity"><br>
+		<input id="cineid" hidden="hidden" type="text">
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="add()">添加</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addHall').window('close')">返回</a>
+		</div>
+	</div>
+	
+	<div id="updataTheHall" class="easyui-window" title="新增影厅" closed="true" style="width:350px;height:350px;padding:5px;">
+		影院名称:<input class="easyui-text" type="text" id="uphname"><br>
+		影院类型:<input class="easyui-text" type="text" id="uphtype"><br>
+		容纳人数:<input class="easyui-text" type="text" id="upcapacity"><br>
+		<input id="upcineid" hidden="hidden" type="text">
+		<input id="uphallId" hidden="hidden" type="text">
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="updataH()">修改</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#updataTheHall').window('close')">返回</a>
+		</div>
+	</div>
+	
+	<div id="selectHall" class="easyui-window" title="新增影厅" closed="true" style="width:200px;height:150px;padding:5px;">
+		请选择影厅:
+		<select id="selectUpdataHall">
+		</select>
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="upHall()">确定</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#selectHall').window('close')">返回</a>
+		</div>
+	</div>
 	<input type="hidden" th:value="${total}" id="total">
 	<input type="hidden" id="num" value="1">
 		<div class="cBody">
@@ -237,6 +369,7 @@
 						<td>
 							<button class="layui-btn" th:onclick="'javascript:details('+${a.cinemaId}+')' ">详细信息</button>
 							<button class="layui-btn" th:onclick="'javascript:addHall('+${a.cinemaId}+')' ">添加影厅</button>
+							<button class="layui-btn" th:onclick="'javascript:updataHall('+${a.cinemaId}+')' ">修改影厅</button>
 						</td>
 					</tr>
 				</tbody>
@@ -267,6 +400,7 @@
 							 '		<td>' +
 							 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
 							 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+							 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
 							 '		</td>' +
 							 '	</tr>'
 					)

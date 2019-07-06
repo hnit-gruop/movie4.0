@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Actor;
 import com.yc.bean.Cinema;
+import com.yc.bean.Hall;
 import com.yc.bean.Movie;
 import com.yc.bean.MovieImage;
 import com.yc.bean.MovieType;
@@ -548,4 +549,51 @@ public class FrameController {
          }
          return "失败！";
      }
+ 	
+ 	@RequestMapping("addHall")
+ 	@ResponseBody
+ 	public Result addHall(Hall hall) {
+ 		int addHall = csi.addHall(hall);
+ 		Result result;
+ 		if(addHall > 0) {
+ 			result = new Result(addHall,"添加成功");
+ 		}else {
+ 			result = new Result(addHall,"添加失败");
+ 		}
+ 		return result;
+ 	}
+ 	
+ 	@RequestMapping("getAllHallByCinemaId")
+ 	@ResponseBody
+ 	public List<Hall> getHallByCid(@RequestParam(name="cid") int cid){
+ 		List<Hall> result = csi.getHallByCinemaId(cid);
+ 		return result;
+ 	}
+ 	
+ 	@RequestMapping("getDetailByHallId")
+ 	@ResponseBody
+ 	public Hall getHallDetail(@RequestParam(name="hallId") int hallId) {
+ 		Hall hall = csi.getHallDetail(hallId);
+ 		return hall;
+ 	}
+ 	
+ 	@RequestMapping("updataHall")
+ 	@ResponseBody
+ 	public Result updataHal(Hall hall) {
+ 		int updata = csi.updataHall(hall);
+ 		Result result;
+ 		if(updata > 0) {
+ 			result = new Result(updata,"更新成功");
+ 		}else {
+ 			result = new Result(updata,"更新失败");
+ 		}
+ 		return result;
+ 	}
+ 	
+ 	@RequestMapping("hallAddMovie")
+ 	public String toHallAddMovie(Model model) {
+ 		List<Cinema> allCinema = csi.getAllCinema();
+ 		model.addAttribute("CinemaList", allCinema);
+ 		return "manage/hallAddMovie";
+ 	}
 }

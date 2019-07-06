@@ -10,14 +10,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.CinemaExample;
-import com.yc.bean.CinemaExample.Criteria;
+import com.yc.bean.Hall;
+import com.yc.bean.HallExample;
+import com.yc.bean.Movie;
 import com.yc.dao.CinemaMapper;
+import com.yc.dao.HallMapper;
 import com.yc.service.CinemaService;
 
 @Service
 public class CinemaServiceImpl implements CinemaService{
 	@Resource
 	CinemaMapper cinemaMapper;
+	@Resource
+	HallMapper hallMapper;
 	
 	@Override
 	public int addCinema(Cinema cinema) {
@@ -25,7 +30,6 @@ public class CinemaServiceImpl implements CinemaService{
 		return result;
 	}
 
-	@Override
 	public PageInfo<Cinema> getAllCinema(int pageNum,String name) {
 		PageHelper.startPage(pageNum, 5);
 		List<Cinema> selectByExample;
@@ -36,7 +40,6 @@ public class CinemaServiceImpl implements CinemaService{
 			PageHelper.startPage(pageNum, 5);
 			ce.createCriteria().andNameLike("%"+name+"%");
 			selectByExample = cinemaMapper.selectByExample(ce);
-			PageInfo<Cinema> page = new PageInfo<>(selectByExample);
 		}
 		
 		PageInfo<Cinema> page = new PageInfo<>(selectByExample);
@@ -64,5 +67,58 @@ public class CinemaServiceImpl implements CinemaService{
 		PageInfo<Cinema> page = new PageInfo<>(selectByExample);
 		return page;
 	}
+	
+	@Override
+	public Cinema cinema(int cinemaId) {
+		Cinema selectByPrimaryKey = cinemaMapper.selectByPrimaryKey(cinemaId);
+		return selectByPrimaryKey;
+	}
 
+	@Override
+	public List<Movie> getCinemaMovieList() {
+		return null;
+	}
+
+	@Override
+	public List<Cinema> listCinema() {
+		List<Cinema> list = cinemaMapper.selectByExample(null);
+		return list;
+	}
+
+	@Override
+	public List<Cinema> getAllCinema(int pageNum) {
+		return null;
+	}
+
+
+	@Override
+	public int addHall(Hall hall) {
+		int result = hallMapper.insertSelective(hall);
+		return result;
+	}
+
+	@Override
+	public List<Hall> getHallByCinemaId(int cid) {
+		HallExample he = new HallExample();
+		he.createCriteria().andCinemaIdEqualTo(cid);
+		List<Hall> result = hallMapper.selectByExample(he);
+		return result;
+	}
+
+	@Override
+	public Hall getHallDetail(int hallId) {
+		Hall hall = hallMapper.selectByPrimaryKey(hallId);
+		return hall;
+	}
+	
+	public int updataHall(Hall hall) {
+		int result = hallMapper.updateByPrimaryKeySelective(hall);
+		return result;
+	}
+
+	@Override
+	public List<Cinema> getAllCinema() {
+		List<Cinema> result = cinemaMapper.selectByExample(null);
+		return result;
+	}
 }
