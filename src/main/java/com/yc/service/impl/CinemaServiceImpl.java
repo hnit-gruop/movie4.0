@@ -11,7 +11,6 @@ import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.CinemaExample;
 import com.yc.bean.Hall;
-import com.yc.bean.HallExample;
 import com.yc.bean.Movie;
 import com.yc.dao.CinemaMapper;
 import com.yc.dao.HallMapper;
@@ -97,13 +96,7 @@ public class CinemaServiceImpl implements CinemaService{
 		return result;
 	}
 
-	@Override
-	public List<Hall> getHallByCinemaId(int cid) {
-		HallExample he = new HallExample();
-		he.createCriteria().andCinemaIdEqualTo(cid);
-		List<Hall> result = hallMapper.selectByExample(he);
-		return result;
-	}
+	
 
 	@Override
 	public Hall getHallDetail(int hallId) {
@@ -120,5 +113,11 @@ public class CinemaServiceImpl implements CinemaService{
 	public List<Cinema> getAllCinema() {
 		List<Cinema> result = cinemaMapper.selectByExample(null);
 		return result;
+	}
+
+	@Override
+	public List<Hall> getHallByCinemaId(int cid) {
+		
+		return null;
 	}
 }

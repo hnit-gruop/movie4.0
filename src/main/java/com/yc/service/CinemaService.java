@@ -1,17 +1,17 @@
 package com.yc.service;
 
 import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.Hall;
 import com.yc.bean.Movie;
+import com.yc.service.CinemaService;
 
 public interface CinemaService {
 	Cinema cinema(int cinemaId);
 	
 	List<Movie> getCinemaMovieList();
-	
+
 	List<Cinema> listCinema();
 	
 	int addCinema(Cinema cinema);

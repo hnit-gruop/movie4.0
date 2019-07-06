@@ -8,4 +8,7 @@ public interface UserService {
 	
 	User get(int userId);
 	User loginByEamil(String username, String email);
+	Boolean isReg(String mobile);
+	void addUser(String mobile, String password);
+	User login(String phonenum);
 }

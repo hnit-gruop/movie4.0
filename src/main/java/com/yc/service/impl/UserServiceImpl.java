@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User login(String username, String password) {
 		UserExample example = new UserExample();
-		example.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
+		example.createCriteria().andPhoneEqualTo(username).andPasswordEqualTo(password);
 		List<User> list = userMapper.selectByExample(example);
 		if(list.size()>0)
 			return list.get(0);
@@ -47,4 +47,35 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
+	@Override
+	public Boolean isReg(String phone) {
+		UserExample example = new UserExample();
+		example.createCriteria().andPhoneEqualTo(phone);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0)
+			return true;
+		return false;
+	}
+
+	@Override
+	public void addUser(String phone, String password) {
+		User record =new User();
+		record.setPhone(phone);
+		record.setPassword(password);
+		record.setHeadImg("reg_default.png");
+		int list = userMapper.insert(record);
+	}
+
+	@Override
+	public User login(String phonenum) {
+		UserExample example = new UserExample();
+		example.createCriteria().andPhoneEqualTo(phonenum);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0)
+			return list.get(0);
+		return null;
+	}
+
+
+	
 }

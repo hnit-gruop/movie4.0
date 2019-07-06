@@ -1,4 +1,5 @@
-<html><head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -51,11 +52,12 @@
         <div class="J-unitive-signup-form">
 
     <div class="sheet" style="display:block">
-    <form action="/account/unitivesignup" method="POST">
+    <form action="doReg" method="POST">
             <div class="form-field form-field--mobile form-field--error">
                 <label>手机号</label>
 
-                    <input type="text" name="mobile" class="f-text J-mobile">
+                    <input type="text" name="mobile" class="f-text J-mobile" th:value="${phone}">
+                    
 
                 
 
@@ -72,19 +74,19 @@
                         <span class="J-captcha-tip inline-tip"></span>
                     </div>
                     <div class="verify-wrapper">
-                        <input type="button" class="btn-normal btn-mini verify-btn J-verify-btn" value="免费获取短信动态码">
+                        <input type="button" class="btn-normal btn-mini verify-btn J-verify-btn111" value="免费获取短信动态码">
                         <span class="f1 verify-tip" id="J-verify-tip"></span>
                     </div>
 
 
 
             </div>
-            <div class="form-field form-field--sms">
+            <div class="form-field form-field--sms11">
                 <label>短信动态码</label>
 
                     <input type="text" name="verifycode" class="f-text J-sms">
-
-                
+<!-- <span class="inline-tip"><i class="tip-status tip-status--success"></i></span> -->
+                <span class="inline-tip"><i class="tip-status tip-status--opinfo"></i>请输入正确的短信动态码</span>
 
             </div>
             <div class="form-field form-field--pwd form-field--error">
@@ -98,7 +100,7 @@
                     </div>
                 <label>创建密码</label>
 
-                    <input type="password" name="password" class="f-text J-pwd">
+                    <input type="password" name="password" class="f-text J-pwd" th:value="${password}">
 
                 
 
@@ -106,14 +108,16 @@
             <div class="form-field form-field--pwd2 form-field--error">
                 <label>确认密码</label>
 
-                    <input type="password" name="password2" class="f-text J-pwd2">
+                    <input type="password" name="password2" class="f-text J-pwd2" th:value="${password}">
 
                 
 
             <span class="inline-tip"><i class="tip-status tip-status--opinfo"></i>请再次输入密码</span></div>
         <div class="form-field">
-            <input data-mtevent="signup.submit" type="submit" name="commit" class="btn" value="同意以下协议并注册">
+       <input data-mtevent="signup.submit" type="submit" name="commit" class="btn" value="同意以下协议并注册">
+
             <a href="" target="_blank"></a>
+            <div class="validate-info"  th:if="${not  #strings.isEmpty(msg)}" ><i class="tip-status tip-status--opinfo"></i><i th:text="${msg}"></i></div>
         </div>
         <input type="hidden" name="fingerprint" class="J-fingerprint" value="0-12-1-">
     </form>
@@ -129,7 +133,7 @@
 
 	<footer class="footer--mini">
     <p class="copyright">
-        ©<a class="f1" href="https://www.meituan.com">meituan.com</a>&nbsp;
+        ?<a class="f1" href="https://www.meituan.com">meituan.com</a>&nbsp;
         <a class="f1" target="_blank" href="http://www.miibeian.gov.cn/">京ICP证070791号</a>&nbsp;
         <span class="f1">京公网安备11010502025545号</span>
     </p>
@@ -144,8 +148,8 @@
   var isPreview = false;
   var mtUnitLoginEnv = ''
 </script>
-<script src="//s0.meituan.net/bs/js/?f=fe-sso-fs:build/page/common.6fd9ea7.js;fe-sso-fs:build/page/signup/index.6fd9ea7.js"></script>
-
+<!-- <script src="//s0.meituan.net/bs/js/?f=fe-sso-fs:build/page/common.6fd9ea7.js;fe-sso-fs:build/page/signup/index.6fd9ea7.js"></script> -->
+<script type="text/javascript" src=""></script>
 
 <script>
   var Rohr_Opt = {
@@ -153,6 +157,7 @@
   }
 </script>
 <script src="//s0.meituan.net/mxx/y/default.js"></script>
+    <script src="js/index.js"></script>
 
 
 
