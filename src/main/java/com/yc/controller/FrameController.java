@@ -606,10 +606,16 @@ public class FrameController {
  	
  	@RequestMapping("getMovieListByHall")
  	@ResponseBody
- 	public List<Map<String,Object>> getMovieListByHall(@RequestParam(name="hallId")int hallId) throws IllegalArgumentException, IllegalAccessException{
- 		List<Schedule> scheduleByHallId = ssi.getScheduleByHallId(hallId);
+ 	public List<Map<String,Object>> getMovieListByHall(@RequestParam(name="hallId")int hallId,@RequestParam(defaultValue="1") int current) throws IllegalArgumentException, IllegalAccessException{
+ 		PageInfo<Schedule> scheduleByHallId = ssi.getScheduleByHallId(hallId,current);
+ 		int total = (int) scheduleByHallId.getTotal();
+ 		if(total % 5 == 0) {
+ 			total = total/5;
+ 		}else {
+ 			total = total/5+1;
+ 		}
  		List<Map<String,Object>> list = new ArrayList<>();
- 		for(Schedule s:scheduleByHallId) {
+ 		for(Schedule s:scheduleByHallId.getList()) {
  			Map<String,Object> map = new HashMap<>();
  			Utils.transformBeanToMap(s, map);
  			Movie movie = msi.get(s.getMovieId());
@@ -621,6 +627,7 @@ public class FrameController {
  			Timestamp endTime = new Timestamp(end);
  			map.put("endTime",endTime);
  			map.put("name",name);
+ 			map.put("total",total);
  			list.add(map);
  		}
  		return list;
@@ -628,15 +635,44 @@ public class FrameController {
  	
  	@RequestMapping("addSchedule")
  	@ResponseBody
- 	public Result addSchedule(Schedule schedule) {
- 		Hall hall = csi.getHallDetail(schedule.getHallId());
- 		schedule.setRemain(hall.getCapacity());
- 		int result = ssi.addSchedule(schedule);
- 		Result re;
- 		if(result > 0) {
- 			re = new Result(result,"添加成功");
+ 	public Result addSchedule(Schedule schedule,@RequestParam(name="sTime") String sTime) throws IllegalArgumentException, IllegalAccessException {
+ 		Timestamp time = new Timestamp(Long.parseLong(sTime));
+ 		schedule.setStartTime(time);
+ 		int canBeAdd = ssi.canBeAdd(schedule);
+ 		if(canBeAdd == 1) {
+ 			Hall hall = csi.getHallDetail(schedule.getHallId());
+ 	 		schedule.setRemain(hall.getCapacity());
+ 	 		int result = ssi.addSchedule(schedule);
+ 	 		Result re;
+ 	 		if(result > 0) {
+ 	 			re = new Result(result,"添加成功");
+ 	 		}else {
+ 	 			re = new Result(result,"添加失败");
+ 	 		}
+ 	 		return re;
  		}else {
- 			re = new Result(result,"添加失败");
+ 			Result re = new Result(-1, "此时间段已存在电影排片信息");
+ 			return re;
+ 		}
+ 	}
+ 	
+ 	@RequestMapping("getScheduleById")
+ 	@ResponseBody
+ 	public Schedule getScheduleByid(@RequestParam(name="id")int id){
+ 		Schedule scheduleByid = ssi.getScheduleByid(id);
+ 		return scheduleByid;
+ 	}
+ 	
+ 	@RequestMapping("updataSchedule")
+ 	@ResponseBody
+ 	public Result updataSchedule(Schedule schedule) {
+ 		System.err.println(schedule.getScheduleId());
+ 		int updataSchedule = ssi.updataSchedule(schedule);
+ 		Result re;
+ 		if(updataSchedule > 0) {
+ 			re = new Result(updataSchedule, "更新成功");
+ 		}else {
+ 			re = new Result(updataSchedule, "更新失败");
  		}
  		return re;
  	}
