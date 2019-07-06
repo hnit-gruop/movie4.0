@@ -27,12 +27,4 @@ public class PageController {
 		return "pages/BuyTicket";
 	}
 
-	/**
-	 * 影院
-	 */
-	@RequestMapping("cinema")
-	public String cinema(Model m) {
-		m.addAttribute("index", 3);
-		return "pages/Cinema";
-	}
 }

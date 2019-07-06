@@ -1,235 +1,278 @@
 <!DOCTYPE html>
 <!-- saved from url=(0042)https://maoyan.com/cinema/9512?poi=5038539 -->
-<html xmlns:th="http://www.thymeleaf.org"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>万达影城（衡阳万象城店） - 猫眼电影 - 一网打尽好电影</title>
-  
-  <link rel="dns-prefetch" href="https://p0.meituan.net/">
-  <link rel="dns-prefetch" href="https://p1.meituan.net/">
-  <link rel="dns-prefetch" href="https://ms0.meituan.net/">
-  <link rel="dns-prefetch" href="https://s0.meituan.net/">
-  <link rel="dns-prefetch" href="https://ms1.meituan.net/">
-  <link rel="dns-prefetch" href="https://analytics.meituan.com/">
-  <link rel="dns-prefetch" href="https://report.meituan.com/">
-  <link rel="dns-prefetch" href="https://frep.meituan.com/">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>万达影城（衡阳万象城店） - 猫眼电影 - 一网打尽好电影</title>
 
-  
-  
-  <meta name="keywords" content="">
-  <meta name="description" content="">
-  <meta http-equiv="cleartype" content="yes">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="renderer" content="webkit">
+<link rel="dns-prefetch" href="https://p0.meituan.net/">
+<link rel="dns-prefetch" href="https://p1.meituan.net/">
+<link rel="dns-prefetch" href="https://ms0.meituan.net/">
+<link rel="dns-prefetch" href="https://s0.meituan.net/">
+<link rel="dns-prefetch" href="https://ms1.meituan.net/">
+<link rel="dns-prefetch" href="https://analytics.meituan.com/">
+<link rel="dns-prefetch" href="https://report.meituan.com/">
+<link rel="dns-prefetch" href="https://frep.meituan.com/">
 
-  <meta name="HandheldFriendly" content="true">
-  <meta name="format-detection" content="email=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 
-  <link rel="stylesheet" href="/css/common.d0f96cc2.css">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta http-equiv="cleartype" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=sSelQoVi2L3KofLo1HOobonW"></script>
+<link rel="stylesheet" href="/css/common.d0f96cc2.css">
 <link rel="stylesheet" href="/css/cinemas-cinema.c339c8d8.css">
-<style type="text/css">@media screen{.smnoscreen {display:none}} @media print{.smnoprint{display:none}}</style><meta name="lx:autopv" content="off"><meta name="lx:appnm" content="movie"><meta name="lx:category" content="movie"></head>
+
+<style type="text/css">
+#allmap {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#container {
+	width: 200px;
+	height: 200px;
+}
+</style>
+<style type="text/css">
+@media screen {
+	.smnoscreen {
+		display: none
+	}
+}
+
+@media print {
+	.smnoprint {
+		display: none
+	}
+}
+</style>
+<meta name="lx:autopv" content="off">
+<meta name="lx:appnm" content="movie">
+<meta name="lx:category" content="movie">
+</head>
 <body>
 
 
-<div th:replace="include::head(index=${index})" ></div>
-<div class="header-placeholder"></div>
+	<div th:replace="include::head(index=${index})"></div>
+	<div class="header-placeholder"></div>
 
-    <div class="banner cinema-banner">
-  <div class="wrapper clearfix">
-    <div class="cinema-left">
-      <div class="avatar-shadow">
-        <img class="avatar" src="img/cinema_img.jpg">
-        <div class="avatar-num">查看全部图片</div>
-      </div>
-    </div>
+	<div class="banner cinema-banner">
+		<div class="wrapper clearfix">
+			<div class="cinema-left">
+				<div class="avatar-shadow">
+					<img class="avatar" th:src="@{/cinema/{file} (file=${c.img})}">
+					<div class="avatar-num">查看全部图片</div>
+				</div>
+			</div>
 
-    <div class="cinema-main clearfix">
-      <div class="cinema-brief-container">
-        <h3 class="name text-ellipsis">万达影城（衡阳万象城店）</h3>
-        <div class="address text-ellipsis">雁峰区解放大道121号4楼万达影城（永兴阁旁）</div>
-        <div class="telphone">电话：0734-8681188</div>
-        
-        <div class="features-group">
-          <div class="group-title">影院服务</div>
+			<div class="cinema-main clearfix">
+				<div class="cinema-brief-container">
+					<h3 class="name text-ellipsis" th:text="${c.name}"></h3>
+					<div class="address text-ellipsis" th:text="${c.address}">雁峰区解放大道121号4楼万达影城（永兴阁旁）</div>
+					<div class="telphone">电话：0734-8681188</div>
 
-          <div class="feature">
-            <span class="tag ">3D眼镜</span>
-            <p class="desc text-ellipsis" title="免押金">免押金</p>
-          </div>
-          <div class="feature">
-            <span class="tag ">儿童优惠</span>
-            <p class="desc text-ellipsis" title="1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票">1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票</p>
-          </div>
-        </div>
-      </div>
-    </div>
+					<div class="features-group">
+						<div class="group-title">影院服务</div>
 
-    <div class="cinema-map" data-lat="26.895079" data-lng="112.60325" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden; transform: translateZ(0px);">
-		这是地图
-	  </div>
-  </div>
-</div>
+						<div class="feature">
+							<span class="tag ">3D眼镜</span>
+							<p class="desc text-ellipsis" title="免押金">免押金</p>
+						</div>
+						<div class="feature">
+							<span class="tag ">儿童优惠</span>
+							<p class="desc text-ellipsis"
+								title="1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票">1.3m以下儿童（一名成人限携带一名儿童）可免费无座观影，IMAX、VIP、4D需单独购票</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="cinema-map" 
+				style="height:200px;width:300px;position: relative; background-color: rgb(229, 227, 223); overflow: hidden; transform: translateZ(0px);">
+				<div id="allmap"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+	
+		var gps = "[[${c.gps}]]";
+		var arr = new Array();
+		arr = gps.split(",");
+		//百度地图API功能
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point(arr[0], arr[1]), 15);//根据坐标初始化地图
+		map.enableScrollWheelZoom(true);
+		map.addControl(new BMap.NavigationControl()); //平移缩放控件
+		map.addControl(new BMap.ScaleControl()); //比例尺
+		map.addControl(new BMap.OverviewMapControl()); //缩略地图
+		map.addControl(new BMap.MapTypeControl()); //地图类型
+		map.setCurrentCity("衡阳"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+		//添加标注
+		var marker = new BMap.Marker(new BMap.Point(arr[0], arr[1])); // 创建标注
+		map.addOverlay(marker); // 将标注添加到地图中
+	</script>
 
 
 	<!-- 所有影片 -->
 
-    <div class="container" id="app">
-    
-      <div class="movie-list-container" data-cinemaid="9512">
-        <div class="movie-list" id="ml">
-        
-          <div class="movie"  onclick="select(this)" th:each="i:${#numbers.sequence(0,3)}">
-            <img src="img/cinema_movie_cover.jpg" alt="" th:id="${i}">
-          </div>
-          
-           <div class="movie active"  onclick="select(this)" id="t">
-            <img src="img/cinema_movie_cover.jpg" >
-          </div>
-           <div class="movie"  onclick="select(this)" id="t1">
-            <img src="img/cinema_movie_cover.jpg" >
-          </div>
-        </div>
+	<div class="container" id="app">
 
-        <span class="scroll-prev scroll-btn"></span>
-        <span class="scroll-next scroll-btn"></span>
-      </div>
-      
+		<div class="movie-list-container" data-cinemaid="9512">
+			<div class="movie-list" id="ml">
+
+				<div class="movie" onclick="select(this)"
+					th:each="i:${#numbers.sequence(0,3)}">
+					<img src="img/cinema_movie_cover.jpg" alt="" th:id="${i}">
+				</div>
+
+				<div class="movie active" onclick="select(this)" id="t">
+					<img src="img/cinema_movie_cover.jpg">
+				</div>
+				<div class="movie" onclick="select(this)" id="t1">
+					<img src="img/cinema_movie_cover.jpg">
+				</div>
+			</div>
+
+			<span class="scroll-prev scroll-btn"></span> <span
+				class="scroll-next scroll-btn"></span>
+		</div>
+
 		<script type="text/javascript">
-		
-		
-			function select(e){
+			function select(e) {
 				var list = $("#ml").children();
-				for(var i = 0;i<list.length;i++){
-					if($(list[i]).attr("class")=="movie active"){
-						$(list[i]).attr("class","movie");
+				for (var i = 0; i < list.length; i++) {
+					if ($(list[i]).attr("class") == "movie active") {
+						$(list[i]).attr("class", "movie");
 					}
 				}
-				
-// 				$("#t").attr("class","movie");
-				$(e).attr("class","movie active");
+
+				// 				$("#t").attr("class","movie");
+				$(e).attr("class", "movie active");
 			}
 		</script>
-   
-	
-	  <div class="show-list active" data-index="1">
-        <div class="movie-info">
-  <div>
-    <h3 class="movie-name">千与千寻</h3>
-        <span class="score sc">9.3</span>
-  </div>
-
-  <div class="movie-desc">
-    <div>
-      <span class="key">时长 :</span>
-      <span class="value">125分钟</span>
-    </div>
-    <div>
-      <span class="key">类型 :</span>
-      <span class="value"> 动画 </span>
-    </div>
-    <div>
-      <span class="key">主演 :</span>
-      <span class="value"> 柊瑠美,周冬雨,入野自由</span>
-    </div>
-  </div>
-</div>
-
-<div class="show-date">
-  <span>观影时间 :</span>
-    <span class="date-item active" data-index="0">今天 7月4</span>
-    <span class="date-item" data-index="1">明天 7月5</span>
-    <span class="date-item" data-index="2">周六 7月6</span>
-</div>
-
-  <div class="plist-container active">
-      
-<table class="plist">
-  <thead>
-    <tr>
-      <th>放映时间</th>
-      <th>语言版本</th>
-      <th>放映厅</th>
-      <th>售价（元）</th>
-      <th>选座购票</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr class="">
-      <td>
-        <span class="begin-time">22:50</span>
-        <br>
-        <span class="end-time">00:55散场</span>
-      </td>
-      <td>
-        <span class="lang">日语2D</span>
-      </td>
-      <td>
-        <span class="hall">4号厅</span>
-      </td>
-      <td>
-        <span class="sell-price"><span class="stonefont">.</span></span>
-      </td>
-      <td>
-        <a href="https://maoyan.com/xseats/201907040004084?movieId=1212&amp;cinemaId=9512" class="buy-btn normal" data-tip="" data-act="show-click" data-bid="b_gvh3l8gg" data-val="{movie_id: 1212, cinema_id:9512}">选座购票</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-  </div>
-  
-  
-  
-</div>
-
-      </div>
 
 
-  <div class="big-map-modal" style="display: none">
-	
-  </div>
-    </div>
+		<div class="show-list active" data-index="1">
+			<div class="movie-info">
+				<div>
+					<h3 class="movie-name">千与千寻</h3>
+					<span class="score sc">9.3</span>
+				</div>
 
-<div class="footer" style="visibility: visible;">
-    <p class="friendly-links">
-        关于猫眼 :
-        <a href="http://ir.maoyan.com/s/index.php#pageScroll0" target="_blank">关于我们</a>
-        <span></span>
-        <a href="http://ir.maoyan.com/s/index.php#pageScroll1" target="_blank">管理团队</a>
-        <span></span>
-        <a href="http://ir.maoyan.com/s/index.php#pageScroll2" target="_blank">投资者关系</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        友情链接 :
-        <a href="http://www.meituan.com/" data-query="utm_source=wwwmaoyan" target="_blank">美团网</a>
-        <span></span>
-        <a href="http://www.gewara.com/" data-query="utm_source=wwwmaoyan">格瓦拉</a>
-        <span></span>
-        <a href="http://i.meituan.com/client" data-query="utm_source=wwwmaoyan" target="_blank">美团下载</a>
-        <span></span>
-        <a href="https://www.huanxi.com/" data-query="utm_source=maoyan_pc" target="_blank">欢喜首映</a>
-    </p>
-    <p class="friendly-links">
-      商务合作邮箱：v@maoyan.com
-      客服电话：10105335
-      违法和不良信息举报电话：4006018900
-      <br>
-      投诉举报邮箱：tousujubao@meituan.com
-      舞弊线索举报邮箱：wubijubao@maoyan.com
-    </p>
-    <p>
-        ©2016
-        猫眼电影 maoyan.com
-        <a href="https://tsm.miit.gov.cn/pages/EnterpriseSearchList_Portal.aspx?type=0&amp;keyword=%E4%BA%ACICP%E8%AF%81160733%E5%8F%B7&amp;pageNo=1" target="_blank">京ICP证160733号</a>
-        <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备16022489号-1</a>
-        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102003232" target="_blank">京公网安备 11010102003232号</a>
-        <a href="https://maoyan.com/about/licence" target="_blank">网络文化经营许可证</a>
-        <a href="http://www.meituan.com/about/rules" target="_blank">电子公告服务规则</a>
-    </p>
-    <p>北京猫眼文化传媒有限公司</p>
-</div>
- 
+				<div class="movie-desc">
+					<div>
+						<span class="key">时长 :</span> <span class="value">125分钟</span>
+					</div>
+					<div>
+						<span class="key">类型 :</span> <span class="value"> 动画 </span>
+					</div>
+					<div>
+						<span class="key">主演 :</span> <span class="value">
+							柊瑠美,周冬雨,入野自由</span>
+					</div>
+				</div>
+			</div>
 
-</body></html>
+			<div class="show-date">
+				<span>观影时间 :</span> <span class="date-item active" data-index="0">今天
+					7月4</span> <span class="date-item" data-index="1">明天 7月5</span> <span
+					class="date-item" data-index="2">周六 7月6</span>
+			</div>
+
+			<div class="plist-container active">
+
+				<table class="plist">
+					<thead>
+						<tr>
+							<th>放映时间</th>
+							<th>语言版本</th>
+							<th>放映厅</th>
+							<th>售价（元）</th>
+							<th>选座购票</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr class="">
+							<td><span class="begin-time">22:50</span> <br> <span
+								class="end-time">00:55散场</span></td>
+							<td><span class="lang">日语2D</span></td>
+							<td><span class="hall">4号厅</span></td>
+							<td><span class="sell-price"><span class="stonefont">.</span></span>
+							</td>
+							<td><a
+								href="https://maoyan.com/xseats/201907040004084?movieId=1212&amp;cinemaId=9512"
+								class="buy-btn normal" data-tip="" data-act="show-click"
+								data-bid="b_gvh3l8gg"
+								data-val="{movie_id: 1212, cinema_id:9512}">选座购票</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+
+
+		</div>
+
+	</div>
+
+
+	<div class="big-map-modal" style="display: none"></div>
+	</div>
+
+	<div class="footer" style="visibility: visible;">
+		<p class="friendly-links">
+			关于猫眼 : <a href="http://ir.maoyan.com/s/index.php#pageScroll0"
+				target="_blank">关于我们</a> <span></span> <a
+				href="http://ir.maoyan.com/s/index.php#pageScroll1" target="_blank">管理团队</a>
+			<span></span> <a href="http://ir.maoyan.com/s/index.php#pageScroll2"
+				target="_blank">投资者关系</a> &nbsp;&nbsp;&nbsp;&nbsp; 友情链接 : <a
+				href="http://www.meituan.com/" data-query="utm_source=wwwmaoyan"
+				target="_blank">美团网</a> <span></span> <a
+				href="http://www.gewara.com/" data-query="utm_source=wwwmaoyan">格瓦拉</a>
+			<span></span> <a href="http://i.meituan.com/client"
+				data-query="utm_source=wwwmaoyan" target="_blank">美团下载</a> <span></span>
+			<a href="https://www.huanxi.com/" data-query="utm_source=maoyan_pc"
+				target="_blank">欢喜首映</a>
+		</p>
+		<p class="friendly-links">
+			商务合作邮箱：v@maoyan.com 客服电话：10105335 违法和不良信息举报电话：4006018900 <br>
+			投诉举报邮箱：tousujubao@meituan.com 舞弊线索举报邮箱：wubijubao@maoyan.com
+		</p>
+		<p>
+			©2016 猫眼电影 maoyan.com <a
+				href="https://tsm.miit.gov.cn/pages/EnterpriseSearchList_Portal.aspx?type=0&amp;keyword=%E4%BA%ACICP%E8%AF%81160733%E5%8F%B7&amp;pageNo=1"
+				target="_blank">京ICP证160733号</a> <a
+				href="http://www.miibeian.gov.cn/" target="_blank">京ICP备16022489号-1</a>
+			<a
+				href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102003232"
+				target="_blank">京公网安备 11010102003232号</a> <a
+				href="https://maoyan.com/about/licence" target="_blank">网络文化经营许可证</a>
+			<a href="http://www.meituan.com/about/rules" target="_blank">电子公告服务规则</a>
+		</p>
+		<p>北京猫眼文化传媒有限公司</p>
+	</div>
+
+
+</body>
+</html>
