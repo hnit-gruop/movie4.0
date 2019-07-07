@@ -50,4 +50,10 @@ public class Hall {
     public void setCinemaId(Integer cinemaId) {
         this.cinemaId = cinemaId;
     }
+
+	@Override
+	public String toString() {
+		return "Hall [hallId=" + hallId + ", name=" + name + ", hallType=" + hallType + ", capacity=" + capacity
+				+ ", cinemaId=" + cinemaId + "]";
+	}
 }

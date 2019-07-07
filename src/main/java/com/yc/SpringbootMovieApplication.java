@@ -18,7 +18,5 @@ import com.yc.util.PhoneUtil;
 public class SpringbootMovieApplication {
 	public static void main(String[] args) throws ClientException {
 		SpringApplication.run(SpringbootMovieApplication.class, args);
-		
-//		PhoneUtil.sendPhoneCode("13509864008", "123");
 	}
 }

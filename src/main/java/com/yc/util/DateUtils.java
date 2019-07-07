@@ -65,7 +65,7 @@ public class DateUtils {
          */  
         public static String getTime(long timeStamp) {    
                 String time = null;  
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
                 String date = sdf.format(timeStamp * 1000);  
                 String[] split = date.split("\\s");  
                 if ( split.length > 1 ){  

@@ -47,4 +47,7 @@ public interface MovieMapper {
 	List<Movie> listRegion();
 	
 	List<Movie> filter(MovieFilter movieFilter);
+	
+	//查询该影院播放的所有电影
+	List<Movie> listMovie(int cinemaId);
 }

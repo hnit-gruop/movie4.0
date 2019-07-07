@@ -1,5 +1,6 @@
 package com.yc.dao;
 
+import com.yc.bean.Movie;
 import com.yc.bean.Schedule;
 import com.yc.bean.ScheduleExample;
 import java.util.List;
@@ -27,4 +28,9 @@ public interface ScheduleMapper {
     int updateByPrimaryKeySelective(Schedule record);
 
     int updateByPrimaryKey(Schedule record);
+
+	List<Schedule> getSchedual(int cinemaId, int movieId);
+
+
+	
 }

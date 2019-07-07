@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.yc.dao.ScheduleMapper">
   <resultMap id="BaseResultMap" type="com.yc.bean.Schedule">
     <id column="schedule_id" jdbcType="INTEGER" property="scheduleId" />
@@ -9,6 +10,30 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="remain" jdbcType="INTEGER" property="remain" />
   </resultMap>
+  
+  
+ 	<resultMap id="rm" type="com.yc.bean.Schedule"
+		autoMapping="true">
+		<id column="schedule_id" property="scheduleId" />
+		<result property="movieId" column="movie_id"/>
+		<result property="hallId" column="hall_id"/>
+		<result property="startTime" column="start_time"/>
+		<association property="hall" javaType="com.yc.bean.Hall"
+			autoMapping="true">
+			<id property="hallId" column="hall_id" />
+			<result property="hallType" column="hall_type" />
+			<result property="cinemaId" column="cinema_id" />
+		</association>
+	</resultMap>
+
+	<select id="getSchedual" resultMap="rm">
+		SELECT * FROM `schedule` a LEFT JOIN hall b ON a.hall_id = b.hall_id WHERE
+		a.hall_id IN (SELECT hall_id FROM hall WHERE cinema_id = #{cinemaId}) and
+		movie_id = #{movieId} order by start_time
+	</select>
+  
+  
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

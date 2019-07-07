@@ -113,4 +113,13 @@ public interface MovieService {
 	 */
 	List<Movie> filterMovie(MovieFilter movieFilter);
 	
+	List<Movie> findAllMovie();
+	
+
+	Movie getMovie(int movieId);
+	
+	
+	
+	
+	
 }
