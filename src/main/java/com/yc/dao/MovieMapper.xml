@@ -5,38 +5,6 @@
 
 
 
-<<<<<<< HEAD
-	<select id="listMovie" resultMap="rm">
-		SELECT
-		a.movie_id movie_id,a.name name,a.duration duration,
-		image
-		FROM
-		movie a
-		LEFT JOIN movie_image b ON a.movie_id = b.movie_id
-		WHERE
-		b.type = 'cover_type'
-		AND a.movie_id IN (
-		SELECT DISTINCT
-		movie_id
-		FROM
-		`schedule`
-		WHERE
-		hall_id IN (
-		SELECT
-		hall_id
-		FROM
-		hall
-		WHERE
-		cinema_id = #{cinemaId}
-		)
-		)
-
-	</select>
-
-
-
-
-=======
 	
 	<select id="listMovie" resultMap="rm">
 		SELECT
@@ -64,7 +32,6 @@
 		)
 
 	</select>
->>>>>>> branch 'master' of https://github.com/hnit-gruop/movie3.0.git
 
 	<!-- 电影筛选 -->
 	<select id="filter" resultMap="rm">
@@ -85,12 +52,10 @@
 			</if>
 			<if test="yearId!=0">
 				<if test="yearId==1">
-					and YEAR(release_time) <![CDATA[>]]>
-					2018
+					and YEAR(release_time) <![CDATA[>]]> 2018
 				</if>
 				<if test="yearId==2">
-					and YEAR(release_time) <![CDATA[<]]>
-					2012
+					and YEAR(release_time) <![CDATA[<]]> 2012
 				</if>
 				<if test="yearId>2">
 					and YEAR(release_time) = #{yearId}
@@ -106,15 +71,15 @@
 				and a.`status` = 'typical'
 			</if>
 		</where>
-
+		
 		<if test="order==1">
 			ORDER BY c.sum_people DESC
 		</if>
-
+		
 		<if test="order==2">
 			ORDER BY release_time DESC
 		</if>
-
+		
 		<if test="order==3">
 			ORDER BY c.sum_score/c.sum_people DESC
 		</if>
@@ -163,7 +128,6 @@
 	<resultMap type="com.yc.bean.Movie" id="rm">
 		<id column="movie_id" property="movieId" />
 		<result column="name" property="name" />
-		<result column="duration" property="duration"/>
 		<association property="movieImage"
 			javaType="com.yc.bean.MovieImage">
 			<id column="id" property="id" />
