@@ -120,7 +120,8 @@ public class UserController {
     @RequestMapping("/doReg")
     public void doReg( Model m, String mobile,String password
     		,HttpServletResponse response ,HttpSession session
-    		,String code,String code2,String msg) {
+    		,String code,String code2,String msg
+    		,String username,String email) {
     	User user = null;
     	Boolean user1;
     	m.addAttribute("phone",mobile);
@@ -135,7 +136,7 @@ public class UserController {
     				e.printStackTrace();
     			}
         	}else{
-        		userService.addUser(mobile,password);
+        		userService.addUser(mobile,password,username,email);
         		user = userService.login(mobile, password);
         		Cookie cookie=new Cookie("uname",user.getUsername());
     			cookie.setMaxAge(3*60);
@@ -301,5 +302,48 @@ public class UserController {
 		}
 		
 	}
+	
+	@RequestMapping("/isNameExist")
+	public void  isNameExist(String username,HttpServletResponse response){
+
+			Boolean a=userService.isNameExist(username);
+			if(a==true){
+				try {
+					response.getWriter().write("yes");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					response.getWriter().write("no");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}		
+	}
+	
+	@RequestMapping("/isEmailExist")
+	public void  isEmailExist(String email,HttpServletResponse response){
+
+			Boolean a=userService.isEmailExist(email);
+			if(a==true){
+				try {
+					response.getWriter().write("yes");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					response.getWriter().write("no");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}		
+	}
+	
 }
 

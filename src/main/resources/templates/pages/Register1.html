@@ -65,6 +65,65 @@
     	    ,1000)     	
     	}
     	
+    	$("#username").blur(function(){
+    		var username=$("#username").val();
+    		if(username!=""){
+    			 $.ajax({
+    		         url:"isNameExist?username="+username,
+    		         type: "POST"
+    		     })
+    		     .success(function(result) {
+    		         if (result=="yes") {
+    		        	 $("#box11").attr("style","display:show")
+   		        	  $("#box12").attr("style","display:none")
+    		         	$("#box1").html("用户名已存在")
+    		         }else{
+    		        	 $("#box11").attr("style","display:none")
+    		        	  $("#box12").attr("style","display:show")
+    		         } 
+    		         	
+    		     })
+    		}else{
+    			$("#box11").attr("style","display:show")
+    			$("#box1").html("请输入用户名")
+    			 $("#box12").attr("style","display:none")
+    		}
+    		});
+    	
+    	$("#email").blur(function(){
+    		var email=$("#email").val();
+    		if(email!=""){
+    			
+    			if(!email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)){
+    				$("#box21").attr("style","display:show")
+ 		        	  $("#box22").attr("style","display:none")
+  		         	$("#box2").html("邮箱格式不正确")
+    			}else{
+    				
+    				 $.ajax({
+        		         url:"isEmailExist?email="+email,
+        		         type: "POST"
+        		     })
+        		     .success(function(result) {
+        		         if (result=="yes") {
+        		        	 $("#box21").attr("style","display:show")
+       		        	  $("#box22").attr("style","display:none")
+        		         	$("#box2").html("邮箱已存在")
+        		         }else{
+        		        	 $("#box21").attr("style","display:none")
+        		        	  $("#box22").attr("style","display:show")
+        		         } 
+        		         	
+        		     })
+    				
+    			}
+
+    		}else{
+    			$("#box21").attr("style","display:show")
+    			$("#box2").html("请输入要绑定的邮箱")
+    			 $("#box22").attr("style","display:none")
+    		}
+    		});
     	
     });   
     	
@@ -165,11 +224,31 @@
                 
 
             <span class="inline-tip"><i class="tip-status tip-status--opinfo"></i>请再次输入密码</span></div>
+            <div class="form-field form-field--username form-field--error">
+                <label>用户名</label>
+
+                    <input id="username" type="text" name="username" class="f-text J-pwd2" th:value="${username}" placeholder="选填" >
+
+                
+			
+            <span class="inline-tip" id="box11"><i class="tip-status tip-status--opinfo"></i><i id="box1">请输入用户名</i></span>
+            <span class="inline-tip" id="box12" style="display: none;"><i class="tip-status tip-status--success"></i></span>
+            </div>
+            <div class="form-field form-field--pwd4 form-field--error">
+                <label>邮箱</label>
+
+                    <input id="email" type="text" name="email" class="f-text J-pwd2" th:value="${email}" placeholder="选填" >
+
+                
+
+            <span class="inline-tip" id="box21"><i class="tip-status tip-status--opinfo"></i><i id="box2">请输入要绑定的邮箱</i></span>
+            <span class="inline-tip" id="box22" style="display: none;"><i class="tip-status tip-status--success"></i></span>
+            </div>
         <div class="form-field">
-       <input data-mtevent="signup.submit" type="submit" name="commit" class="btn" value="同意以下协议并注册">
+       <input data-mtevent="signup.submit" type="submit" name="commit" class="btn" value="同意以下协议并注册" >
 
             <a href="" target="_blank"></a>
-            <div class="validate-info"  th:if="${not  #strings.isEmpty(msg)}" ><i class="tip-status tip-status--opinfo"></i><i th:text="${msg}"></i></div>
+            <div class="validate-info"  th:if="${not  #strings.isEmpty(msg)}" ><i class="tip-status tip-status--opinfo" ></i><i th:text="${msg}"></i></div>
         </div>
         <input type="hidden" name="fingerprint" class="J-fingerprint" value="0-12-1-">
     </form>

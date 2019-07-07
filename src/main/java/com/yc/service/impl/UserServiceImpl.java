@@ -58,12 +58,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void addUser(String phone, String password) {
+	public void addUser(String phone, String password,String username,String email) {
 		User record =new User();
 		record.setPhone(phone);
 		record.setPassword(password);
 		record.setHeadImg("reg_default.png");
-		int list = userMapper.insert(record);
+		record.setUsername(username);
+		record.setEmail(email);
+		record.setStatus(0);
+		userMapper.insert(record);
 	}
 
 	@Override
@@ -106,6 +109,28 @@ public class UserServiceImpl implements UserService{
 		user=list.get(0);
 		user.setPassword(password);
 		userMapper.updateByExample(user, example);
+	}
+
+	@Override
+	public Boolean isNameExist(String username) {
+		UserExample example = new UserExample();
+		example.createCriteria().andUsernameEqualTo(username);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean isEmailExist(String email) {
+		UserExample example = new UserExample();
+		example.createCriteria().andEmailEqualTo(email);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0){
+			return true;
+		}
+		return false;
 	}
 
 
