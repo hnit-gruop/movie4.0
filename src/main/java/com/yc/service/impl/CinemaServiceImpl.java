@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -13,8 +14,11 @@ import com.yc.bean.CinemaExample;
 import com.yc.bean.Hall;
 import com.yc.bean.HallExample;
 import com.yc.bean.Movie;
+import com.yc.bean.Schedule;
 import com.yc.dao.CinemaMapper;
 import com.yc.dao.HallMapper;
+import com.yc.dao.MovieMapper;
+import com.yc.dao.ScheduleMapper;
 import com.yc.service.CinemaService;
 
 @Service
@@ -23,6 +27,10 @@ public class CinemaServiceImpl implements CinemaService{
 	CinemaMapper cinemaMapper;
 	@Resource
 	HallMapper hallMapper;
+	@Autowired
+	MovieMapper movieMapper;
+	@Autowired
+	ScheduleMapper scheduleMapper;
 	
 	@Override
 	public int addCinema(Cinema cinema) {
@@ -90,11 +98,14 @@ public class CinemaServiceImpl implements CinemaService{
 		return null;
 	}
 
+
 	@Override
 	public int addHall(Hall hall) {
 		int result = hallMapper.insertSelective(hall);
 		return result;
 	}
+
+	
 
 	@Override
 	public Hall getHallDetail(int hallId) {
@@ -119,5 +130,17 @@ public class CinemaServiceImpl implements CinemaService{
 		he.createCriteria().andCinemaIdEqualTo(cid);
 		List<Hall> result = hallMapper.selectByExample(he);
 		return result;
+	}
+	
+
+	@Override
+	public List<Movie> getMoiveList(Integer cinemaId) {
+		List<Movie> list = movieMapper.listMovie(cinemaId);
+		return list;
+	}
+
+	@Override
+	public List<Schedule> getSchedual(int cinemaId, int movieId) {
+		return  scheduleMapper.getSchedual(cinemaId, movieId);
 	}
 }
