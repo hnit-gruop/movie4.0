@@ -76,6 +76,38 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
+	@Override
+	public String isReg2(String a) {
+		UserExample example1 = new UserExample();
+		example1.createCriteria().andPhoneEqualTo(a);
+		UserExample example2 = new UserExample();
+		example2.createCriteria().andUsernameEqualTo(a);
+		UserExample example3 = new UserExample();
+		example3.createCriteria().andEmailEqualTo(a);
+		List<User> list1 = userMapper.selectByExample(example1);
+		List<User> list2 = userMapper.selectByExample(example2);
+		List<User> list3 = userMapper.selectByExample(example3);
+		if(list1.size()!=0){
+			return list1.get(0).getEmail();
+		}else if(list2.size()!=0){
+			return list2.get(0).getEmail();
+		}else if(list3.size()!=0){
+			return list3.get(0).getEmail();
+		}
+		return "false";
+	}
+
+	@Override
+	public void updatepwd(String email, String password) {
+		User user=new User();		
+		UserExample example = new UserExample();
+		example.createCriteria().andEmailEqualTo(email);
+		List<User> list = userMapper.selectByExample(example);
+		user=list.get(0);
+		user.setPassword(password);
+		userMapper.updateByExample(user, example);
+	}
+
 
 	
 }

@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import com.yc.bean.Hall;
 import com.yc.bean.Movie;
 import com.yc.bean.MovieImage;
 import com.yc.bean.MovieType;
+import com.yc.bean.Schedule;
 import com.yc.bean.Type;
 import com.yc.service.MovieImageService;
 import com.yc.service.impl.ActorServiceImpl;
@@ -41,6 +43,7 @@ import com.yc.service.impl.MovieActorServiceImpl;
 import com.yc.service.impl.MovieImageServiceImpl;
 import com.yc.service.impl.MovieServiceImpl;
 import com.yc.service.impl.MovieTypeServiceImpl;
+import com.yc.service.impl.ScheduleServiceImpl;
 import com.yc.service.impl.TypeServiceImpl;
 import com.yc.util.Utils;
 import com.yc.vo.Result;
@@ -62,6 +65,8 @@ public class FrameController {
 	ActorServiceImpl asi;
 	@Resource
 	CinemaServiceImpl csi;
+	@Resource
+	ScheduleServiceImpl ssi;
 	
 	@Value("${coverPath}")
 	private String coverPath;
@@ -593,7 +598,82 @@ public class FrameController {
  	@RequestMapping("hallAddMovie")
  	public String toHallAddMovie(Model model) {
  		List<Cinema> allCinema = csi.getAllCinema();
+ 		List<Movie> result = msi.findAllMovie();
  		model.addAttribute("CinemaList", allCinema);
+ 		model.addAttribute("MovieList",result);
  		return "manage/hallAddMovie";
+ 	}
+ 	
+ 	@RequestMapping("getMovieListByHall")
+ 	@ResponseBody
+ 	public List<Map<String,Object>> getMovieListByHall(@RequestParam(name="hallId")int hallId,@RequestParam(defaultValue="1") int current) throws IllegalArgumentException, IllegalAccessException{
+ 		PageInfo<Schedule> scheduleByHallId = ssi.getScheduleByHallId(hallId,current);
+ 		int total = (int) scheduleByHallId.getTotal();
+ 		if(total % 5 == 0) {
+ 			total = total/5;
+ 		}else {
+ 			total = total/5+1;
+ 		}
+ 		List<Map<String,Object>> list = new ArrayList<>();
+ 		for(Schedule s:scheduleByHallId.getList()) {
+ 			Map<String,Object> map = new HashMap<>();
+ 			Utils.transformBeanToMap(s, map);
+ 			Movie movie = msi.get(s.getMovieId());
+ 			long duration = movie.getDuration()*60*1000;
+ 			String name = movie.getName();
+ 			Timestamp startTime = s.getStartTime();
+ 			long start = startTime.getTime();
+ 			long end = start + duration;
+ 			Timestamp endTime = new Timestamp(end);
+ 			map.put("endTime",endTime);
+ 			map.put("name",name);
+ 			map.put("total",total);
+ 			list.add(map);
+ 		}
+ 		return list;
+ 	}
+ 	
+ 	@RequestMapping("addSchedule")
+ 	@ResponseBody
+ 	public Result addSchedule(Schedule schedule,@RequestParam(name="sTime") String sTime) throws IllegalArgumentException, IllegalAccessException {
+ 		Timestamp time = new Timestamp(Long.parseLong(sTime));
+ 		schedule.setStartTime(time);
+ 		int canBeAdd = ssi.canBeAdd(schedule);
+ 		if(canBeAdd == 1) {
+ 			Hall hall = csi.getHallDetail(schedule.getHallId());
+ 	 		schedule.setRemain(hall.getCapacity());
+ 	 		int result = ssi.addSchedule(schedule);
+ 	 		Result re;
+ 	 		if(result > 0) {
+ 	 			re = new Result(result,"添加成功");
+ 	 		}else {
+ 	 			re = new Result(result,"添加失败");
+ 	 		}
+ 	 		return re;
+ 		}else {
+ 			Result re = new Result(-1, "此时间段已存在电影排片信息");
+ 			return re;
+ 		}
+ 	}
+ 	
+ 	@RequestMapping("getScheduleById")
+ 	@ResponseBody
+ 	public Schedule getScheduleByid(@RequestParam(name="id")int id){
+ 		Schedule scheduleByid = ssi.getScheduleByid(id);
+ 		return scheduleByid;
+ 	}
+ 	
+ 	@RequestMapping("updataSchedule")
+ 	@ResponseBody
+ 	public Result updataSchedule(Schedule schedule) {
+ 		System.err.println(schedule.getScheduleId());
+ 		int updataSchedule = ssi.updataSchedule(schedule);
+ 		Result re;
+ 		if(updataSchedule > 0) {
+ 			re = new Result(updataSchedule, "更新成功");
+ 		}else {
+ 			re = new Result(updataSchedule, "更新失败");
+ 		}
+ 		return re;
  	}
 }

@@ -30,7 +30,4 @@ public interface ScheduleMapper {
     int updateByPrimaryKey(Schedule record);
 
 	List<Schedule> getSchedual(int cinemaId, int movieId);
-
-
-	
 }

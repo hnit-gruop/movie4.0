@@ -8,9 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +54,6 @@ public class UserController {
 			,HttpSession session,String type,HttpServletResponse response
 			,String code,String code2) {
 		User user=null;
-		System.out.println(phonenum);
 		m.addAttribute("type",type);
 		m.addAttribute("phonenum",phonenum);
 		m.addAttribute("password",password);
@@ -192,10 +195,111 @@ public class UserController {
     	}
         return "pages/Login1";
     }
+   
+    
+    @RequestMapping("getback")
+	public String getback(String msg,Model m){
+    	m.addAttribute("msg",msg);
+		return "pages/GetBack";
+	}
+    
+    @RequestMapping("getback2")
+	public String getback2(String msg,Model m,String email){
+    	m.addAttribute("msg",msg);
+    	m.addAttribute("email",email);
+		return "pages/GetBack2";
+	}
+    
+    @RequestMapping("isReg")
+	public void  isReg(String a,HttpServletResponse response){
+    	String aa=userService.isReg2(a);
+		if(aa=="false"){
+			try {
+				response.getWriter().write("no");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				response.getWriter().write(aa);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
     
 	@RequestMapping("t")
 	public String test1(){
 		return "pages/test";
+	}
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@Value("${mail.fromMail.addr}") // SPEL表达式
+	private String from;
+	
+	public void sendSimpleMail(String to,String subject,String content){
+			SimpleMailMessage message=new SimpleMailMessage();
+			message.setFrom(from);
+			message.setTo(to);
+			message.setSubject(subject);
+			message.setText(content);
+			mailSender.send(message);
+	}
+	
+	@RequestMapping("/getCode2")
+	public String send(Model m,String email){
+		int a=(int) ((Math.random()*9+1)*1000);
+    	String code=String.valueOf(a);
+    	System.out.println(code);    			
+    	m.addAttribute("code",code);
+    	m.addAttribute("email",email);
+		sendSimpleMail(email, "系统邮件", code);
+		m.addAttribute("msg1","1");
+		return "pages/GetBack2";
+	}
+	@RequestMapping("/getback3")
+	public void  getback3(String code,String code2,String email,HttpServletResponse response){
+		if(code.trim().equals(code2.trim())){
+			try {
+				response.getWriter().write("yes,"+email);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				response.getWriter().write("no,"+email);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@RequestMapping("/getback4")
+	public void  getback4(String email,String password,HttpServletResponse response){
+		if(password.length()>=8){
+			userService.updatepwd(email,password);
+			try {
+				response.getWriter().write("yes,1");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				response.getWriter().write("no,"+email);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }
 
