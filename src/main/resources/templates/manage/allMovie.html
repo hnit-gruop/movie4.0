@@ -47,6 +47,7 @@
 		<script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="js/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="js/zxf_page.js"></script>
 		<script type="text/javascript">
 		
 			function upd(movieId,number){
@@ -58,7 +59,7 @@
 						alert(data.message);
 					})
 				}else{
-					
+					alert(3);
 				}
 				
 				
@@ -86,7 +87,6 @@
 				
 				return false;
 			}
-			
 			
 			function cleanForm(){
 				$("input").removeAttr("checked");
@@ -178,36 +178,7 @@
 				})
 			}
 			
-			function search(){
-				$.get("getAllMovieBypage",{
-					current:1,
-					sname:$("#sname").val(),
-					sTime:$("#sTime").val()
-				},function(data){
-					$("#tbody").empty();
-					$.each(data,function(k,v){
-						if(v.total == "" || v.total == null){
-							$("#tbody").append(
-									 '	<tr>' +
-									 '		<td>'+v.name+'</td>' +
-									 '		<td>'+v.type+'</td>' +
-									 '		<td>'+v.duration+'</td>' +
-									 '		<td>'+v.releaseTime+'</td>' +
-									 '		<td>'+v.region+'</td>' +
-									 '		<td>'+v.language+'</td>' +
-									 '		<td>' +
-									 '			<button class="layui-btn" onclick="details('+v.movieId+')">详细信息</button>\n' +
-									 '			<button class="layui-btn" onclick="upd('+v.movieId+')">下架</button>\n' +
-									 '		</td>' +
-									 '	</tr>'
-									)
-						}else{
-							
-						}
-						
-					}); 
-				})
-			}
+			
 		</script>
 	</head>
 	<body>
@@ -374,7 +345,7 @@
 		</div>
 	<!-- 分页模块 -->		
 	<!-- 分页样式 -->
-	<script type="text/javascript" src="js/zxf_page.js"></script>
+	
 	<div class="zxf_pagediv"></div>
 	<script type="text/javascript">
 	//翻页
@@ -382,7 +353,7 @@
 	var num = $("#num").val();
 	$(".zxf_pagediv").createPage({
 		pageNum: total,
-		current: Number(num),
+		current: 1,
 		backfun: function(e) {
 			$.get("getAllMovieBypage",{
 				current:e.current,
@@ -407,13 +378,52 @@
 								 '	</tr>'
 								)
 					}else{
-						
+						$("#total").val(v.total)
 					}
 					
 				}); 
 			})
 		}
 	});
+	
+	function search(){
+		$.get("getAllMovieBypage",{
+			current:1,
+			sname:$("#sname").val(),
+			sTime:$("#sTime").val()
+		},function(data){
+			$("#tbody").empty();
+				$.each(data,function(k,v){
+					if(v.name != null &&v.name != "" && v.name != "undefined"){
+							
+							$("#tbody").append(
+									 '	<tr>' +
+									 '		<td>'+v.name+'</td>' +
+									 '		<td>'+v.type+'</td>' +
+									 '		<td>'+v.duration+'</td>' +
+									 '		<td>'+v.releaseTime+'</td>' +
+									 '		<td>'+v.region+'</td>' +
+									 '		<td>'+v.language+'</td>' +
+									 '		<td>' +
+									 '			<button class="layui-btn" onclick="details('+v.movieId+')">详细信息</button>\n' +
+									 '			<button class="layui-btn" onclick="upd('+v.movieId+')">下架</button>\n' +
+									 '		</td>' +
+									 '	</tr>'
+									)
+					}
+					if(v.total != null && v.total != ""){
+						$("#total").val(v.total);
+					}
+				});
+				$(".zxf_pagediv").changePage({
+					pageNum: $("#total").val(),
+					current: 1,
+					backfun: function(e) {
+						
+					}
+				})
+		})
+	}
 	</script>
 	</div>
 	</body>

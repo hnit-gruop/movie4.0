@@ -149,7 +149,7 @@ public class FrameController {
 		}
 		int total = msi.findTotal(sname,date);
 		if(total % 5 == 0) {
-			total /= 5;
+			total = total / 5;
 		}else {
 			total = (total / 5) + 1;
 		}
