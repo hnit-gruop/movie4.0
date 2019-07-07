@@ -11,4 +11,6 @@ public interface UserService {
 	Boolean isReg(String mobile);
 	void addUser(String mobile, String password);
 	User login(String phonenum);
+	String isReg2(String a);
+	void updatepwd(String email, String password);
 }
