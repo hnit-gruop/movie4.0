@@ -14,8 +14,61 @@ public class Schedule {
     private Timestamp startTime;
 
     private Integer remain;
+    
+    //关联字段
+    private Hall hall;
+    
+    private Timestamp endTime;
+    
+    private String showStartTime;
+    
+    private String showEndTime;
+    
+    private String monthDay;
+    
+    
 
-    public Integer getScheduleId() {
+	public String getMonthDay() {
+		return monthDay;
+	}
+
+	public void setMonthDay(String monthDay) {
+		this.monthDay = monthDay;
+	}
+
+	public String getShowStartTime() {
+		return showStartTime;
+	}
+
+	public void setShowStartTime(String showStartTime) {
+		this.showStartTime = showStartTime;
+	}
+
+	public String getShowEndTime() {
+		return showEndTime;
+	}
+
+	public void setShowEndTime(String showEndTime) {
+		this.showEndTime = showEndTime;
+	}
+
+	public Timestamp getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Timestamp endTime) {
+		this.endTime = endTime;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
+	}
+
+	public Integer getScheduleId() {
         return scheduleId;
     }
 
@@ -62,4 +115,11 @@ public class Schedule {
     public void setRemain(Integer remain) {
         this.remain = remain;
     }
+
+	@Override
+	public String toString() {
+		return "Schedule [scheduleId=" + scheduleId + ", movieId=" + movieId + ", hallId=" + hallId + ", price=" + price
+				+ ", startTime=" + startTime + ", remain=" + remain + ", hall=" + hall + "]";
+	}
+    
 }

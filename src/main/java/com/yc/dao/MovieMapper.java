@@ -47,4 +47,5 @@ public interface MovieMapper {
 	List<Movie> listRegion();
 	
 	List<Movie> filter(MovieFilter movieFilter);
+	List<Movie> listMovie(Integer cinemaId);
 }

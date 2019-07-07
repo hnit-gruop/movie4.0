@@ -3,6 +3,36 @@
 
 <mapper namespace="com.yc.dao.MovieMapper">
 
+
+
+	
+	<select id="listMovie" resultMap="rm">
+		SELECT
+		a.movie_id movie_id,a.name name,a.duration duration,
+		image
+		FROM
+		movie a
+		LEFT JOIN movie_image b ON a.movie_id = b.movie_id
+		WHERE
+		b.type = 'cover_type'
+		AND a.movie_id IN (
+		SELECT DISTINCT
+		movie_id
+		FROM
+		`schedule`
+		WHERE
+		hall_id IN (
+		SELECT
+		hall_id
+		FROM
+		hall
+		WHERE
+		cinema_id = #{cinemaId}
+		)
+		)
+
+	</select>
+
 	<!-- 电影筛选 -->
 	<select id="filter" resultMap="rm">
 		SELECT a.movie_id,a.`name`

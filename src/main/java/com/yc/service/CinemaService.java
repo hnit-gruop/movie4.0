@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.yc.bean.Cinema;
 import com.yc.bean.Hall;
 import com.yc.bean.Movie;
+import com.yc.bean.Schedule;
 import com.yc.service.CinemaService;
 
 public interface CinemaService {
@@ -35,4 +36,8 @@ public interface CinemaService {
 	Hall getHallDetail(int hallId);
 	
 	int updataHall(Hall hall);
+
+	List<Movie> getMoiveList(Integer cinemaId);
+
+	List<Schedule> getSchedual(int cinemaId, int movieId);
 }
