@@ -48,32 +48,6 @@
 		<script type="text/javascript" src="js/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 		<script type="text/javascript">
-			function search(){
-				var name = $("#aname").val();
-				var flag = $("#flag").val();
-				$.post("getAllActorByPage",{
-					name:name,
-					flag:flag
-				},function(data){
-					$("#tbody").empty();
-					$.each(data,function(k,v){
-						$("#tbody").append(
-								 '	<tr>' +
-								 '		<td>'+v.aname+'</td>' +
-								 '		<td>'+v.sex+'</td>' +
-								 '		<td>'+v.birthday+'</td>' +
-								 '		<td>'+v.country+'</td>' +
-								 '		<td>'+v.nation+'</td>' +
-								 '		<td>'+v.position+'</td>' +
-								 '		<td>' +
-								 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
-								 '		</td>' +
-								 '	</tr>'
-						)
-						
-					}); 
-				});
-			}
 			
 			function cleanForm(){
 				$("#img-change").attr("src","");
@@ -125,28 +99,57 @@
 			}
 			
 			function alterActor(){
-				var date = new Date($("#birth").val());
-				$.post("alterActor",{
-					actorId:$("#actorId").val(),
-					aname:$("#atname").val(),
-					sex:$("#sex").val(),
-					position:$("#tflag").val(),
-					secondName:$("#secondName").val(),
-					birthday:date,
-					birthplace:$("#birthplace").val(),
-					country:$("#country").val(),
-					nation:$("#nation").val(),
-					height:$("#height").val(),
-					constellation:$("#constellation").val(),
-					description:CKEDITOR.instances.description.getData()
-				},function(data){
-					if($("#file").val() != null && $("#file").val() != ""){
-						addImage();
-					}
-					alert(data.message);
-					$('#win').window('close');
-				});
+				var date;
+				try{
+					date = new Date($("#birth").val());
+				}catch(err){
+					alert("日期格式为:年-月-日");
+				}
+				if(date == null && date == ""){
+					$.post("alterActor",{
+						actorId:$("#actorId").val(),
+						aname:$("#atname").val(),
+						sex:$("#sex").val(),
+						position:$("#tflag").val(),
+						secondName:$("#secondName").val(),
+						birthday:date,
+						birthplace:$("#birthplace").val(),
+						country:$("#country").val(),
+						nation:$("#nation").val(),
+						height:$("#height").val(),
+						constellation:$("#constellation").val(),
+						description:CKEDITOR.instances.description.getData()
+					},function(data){
+						if($("#file").val() != null && $("#file").val() != ""){
+							addImage();
+						}
+						alert(data.message);
+						$('#win').window('close');
+					});
+				}else{
+					$.post("alterActor",{
+						actorId:$("#actorId").val(),
+						aname:$("#atname").val(),
+						sex:$("#sex").val(),
+						position:$("#tflag").val(),
+						secondName:$("#secondName").val(),
+						birthplace:$("#birthplace").val(),
+						country:$("#country").val(),
+						nation:$("#nation").val(),
+						height:$("#height").val(),
+						constellation:$("#constellation").val(),
+						description:CKEDITOR.instances.description.getData()
+					},function(data){
+						if($("#file").val() != null && $("#file").val() != ""){
+							addImage();
+						}
+						alert(data.message);
+						$('#win').window('close');
+					});
+				}
 			}
+		
+				
 			
 		</script>
 	</head>
@@ -260,19 +263,53 @@
 	<div class="zxf_pagediv"></div>
 	<script type="text/javascript">
 	//翻页
-	var total = $("#total").val();
-	var num = $("#num").val();
-	$(".zxf_pagediv").createPage({
-		pageNum: total,
-		current: Number(num),
-		backfun: function(e) {
-			$.get("getAllActorByPage",{
-				current:e.current,
-				name:$("#aname").val(),
-				flag:$("#flag").val()
-			},function(data){
-				$("#tbody").empty();
-				$.each(data,function(k,v){
+	$(function(){
+		addThePage();
+	})
+	function addThePage(){
+		var total = $("#total").val();
+		var num = $("#num").val();
+		$(".zxf_pagediv").createPage({
+			pageNum: total,
+			current: Number(num),
+			backfun: function(e) {
+				$.get("getAllActorByPage",{
+					current:e.current,
+					name:$("#aname").val(),
+					flag:$("#flag").val()
+				},function(data){
+					$("#tbody").empty();
+					$.each(data,function(k,v){
+						$("#tbody").append(
+								 '	<tr>' +
+								 '		<td>'+v.aname+'</td>' +
+								 '		<td>'+v.sex+'</td>' +
+								 '		<td>'+v.birthday+'</td>' +
+								 '		<td>'+v.country+'</td>' +
+								 '		<td>'+v.nation+'</td>' +
+								 '		<td>'+v.position+'</td>' +
+								 '		<td>' +
+								 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
+								 '		</td>' +
+								 '	</tr>'
+						)
+						
+					}); 
+				})
+			}
+		});
+	}
+	
+	function search(){
+		var name = $("#aname").val();
+		var flag = $("#flag").val();
+		$.post("getAllActorByPage",{
+			name:name,
+			flag:flag
+		},function(data){
+			$("#tbody").empty();
+			$.each(data,function(k,v){
+				if(v.total == "" || v.total == null){
 					$("#tbody").append(
 							 '	<tr>' +
 							 '		<td>'+v.aname+'</td>' +
@@ -286,11 +323,14 @@
 							 '		</td>' +
 							 '	</tr>'
 					)
-					
-				}); 
-			})
-		}
-	});
+				}else{
+					$("#total").val(v.total);
+				}	
+			}); 
+			$(".zxf_pagediv").empty();
+			addThePage();
+		});
+	}
 	</script>
 	</div>
 	</body>

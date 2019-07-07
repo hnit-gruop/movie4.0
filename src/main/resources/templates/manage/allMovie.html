@@ -151,6 +151,16 @@
 				$('input[name="typeId"]:checked').each(function(i){
 					typeList[i] =$(this).val();
 				});
+				if($("#releaseTime").val() == null || $("#releaseTime").val() == ""){
+					alert("上映时间不能为空");
+					return;
+				}
+				var date;
+				try{
+					date = new Date($("#releaseTime").val());
+				}catch(err){
+					alert("日期格式为:年-月-日");
+				}
 				$.post("alterMovie",{
 					typeList:typeList,
 					movieId:movieId,
@@ -349,42 +359,47 @@
 	<div class="zxf_pagediv"></div>
 	<script type="text/javascript">
 	//翻页
-	var total = $("#total").val();
-	var num = $("#num").val();
-	$(".zxf_pagediv").createPage({
-		pageNum: total,
-		current: 1,
-		backfun: function(e) {
-			$.get("getAllMovieBypage",{
-				current:e.current,
-				sname:$("#sname").val(),
-				sTime:$("#sTime").val()
-			},function(data){
-				$("#tbody").empty();
-				$.each(data,function(k,v){
-					if(v.total == "" || v.total == null){
-						$("#tbody").append(
-								 '	<tr>' +
-								 '		<td>'+v.name+'</td>' +
-								 '		<td>'+v.type+'</td>' +
-								 '		<td>'+v.duration+'</td>' +
-								 '		<td>'+v.releaseTime+'</td>' +
-								 '		<td>'+v.region+'</td>' +
-								 '		<td>'+v.language+'</td>' +
-								 '		<td>' +
-								 '			<button class="layui-btn" onclick="details('+v.movieId+')">详细信息</button>\n' +
-								 '			<button class="layui-btn" onclick="upd('+v.movieId+')">下架</button>\n' +
-								 '		</td>' +
-								 '	</tr>'
-								)
-					}else{
-						$("#total").val(v.total)
-					}
-					
-				}); 
-			})
-		}
-	});
+	$(function(){
+		addThePage();
+	})
+	function addThePage(){
+		var total = $("#total").val();
+		var num = $("#num").val();
+		$(".zxf_pagediv").createPage({
+			pageNum: total,
+			current: 1,
+			backfun: function(e) {
+				$.get("getAllMovieBypage",{
+					current:e.current,
+					sname:$("#sname").val(),
+					sTime:$("#sTime").val()
+				},function(data){
+					$("#tbody").empty();
+					$.each(data,function(k,v){
+						if(v.total == "" || v.total == null){
+							$("#tbody").append(
+									 '	<tr>' +
+									 '		<td>'+v.name+'</td>' +
+									 '		<td>'+v.type+'</td>' +
+									 '		<td>'+v.duration+'</td>' +
+									 '		<td>'+v.releaseTime+'</td>' +
+									 '		<td>'+v.region+'</td>' +
+									 '		<td>'+v.language+'</td>' +
+									 '		<td>' +
+									 '			<button class="layui-btn" onclick="details('+v.movieId+')">详细信息</button>\n' +
+									 '			<button class="layui-btn" onclick="upd('+v.movieId+')">下架</button>\n' +
+									 '		</td>' +
+									 '	</tr>'
+									)
+						}else{
+							
+						}
+						
+					}); 
+				})
+			}
+		});
+	}
 	
 	function search(){
 		$.get("getAllMovieBypage",{
@@ -415,14 +430,10 @@
 						$("#total").val(v.total);
 					}
 				});
-				$(".zxf_pagediv").changePage({
-					pageNum: $("#total").val(),
-					current: 1,
-					backfun: function(e) {
-						
-					}
-				})
+				$(".zxf_pagediv").empty();
+				addThePage();
 		})
+		
 	}
 	</script>
 	</div>

@@ -66,27 +66,55 @@
 		function addActor(){
 			var file = $("#file").val();
 			var pic = getFileName(file);
-			var date = new Date($("#birth").val());
-			$.post("addActor",{
-				pic:pic,
-				aname:$("#atname").val(),
-				sex:$("#sex").val(),
-				position:$("#tflag").val(),
-				secondName:$("#secondName").val(),
-				birthday:date,
-				birthplace:$("#birthplace").val(),
-				country:$("#country").val(),
-				nation:$("#nation").val(),
-				height:$("#height").val(),
-				constellation:$("#constellation").val(),
-				description:CKEDITOR.instances.description.getData()
-			},function(data){
-				if($("#file").val() != null && $("#file").val() != ""){
-					addImage();
-				}
-				alert(data.message);
-				cleanForm();
-			});
+			var date;
+			try{
+				date = new Date($("#birth").val());
+			}catch(err){
+				alert("日期格式为:年-月-日");
+			}
+			if($(date == null && date == ""){
+				$.post("alterActor",{
+					actorId:$("#actorId").val(),
+					aname:$("#atname").val(),
+					sex:$("#sex").val(),
+					position:$("#tflag").val(),
+					secondName:$("#secondName").val(),
+					birthday:date,
+					birthplace:$("#birthplace").val(),
+					country:$("#country").val(),
+					nation:$("#nation").val(),
+					height:$("#height").val(),
+					constellation:$("#constellation").val(),
+					description:CKEDITOR.instances.description.getData()
+				},function(data){
+					if($("#file").val() != null && $("#file").val() != ""){
+						addImage();
+					}
+					alert(data.message);
+					$('#win').window('close');
+				});
+			}
+			}else{
+				$.post("alterActor",{
+					actorId:$("#actorId").val(),
+					aname:$("#atname").val(),
+					sex:$("#sex").val(),
+					position:$("#tflag").val(),
+					secondName:$("#secondName").val(),
+					birthplace:$("#birthplace").val(),
+					country:$("#country").val(),
+					nation:$("#nation").val(),
+					height:$("#height").val(),
+					constellation:$("#constellation").val(),
+					description:CKEDITOR.instances.description.getData()
+				},function(data){
+					if($("#file").val() != null && $("#file").val() != ""){
+						addImage();
+					}
+					alert(data.message);
+					$('#win').window('close');
+				});
+			}
 		} 
 		
 		</script>

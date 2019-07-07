@@ -112,28 +112,7 @@
 		 		})
 		 	}
 			
-			 function search(){
-					var name = $("#aname").val();
-					$.post("getCinemaByName",{
-						name:name
-					},function(data){
-						$("#tbody").empty();
-						$.each(data,function(k,v){
-							$("#tbody").append(
-									 '	<tr>' +
-									 '		<td>'+v.name+'</td>' +
-									 '		<td>'+v.address+'</td>' +
-									 '		<td>' +
-									 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
-									 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
-									 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
-									 '		</td>' +
-									 '	</tr>'
-							)
-							
-						}); 
-					});
-				}
+			
 			function addHall(cid){
 				$("#cineid").val(cid);
 				$("#addHall").window("open");
@@ -381,34 +360,71 @@
 	<div class="zxf_pagediv"></div>
 	<script type="text/javascript">
 	//翻页
-	var total = $("#total").val();
-	$(".zxf_pagediv").createPage({
-		pageNum: total,
-		current: 1,
-		backfun: function(data) {
-			var name = $("#aname").val();
-			$.post("getCinemaByName",{
-				name:name,
-				current:data.current
-			},function(data){
-				$("#tbody").empty();
-				$.each(data,function(k,v){
-					$("#tbody").append(
-							 '	<tr>' +
-							 '		<td>'+v.name+'</td>' +
-							 '		<td>'+v.address+'</td>' +
-							 '		<td>' +
-							 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
-							 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
-							 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
-							 '		</td>' +
-							 '	</tr>'
-					)
-					
-				}); 
+	$(function(){
+		addThePage();
+	})
+		function addThePage(){
+			var total = $("#total").val();
+			$(".zxf_pagediv").createPage({
+				pageNum: total,
+				current: 1,
+				backfun: function(data) {
+					var name = $("#aname").val();
+					$.post("getCinemaByName",{
+						name:name,
+						current:data.current
+					},function(data){
+						$("#tbody").empty();
+						$.each(data,function(k,v){
+							if(v.total == "" || v.total == null){
+								$("#tbody").append(
+										 '	<tr>' +
+										 '		<td>'+v.name+'</td>' +
+										 '		<td>'+v.address+'</td>' +
+										 '		<td>' +
+										 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
+										 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+										 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
+										 '		</td>' +
+										 '	</tr>'
+								)
+							}else{
+								$("#total").val(v.total);
+							}
+						}); 
+					});
+				}
 			});
 		}
-	});
+	
+		 function search(){
+				var name = $("#aname").val();
+				$.post("getCinemaByName",{
+					name:name
+				},function(data){
+					$("#tbody").empty();
+					
+					$.each(data,function(k,v){
+						if(v.total == "" || v.total == null){
+							$("#tbody").append(
+									 '	<tr>' +
+									 '		<td>'+v.name+'</td>' +
+									 '		<td>'+v.address+'</td>' +
+									 '		<td>' +
+									 '			<button class="layui-btn" onclick="details('+v.cinemaId+')">详细信息</button>\n' +
+									 '			<button class="layui-btn" onclick="addHall('+v.cinemaId+')">添加影厅</button>\n' +
+									 '			<button class="layui-btn" onclick="updataHall('+v.cinemaId+')">修改影厅</button>\n' +
+									 '		</td>' +
+									 '	</tr>'
+							)
+						}else{
+							$("#total").val(v.total);
+						}
+					});
+					$(".zxf_pagediv").empty();
+					addThePage();
+				});
+			}
 	</script>
 	</div>
 	</body>

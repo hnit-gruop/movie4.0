@@ -58,6 +58,7 @@
 		},
 		bindEvent:function(obj,pageinit){
 			return (function(){
+				obj.off("click");
 				obj.on("click","a.prebtn",function(){
 					var cur = parseInt(obj.children("span.current").text());
 					var current = $.extend(pageinit, {"current":cur-1});
@@ -91,9 +92,6 @@
 					}
 				});
 			}());
-		}
-		die:function(obj){
-			
 		}
 	}
 	$.fn.createPage = function(options){

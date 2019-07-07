@@ -365,12 +365,29 @@ public class FrameController {
  	
  	/**
  	 * 查询演员
+ 	 * @throws IllegalAccessException 
+ 	 * @throws IllegalArgumentException 
  	 */
  	@RequestMapping("getAllActorByPage")
  	@ResponseBody
- 	public List<Actor> getAllActorByPage(@RequestParam(name="flag",defaultValue="0")String flag,@RequestParam(name="name",defaultValue="")String name,ModelAndView model,@RequestParam(defaultValue="1") int current) {
+ 	public List<Map<String,Object>> getAllActorByPage(@RequestParam(name="flag",defaultValue="0")String flag,@RequestParam(name="name",defaultValue="")String name,ModelAndView model,@RequestParam(defaultValue="1") int current) throws IllegalArgumentException, IllegalAccessException {
  		Map<String, Object> map = asi.findActor(Integer.parseInt(flag),name, current);
- 		List<Actor> list = (List<Actor>) map.get("list");
+ 		List<Actor> list_1 = (List<Actor>) map.get("list");
+ 		long total = (long) map.get("total");
+ 		if(total % 5 == 0) {
+			total /= 5;
+		}else {
+			total = (total / 5) + 1;
+		}
+ 		List<Map<String,Object>> list = new ArrayList<>();
+ 		for(Actor a : list_1) {
+ 			Map<String,Object> map_1 = new HashMap<>();
+ 			Utils.transformBeanToMap(a, map_1);
+ 			list.add(map_1);
+ 		}
+ 		Map<String,Object> m = new HashMap<>();
+ 		m.put("total", total);
+ 		list.add(m);
  		return list;
  	}
  	
@@ -420,7 +437,6 @@ public class FrameController {
         String fileName = file.getOriginalFilename();
         String filePath = actorPath;
         File dest = new File(filePath + fileName);
-        System.err.println(dest.getPath());
         try {
             file.transferTo(dest);
             return "成功";
@@ -531,10 +547,25 @@ public class FrameController {
  	
  	@RequestMapping("getCinemaByName")
  	@ResponseBody
- 	public List<Cinema> getCinemaByName(@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current,Model model){
+ 	public List<Map<String,Object>> getCinemaByName(@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current,Model model) throws IllegalArgumentException, IllegalAccessException{
  		PageInfo<Cinema> page = csi.getCinemaByName(name,current);
  		List<Cinema> cinemaByName = page.getList();
- 		return cinemaByName;
+ 		List<Map<String,Object>> list = new ArrayList<>();
+ 		for(Cinema c:cinemaByName) {
+ 			Map<String,Object> map =  new HashMap<>();
+ 			Utils.transformBeanToMap(c, map);
+ 			list.add(map);
+ 		}
+ 		int total = (int) page.getTotal();
+ 		if(total % 5 == 0) {
+			total /= 5;
+		}else {
+			total = (total / 5) + 1;
+		}
+ 		Map<String,Object> m = new HashMap<>();
+ 		m.put("total", total);
+ 		list.add(m);
+ 		return list;
  	}
  	
  	@RequestMapping("addCinemaImg")
@@ -627,9 +658,11 @@ public class FrameController {
  			Timestamp endTime = new Timestamp(end);
  			map.put("endTime",endTime);
  			map.put("name",name);
- 			map.put("total",total);
  			list.add(map);
  		}
+ 		Map<String,Object> m = new HashMap<>();
+ 		m.put("total",total);
+ 		list.add(m);
  		return list;
  	}
  	
