@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://maoyan.com/order/confirm/21101750469 -->
+<html xmlns:th="http://www.thymeleaf.org"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>支付 - 猫眼电影 - 一网打尽好电影</title>
+  
+  <link rel="dns-prefetch" href="https://p0.meituan.net/">
+  <link rel="dns-prefetch" href="https://p1.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms0.meituan.net/">
+  <link rel="dns-prefetch" href="https://s0.meituan.net/">
+  <link rel="dns-prefetch" href="https://ms1.meituan.net/">
+  <link rel="dns-prefetch" href="https://analytics.meituan.com/">
+  <link rel="dns-prefetch" href="https://report.meituan.com/">
+  <link rel="dns-prefetch" href="https://frep.meituan.com/">
+	
+	
+	<link rel="stylesheet" href="css/common.d0f96cc2.css">
+	<link rel="stylesheet" href="/css/order-confirm.598bbaa8.css">
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta http-equiv="cleartype" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+
+  <meta name="HandheldFriendly" content="true">
+  <meta name="format-detection" content="email=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+
+<meta name="lx:autopv" content="off"><meta name="lx:appnm" content="movie"><meta name="lx:category" content="movie"></head>
+<body>
+
+
+    <div class="container" id="app">
+  <div class="order-progress-bar">
+  <div class="step first done">
+    <span class="step-num">1</span>
+    <div class="bar"></div>
+    <span class="step-text">选择影片场次</span>
+  </div>
+  <div class="step done">
+    <span class="step-num">2</span>
+    <div class="bar"></div>    
+    <span class="step-text">选择座位</span>    
+  </div>
+  <div class="step done">
+    <span class="step-num">3</span>
+    <div class="bar"></div>    
+    <span class="step-text">14分钟内付款</span>    
+  </div>
+  <div class="step last ">
+    <span class="step-num">4</span>
+    <div class="bar"></div>    
+    <span class="step-text">影院取票观影</span>    
+  </div>
+</div>
+
+
+<script>
+ 
+
+</script>
+  
+  <script type="text/javascript">
+  		
+  		$(function(){
+  			var t1 = window.setInterval(function(){
+  				var s = $("#second").html();
+  				var m = $("#minute").html();
+  				
+  				if(s-1<0){
+  					$("#second").html(59);
+  					m = m-1;
+  					if(m<0){
+  	  					alert("订单超时，请重新购买！");
+  						window.location.href="/index";  					
+  	  				}
+  					$("#minute").html(m);
+  				}else{
+  					$("#second").html(s-1);
+  				}
+  			},1000);
+  			
+  		});
+  </script>
+  
+  
+  
+  <div class="count-down-wrapper">
+    <div class="count-down" data-payleftseconds="599">
+      <p class="time-left">
+        请在
+        <span class="minute" id="minute">9</span>
+        分钟
+        <span class="second" id="second">59</span>秒内完成支付
+      </p>
+      <p class="tip">超时订单会自动取消，如遇支付问题，请致电猫眼客服：1010-5335</p>
+    </div>
+  </div>
+
+  <p class="warning">请仔细核对场次信息，出票后将<span class="attention">无法退票和改签</span></p>
+  
+    <table class="order-table">
+    <thead>
+      <tr>
+        <th>影片</th>
+        <th>时间</th>
+        <th>影院</th>
+        <th>座位</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="movie-name" th:text="${movieName}">《千与千寻》</td>
+        <td class="showtime" th:text="${startTime}">今天 7月8日 20:20</td>
+        <td class="cinema-name" th:text="${cinemaName}">万达影城（梅溪湖步步高广场店）</td>
+        <td>
+          
+          <div class="seats">
+            <div>
+                <span class="" th:text="${orderSeat}"> </span>
+            </div>
+            <div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="right">
+    <div class="price-wrapper">
+      <span>实际支付 :</span>
+      <span class="price" th:text="${sumPrice}">69.8</span>
+    </div>
+    <div><div class="pay-btn" herf="">确认支付</div></div>
+  </div>
+
+    <form name="cashierForm" method="post" action="https://mpay.meituan.com/cashier/pc/index">
+    <input type="hidden" name="token" value="">
+    <input type="hidden" name="tradeno" value="">
+    <input type="hidden" name="pay_token" value="">
+    <input type="hidden" name="website" value="mtmaoyan">
+    <input type="hidden" name="pay_success_url" value="http://www.maoyan.com/order/result/21101750469">
+    <input type="hidden" name="nb_platform" value="www">
+    <input type="hidden" name="nb_source" value="cashier-pcforcustomer">
+  </form>
+
+
+    <div class="modal-container" style="display:none">
+    <div class="modal">
+      <span class="icon"></span>
+
+      <p class="tip">支付超时，该订单已失效，请重新购买</p>
+
+        <div class="ok-btn btn">我知道了</div>
+    </div>
+  </div>
+
+    </div>
+
+<div class="footer" style="visibility: visible;">
+    <p class="friendly-links">
+        关于猫眼 :
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll0" target="_blank">关于我们</a>
+        <span></span>
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll1" target="_blank">管理团队</a>
+        <span></span>
+        <a href="http://ir.maoyan.com/s/index.php#pageScroll2" target="_blank">投资者关系</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        友情链接 :
+        <a href="http://www.meituan.com/" data-query="utm_source=wwwmaoyan" target="_blank">美团网</a>
+        <span></span>
+        <a href="http://www.gewara.com/" data-query="utm_source=wwwmaoyan">格瓦拉</a>
+        <span></span>
+        <a href="http://i.meituan.com/client" data-query="utm_source=wwwmaoyan" target="_blank">美团下载</a>
+        <span></span>
+        <a href="https://www.huanxi.com/" data-query="utm_source=maoyan_pc" target="_blank">欢喜首映</a>
+    </p>
+    <p class="friendly-links">
+      商务合作邮箱：v@maoyan.com
+      客服电话：10105335
+      违法和不良信息举报电话：4006018900
+      <br>
+      投诉举报邮箱：tousujubao@meituan.com
+      舞弊线索举报邮箱：wubijubao@maoyan.com
+    </p>
+    <p>
+        ©2016
+        猫眼电影 maoyan.com
+        <a href="https://tsm.miit.gov.cn/pages/EnterpriseSearchList_Portal.aspx?type=0&amp;keyword=%E4%BA%ACICP%E8%AF%81160733%E5%8F%B7&amp;pageNo=1" target="_blank">京ICP证160733号</a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备16022489号-1</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102003232" target="_blank">京公网安备 11010102003232号</a>
+        <a href="https://maoyan.com/about/licence" target="_blank">网络文化经营许可证</a>
+        <a href="http://www.meituan.com/about/rules" target="_blank">电子公告服务规则</a>
+    </p>
+    <p>北京猫眼文化传媒有限公司</p>
+</div>
+
+</body></html>

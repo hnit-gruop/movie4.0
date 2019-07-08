@@ -143,4 +143,10 @@ public class CinemaServiceImpl implements CinemaService{
 	public List<Schedule> getSchedual(int cinemaId, int movieId) {
 		return  scheduleMapper.getSchedual(cinemaId, movieId);
 	}
+
+	@Override
+	public Cinema getCinemaByHallId(Integer hallId) {
+		Hall hall = hallMapper.selectByPrimaryKey(hallId);
+		return cinemaMapper.selectByPrimaryKey(hall.getCinemaId());
+	}
 }

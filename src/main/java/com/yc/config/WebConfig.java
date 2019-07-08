@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截路径，表示此路径下的所有地址都会先执行此拦截器，通过之后才能访问Controller
         String[] addPathPatterns = {
-          "/addComment","/agree","/concelAgree","/wants"
+          "/addComment","/agree","/concelAgree","/wants","/xseat"
         };
         registry.addInterceptor(userInterceptor).addPathPatterns(addPathPatterns);
     }

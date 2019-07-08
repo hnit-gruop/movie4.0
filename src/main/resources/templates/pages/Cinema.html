@@ -240,6 +240,8 @@
 				});
 			}
 			
+			var cinemaName = "[[${c.name}]]";
+			
 			function getByDate(m,list,cdate){
 				$("#list").html('');
 				for(var i = 0;i<list.length;i++){
@@ -250,7 +252,7 @@
 								'<td><span class="hall">'+list[i].hall.name+'</span></td>'+
 								'<td><span class="sell-price"><span class="stonefont">'+list[i].price+'</span></span>'+
 								'</td>'+
-								'<td><a href="#" class="buy-btn normal">选座购票</a></td>'+
+								'<td><a href="xseat?scheduleId='+list[i].scheduleId+'&cinemaName='+cinemaName+'" class="buy-btn normal">选座购票</a></td>'+
 							'</tr>');
 					}
 				

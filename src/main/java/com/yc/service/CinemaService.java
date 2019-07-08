@@ -40,6 +40,8 @@ public interface CinemaService {
 	List<Movie> getMoiveList(Integer cinemaId);
 
 	List<Schedule> getSchedual(int cinemaId, int movieId);
+
+	Cinema getCinemaByHallId(Integer hallId);
 	
 	
 }

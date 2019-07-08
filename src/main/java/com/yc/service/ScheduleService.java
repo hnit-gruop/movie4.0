@@ -17,4 +17,5 @@ public interface ScheduleService {
 	int canBeAdd(Schedule schedule) throws IllegalArgumentException, IllegalAccessException;
 	
 	Schedule getScheduleByid(int id);
+
 }	
