@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yc.bean.User;
 import com.yc.bean.UserExample;
 import com.yc.dao.UserMapper;
@@ -133,6 +135,19 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 
-
+	@Override
+	public PageInfo<User> getAllUser(int pageNum, String name) {
+		PageHelper.startPage(pageNum, 5);
+		List<User> user;
+		if(name == null ||name.equals("")) {
+			user = userMapper.selectByExample(null);
+		}else {
+			UserExample ue = new UserExample();
+			ue.createCriteria().andUsernameLike("%"+name+"%");
+			user = userMapper.selectByExample(ue);
+		}
+		PageInfo page = new PageInfo(user);
+		return page;
+	}
 	
 }

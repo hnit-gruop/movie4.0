@@ -1,5 +1,6 @@
 package com.yc.service;
 
+import com.github.pagehelper.PageInfo;
 import com.yc.bean.User;
 
 public interface UserService {
@@ -15,4 +16,5 @@ public interface UserService {
 	void updatepwd(String email, String password);
 	Boolean isNameExist(String username);
 	Boolean isEmailExist(String email);
+	PageInfo<User> getAllUser(int pageNum, String name);
 }

@@ -54,8 +54,8 @@
 					$("#gps_1").val(data.gps_1);
 					$("#gps_2").val(data.gps_2);
 					$("#mname").val(data.name);
-					$("#province").append("<option value=\"-1\">"+data.province+"</option>");
-					$("#city").append("<option value=\"-1\">"+data.city+"</option>");
+					$("#province").append("<option value=\"-1\" selected='selected'>"+data.province+"</option>");
+					$("#city").append("<option value=\"-1\" selected='selected'>"+data.city+"</option>");
 					$("#address").val(data.path);
 					$("#cinemaId").val(data.id);
 					$('#win').window('open');
@@ -219,40 +219,35 @@
 		<input type="text" id="cinemaId" hidden="hidden"> 
 		影院名称:<input class="easyui-text" type="text" id="mname"><br>
 		地区:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="province" id="province" onclick="on()" onchange="selectCityByPid()"></select>
-		<select name="city" id="city" onclick="on"></select><br>
-		<script type="text/javascript">
-			function on(){
-				initProvince("110000");
-			}
-		    function initProvince(provinceBack) {
-		        var optionStr = "<option value=\"-1\">请选择省</option>";
-		        for (var province in citys) {
-		            optionStr += "<option value=\"" + province + "\"";
-		            if (province == provinceBack) {
-		                optionStr += "selected='selected'";
-		            }
-		            optionStr += ">" + citys[province].n + "</option>";
-		        }
-		        $("#province").append(optionStr);
-		        $("#city").empty();
-		        optionStr = "<option value=\"-1\">请选择市</option>";
-		        $("#city").append(optionStr);
-		    }
-		    function selectCityByPid() {
-		        var provinceCode=$("#province").val();
-		        $("#city").empty();
-		        var optionStr = "<option value=\"-1\">请选择市</option>";
-		        var cityList=citys[provinceCode].c
-		        for (var city in cityList) {
-		            optionStr += "<option value=\"" + city;
-		            optionStr += "\">" + cityList[city].n + "</option>";
-		        }
-		        $("#city").append(optionStr);
-		    }
-		    
-		 
-		</script>
+		<select name="province" id="province" onchange="selectCityByPid()"></select>
+		<select name="city" id="city"></select><br>
+<script type="text/javascript">
+	$(function(){
+		initProvince('110000');
+	})
+    function initProvince(provinceBack) {
+        var optionStr = "<option value=\"-1\">请选择省</option>";
+        for (var province in citys) {
+            optionStr += "<option value=\"" + province + "\"";
+            optionStr += ">" + citys[province].n + "</option>";
+        }
+        $("#province").append(optionStr);
+        $("#city").empty();
+        optionStr = "<option value=\"-1\">请选择市</option>";
+        $("#city").append(optionStr);
+    }
+    function selectCityByPid() {
+        var provinceCode=$("#province").val();
+        $("#city").empty();
+        var optionStr = "<option value=\"-1\">请选择市</option>";
+        var cityList=citys[provinceCode].c
+        for (var city in cityList) {
+            optionStr += "<option value=\"" + city;
+            optionStr += "\">" + cityList[city].n + "</option>";
+        }
+        $("#city").append(optionStr);
+    }
+</script>
 		详细地址:<input class="easyui-text" type="text" id="address"><br>
 		经度:<input class="easyui-text" type="text" id="gps_1"><br>
 		纬度:<input class="easyui-text" type="text" id="gps_1"><br>

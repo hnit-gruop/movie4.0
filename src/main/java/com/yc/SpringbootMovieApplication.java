@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.aliyuncs.exceptions.ClientException;
 import com.yc.util.PhoneUtil;
 
-
 @SpringBootApplication
 @MapperScan("com.yc.dao")
 @EnableCaching

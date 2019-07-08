@@ -36,6 +36,7 @@ import com.yc.bean.MovieImage;
 import com.yc.bean.MovieType;
 import com.yc.bean.Schedule;
 import com.yc.bean.Type;
+import com.yc.bean.User;
 import com.yc.service.MovieImageService;
 import com.yc.service.impl.ActorServiceImpl;
 import com.yc.service.impl.CinemaServiceImpl;
@@ -45,6 +46,7 @@ import com.yc.service.impl.MovieServiceImpl;
 import com.yc.service.impl.MovieTypeServiceImpl;
 import com.yc.service.impl.ScheduleServiceImpl;
 import com.yc.service.impl.TypeServiceImpl;
+import com.yc.service.impl.UserServiceImpl;
 import com.yc.util.Utils;
 import com.yc.vo.Result;
 
@@ -67,6 +69,8 @@ public class FrameController {
 	CinemaServiceImpl csi;
 	@Resource
 	ScheduleServiceImpl ssi;
+	@Resource
+	UserServiceImpl usi;
 	
 	@Value("${coverPath}")
 	private String coverPath;
@@ -708,5 +712,44 @@ public class FrameController {
  			re = new Result(updataSchedule, "更新失败");
  		}
  		return re;
+ 	}
+ 	
+ 	@RequestMapping("getAllUserByPage")
+ 	@ResponseBody
+ 	public List<Map<String,Object>> getAllUserByPage(ModelAndView model,@RequestParam(name="name")String name,@RequestParam(defaultValue="1") int current) throws IllegalArgumentException, IllegalAccessException {
+ 		PageInfo<User> allUser = usi.getAllUser(current, name);
+
+ 		List<Map<String,Object>> list = new ArrayList<>();
+ 		for(User u:allUser.getList()) {
+ 			Map<String,Object> map = new HashMap<>();
+ 			Utils.transformBeanToMap(u, map);
+ 			list.add(map);
+ 		}
+ 		int total = (int) allUser.getTotal();
+ 		if(total % 5 == 0) {
+ 			total = total/5;
+ 		}else {
+ 			total = total/5+1;
+ 		}
+ 		Map<String,Object> totalMap = new HashMap<>();
+ 		totalMap.put("total", total);
+ 		list.add(totalMap);
+ 		return list; 
+ 	}
+ 	
+ 	@RequestMapping("getAllUser")
+ 	public ModelAndView getAllUser(ModelAndView model) throws IllegalArgumentException, IllegalAccessException {
+ 		model.setViewName("manage/allUser");
+ 		PageInfo<User> allUser = usi.getAllUser(1, null);
+ 		List<User> userList = allUser.getList();
+ 		int total = (int) allUser.getTotal();
+ 		if(total % 5 == 0) {
+ 			total = total/5;
+ 		}else {
+ 			total = total/5+1;
+ 		}
+ 		model.addObject("userList",userList);
+ 		model.addObject("total",total);
+ 		return model;
  	}
 }
