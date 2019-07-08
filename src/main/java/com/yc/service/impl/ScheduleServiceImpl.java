@@ -110,6 +110,41 @@ public class ScheduleServiceImpl implements ScheduleService{
 		int result = sm.updateByPrimaryKeySelective(schedule);
 		return result;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getScheduleNum() {
+		List<Map<String, Object>> scheduleNum = sm.getScheduleNum();
+		return scheduleNum;
+	}
 
+	@Override
+	public int getAllScheduleNum() {
+		return sm.selectByExample(null).size();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Map<String, Object> getTotalTicketOfWeek() {
+		List<Map<String, Object>> l1 = sm.getTotalTicketOfWeek();
+		Map<String,Object> map = new HashMap<>();
+		for(int i = 1; i < 7; i++) {
+			double total = 0;
+			for(Map<String,Object> m:l1) {
+				Timestamp time = new Timestamp(System.currentTimeMillis()-(i-1)*24*60*60*1000);
+				int hour = time.getHours();
+				int min = time.getMinutes();
+				int sec = time.getSeconds();
+				Long timeNum = time.getTime();
+				timeNum = timeNum - (hour*60*60*1000+min*60*1000+sec*1000);
+				Timestamp dayTime = new Timestamp(timeNum);
+				Timestamp temp = (Timestamp)m.get("start_time");
+				if(temp.before(dayTime) && temp.after(new Timestamp(dayTime.getTime()-24*60*60*1000))) {
+					total += (double)m.get("price");
+					map.put(i+"", total);
+				}
+			}
+		}
+		return map;
+	}
 
 }

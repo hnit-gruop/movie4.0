@@ -122,6 +122,10 @@
 				var hname = $("#hname").val();
 				var htype = $("#htype").val();
 				var capacity = $("#capacity").val();
+				if(capacity < 64 || capacity > 144){
+					alert("座位数限定为64-144");
+					return;
+				}
 				var cineid = $("#cineid").val();
 				if(cineid == null || cineid == ""){
 					alert("未知错误，请重试!");
@@ -181,6 +185,10 @@
 				var hname = $("#uphname").val();
 				var htype = $("#uphtype").val();
 				var capacity = $("#upcapacity").val();
+				if(capacity < 64 || capacity > 144){
+					alert("座位数限定为64-144");
+					return;
+				}
 				var cineid = $("#upcineid").val();
 				var hallId = $("#uphallId").val();
 				if(cineid == null || cineid == "" || hallId == null || hallId == ""){

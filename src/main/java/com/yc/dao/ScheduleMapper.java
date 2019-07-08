@@ -4,6 +4,8 @@ import com.yc.bean.Movie;
 import com.yc.bean.Schedule;
 import com.yc.bean.ScheduleExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ScheduleMapper {
@@ -30,4 +32,8 @@ public interface ScheduleMapper {
     int updateByPrimaryKey(Schedule record);
 
 	List<Schedule> getSchedual(int cinemaId, int movieId);
+	
+	List<Map<String,Object>> getScheduleNum();
+	
+	List<Map<String,Object>> getTotalTicketOfWeek();
 }

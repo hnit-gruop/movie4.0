@@ -30,15 +30,29 @@
 		a.hall_id IN (SELECT hall_id FROM hall WHERE cinema_id = #{cinemaId}) and
 		movie_id = #{movieId} order by start_time
 	</select>
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+	<select id="getScheduleNum" resultType="java.util.HashMap">
+		select s.value,m.name from (
+		select movie_id as name,count(schedule_id) as value from schedule GROUP BY movie_id
+		) as s
+		join
+		(select name,movie_id from movie) as m on s.name = m.movie_id
+	</select>
+	
+	<select id="getTotalTicketOfWeek" resultType="java.util.HashMap">
+		select a.price,b.ticket_id,a.start_time from
+		(select schedule_id,start_time,price from schedule 
+		where start_time 
+		between (select timestampadd(day, -8, now())) 
+		and (select timestampadd(day, -1, now()))) as a
+		left join
+		(select schedule_id,ticket_id from ticket) as b
+		on a.schedule_id = b.schedule_id
+		where b.schedule_id is not null
+	</select>
+	
+	
+	
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

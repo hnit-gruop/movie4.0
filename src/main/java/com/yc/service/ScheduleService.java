@@ -1,6 +1,7 @@
 package com.yc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Schedule;
@@ -17,5 +18,10 @@ public interface ScheduleService {
 	int canBeAdd(Schedule schedule) throws IllegalArgumentException, IllegalAccessException;
 	
 	Schedule getScheduleByid(int id);
-
+	
+	List<Map<String,Object>> getScheduleNum();
+	
+	int getAllScheduleNum();
+	
+	Map<String, Object> getTotalTicketOfWeek();
 }	
