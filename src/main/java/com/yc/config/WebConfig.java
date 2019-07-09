@@ -1,9 +1,12 @@
 package com.yc.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.yc.interceptor.UserInterceptor;
 
@@ -26,4 +29,30 @@ public class WebConfig implements WebMvcConfigurer {
         };
         registry.addInterceptor(userInterceptor).addPathPatterns(addPathPatterns);
     }
+    
+    
+//    @Value("${spring.mvc.view.prefix}")
+//    private String prefix;
+//    
+//    
+//    @Value("${spring.mvc.view.prefix}")
+//    private String suffix;
+//    
+//    @Value("${spring.mvc.view.view-name}")
+//    private String viewNames;
+//    
+//    @Value("${spring.mvc.view.order}")
+//    private int order;
+//    
+//    @Bean
+//    InternalResourceViewResolver JspViewResolver() {
+//    	final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//    	viewResolver.setPrefix(prefix);
+//    	viewResolver.setSuffix(suffix);
+//    	viewResolver.setViewNames(viewNames);
+//    	viewResolver.setOrder(order);
+//    	return viewResolver;
+//    }
+    
+    
 }

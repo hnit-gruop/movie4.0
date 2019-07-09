@@ -19,12 +19,8 @@ public class PageController {
 	@Autowired
 	UserMapper userMapper;
 
-	/**
-	 * 购票页面
-	 */
-	@RequestMapping("buyticket")
-	public String buyticket(Model m) {
-		return "pages/BuyTicket";
+	@RequestMapping("toindex")
+	public String toindex() {
+		return "pages/Pay";
 	}
-
 }

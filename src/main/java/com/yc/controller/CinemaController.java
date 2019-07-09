@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -157,7 +159,7 @@ public class CinemaController {
 	 */
 	
 	@RequestMapping("pay")
-	public String pay(Model m,int scheduleId,int userId,int movieId,int sumPrice,String[] slist) {
+	public String pay(HttpServletRequest request,Model m,int scheduleId,int userId,int movieId,String sumPrice,String[] slist) {
 		
 		Movie movie = movieService.getMovie(movieId);
 		Schedule schedule = scheduleService.getScheduleByid(scheduleId);
@@ -173,6 +175,7 @@ public class CinemaController {
 		
 		
 		String orderSeat = hall.getName()+" ";
+	
 		
 		
 		//电影票的座位
@@ -189,6 +192,13 @@ public class CinemaController {
 			temp+="座 ";
 			orderSeat+=temp;
 		}
+		
+		
+		//把电影票信息存入session中
+		request.getSession().setAttribute("ts", ts);
+		
+		
+		
 		
 		
 		//电影名
