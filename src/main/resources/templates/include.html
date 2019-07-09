@@ -45,13 +45,13 @@
 
 				<div class="user-info" th:if="${session.user!=null}">
 			<div class="user-avatar has-login">
-				<img th:src="@{/userHead/{filename} (filename=${session.user.headImg})}" > <span
+				<a th:href="'userdetail?type=1&userId='+${session.user.userId}"><img th:src="@{/userHead/{filename} (filename=${session.user.headImg})}" > </a><span
 					class="caret"></span>
 				<ul class="user-menu">
-					<li class="text"><a href="https://maoyan.com/profile/orders">我的订单</a>
+					<li class="text"><a th:href="'userdetail?type=2&userId='+${session.user.userId}">我的订单</a>
 					</li>
 					<li class="text login-name" title="OcB315171384"><a
-						href="javascript:void 0">基本信息</a></li>
+						th:href="'userdetail?type=1&userId='+${session.user.userId}">基本信息</a></li>
 					<li class="text"><a href="logout" >退出登录</a></li>
 				</ul>
 			</div>

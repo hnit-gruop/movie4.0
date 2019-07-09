@@ -17,4 +17,9 @@ public interface UserService {
 	Boolean isNameExist(String username);
 	Boolean isEmailExist(String email);
 	PageInfo<User> getAllUser(int pageNum, String name);
+	
+	
+	void updateImg(String fileName, String userId);
+	Boolean isPhoneExist(String phone);
+	void updatedetail(String username, String phone, String email, String userId);
 }

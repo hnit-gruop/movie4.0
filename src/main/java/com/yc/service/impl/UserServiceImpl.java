@@ -150,4 +150,42 @@ public class UserServiceImpl implements UserService{
 		return page;
 	}
 	
+	
+	@Override
+	public Boolean isPhoneExist(String phone) {
+		UserExample example = new UserExample();
+		example.createCriteria().andPhoneEqualTo(phone);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size()>0){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void updateImg(String fileName, String userId) {
+		User user=new User();       
+		UserExample example = new UserExample();
+		example.createCriteria().andUserIdEqualTo(Integer.parseInt(userId));
+		List<User> list = userMapper.selectByExample(example);
+		user=list.get(0);
+		 user.setHeadImg(fileName);
+		userMapper.updateByExample(user, example);
+		
+	}
+
+	@Override
+	public void updatedetail(String username, String phone, String email,String userId) {
+		User user=new User();		
+		UserExample example = new UserExample();
+		example.createCriteria().andUserIdEqualTo(Integer.parseInt(userId));
+		List<User> list = userMapper.selectByExample(example);
+		user=list.get(0);
+		user.setUsername(username);
+		user.setPhone(phone);
+		user.setEmail(email);
+		userMapper.updateByExample(user, example);
+		
+	}
+	
 }

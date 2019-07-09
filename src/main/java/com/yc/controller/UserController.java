@@ -1,5 +1,6 @@
 package com.yc.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.Cookie;
@@ -16,18 +17,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aliyuncs.exceptions.ClientException;
+import com.yc.bean.MovieImage;
 import com.yc.bean.User;
+import com.yc.service.MovieImageService;
 import com.yc.service.UserService;
 import com.yc.util.PhoneUtil;
 
 @Controller
 public class UserController {
+	@Value("${userheadPath}")
+	private String userheadPath;
 	
 	@Autowired
 	UserService userService;
@@ -68,7 +76,7 @@ public class UserController {
 						return "pages/Login1";
 					}else{
 						Cookie cookie=new Cookie("uname",user.getUsername());
-						cookie.setMaxAge(3*60);
+						cookie.setMaxAge(30*60);
 						cookie.setPath("/");
 						response.addCookie(cookie);
 						session.setAttribute("user", user);
@@ -88,7 +96,7 @@ public class UserController {
 				}else{
 					if(code.trim().equals(code2.trim())){
 						Cookie cookie=new Cookie("uname",user.getUsername());
-						cookie.setMaxAge(3*60);
+						cookie.setMaxAge(30*60);
 						cookie.setPath("/");
 						response.addCookie(cookie);
 						session.setAttribute("user", user);
@@ -139,7 +147,7 @@ public class UserController {
         		userService.addUser(mobile,password,username,email);
         		user = userService.login(mobile, password);
         		Cookie cookie=new Cookie("uname",user.getUsername());
-    			cookie.setMaxAge(3*60);
+    			cookie.setMaxAge(30*60);
     			cookie.setPath("/");
     			response.addCookie(cookie);
     			session.setAttribute("user", user);
@@ -231,10 +239,7 @@ public class UserController {
 		}
 	}
     
-	@RequestMapping("t")
-	public String test1(){
-		return "pages/test";
-	}
+	
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -345,5 +350,84 @@ public class UserController {
 			}		
 	}
 	
+	@RequestMapping("/isPhoneExist")
+	public void  isPhoneExist(String phone,HttpServletResponse response){
+
+			Boolean a=userService.isPhoneExist(phone);
+			if(a==true){
+				try {
+					response.getWriter().write("yes");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					response.getWriter().write("no");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}		
+	}
+	
+	@RequestMapping("/userdetail")
+	public String userdetail(Model m){
+		m.addAttribute("index", 0);
+		return "pages/UserDetail";
+	}
+	
+	
+
+	@RequestMapping(value = "userImgUpload", method = RequestMethod.POST)
+    public void  upload(@RequestParam("file") MultipartFile file,@RequestParam(name="userId") String userId
+    		,HttpSession session,HttpServletResponse response) {
+        String fileName = file.getOriginalFilename();
+        
+        userService.updateImg(fileName,userId);
+        
+        String filePath = userheadPath;
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+           response.getWriter().write("yes");           
+           User user= (User) session.getAttribute("user");
+           user.setHeadImg(fileName);
+           Cookie cookie=new Cookie("uname",user.getUsername());
+			cookie.setMaxAge(30*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			session.setAttribute("user", user);
+        } catch (IOException e) {
+        	try {
+				response.getWriter().write("no");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+    }
+	
+	@RequestMapping("updatedetail")
+	public String updatedetail(Model m,String username,String phone,String email,String userId,HttpSession session,HttpServletResponse response){
+		userService.updatedetail(username,phone,email,userId);
+		 User user= (User) session.getAttribute("user");
+         user.setUsername(username);
+         user.setPhone(phone);
+ 		user.setEmail(email);
+         
+         Cookie cookie=new Cookie("uname",user.getUsername());
+			cookie.setMaxAge(30*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			session.setAttribute("user", user);
+         m.addAttribute("index", 0);
+         return "pages/UserDetail";
+	}
+	
+	@RequestMapping("t")
+	public String test1(){
+		return "pages/test";
+	}
 }
 
