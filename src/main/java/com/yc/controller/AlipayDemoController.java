@@ -4,29 +4,39 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.yc.bean.MovieOrder;
+import com.yc.bean.Ticket;
 import com.yc.config.AlipayConfig;
+import com.yc.service.MovieService;
+import com.yc.service.OrderService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.tagext.TryCatchFinally;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
  
 @Controller
 public class AlipayDemoController {
+	
+	@Autowired
+	OrderService orderService;
+	
  
     @RequestMapping(value = "/goAlipay", produces = "text/html; charset=UTF-8")
     @ResponseBody
     public String goAlipay(HttpServletRequest request, HttpServletRequest response,String price) throws Exception {
     	
-    	request.setAttribute("price", price);
-    	request.getSession().setAttribute("p1", price);
     	
     	
         //获得初始化的AlipayClient
@@ -85,8 +95,20 @@ public class AlipayDemoController {
             
             
             System.out.println("支付成功处理");
-            Object o = request.getSession().getAttribute("p1");
-            System.out.println(o.toString());
+            
+            
+            //支付成功把数据写入数据库
+            try {
+				MovieOrder order = (MovieOrder) request.getSession().getAttribute("order");
+				List<Ticket> ts = (List<Ticket>) request.getSession().getAttribute("ts");
+				orderService.insert(order);
+				orderService.insertTicket(ts);
+			} catch (Exception e) {
+				e.printStackTrace();
+				 return "redirect:error";
+			}
+            
+            
             
             
             return "redirect:view";
@@ -128,14 +150,10 @@ public class AlipayDemoController {
             return true;
         }
     }
+    
+    
     @RequestMapping("view")
     public String view(){
-    	
-    	
-    	
-    	
-    	
-    	
         return "pages/Success";
     }
  

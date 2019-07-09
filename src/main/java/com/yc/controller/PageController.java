@@ -23,4 +23,9 @@ public class PageController {
 	public String toindex() {
 		return "pages/Pay";
 	}
+	
+	@RequestMapping("orderDetail")
+	public String orderDetail() {
+		return "pages/orderDetail";
+	}
 }

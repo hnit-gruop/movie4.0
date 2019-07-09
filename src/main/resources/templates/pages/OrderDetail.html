@@ -282,7 +282,7 @@
       <span class="contact">（有订单问题可拨打猫眼客服电话<i>1010-5335</i>，工作时间: 9:00-24:00）</span>
     </div>
 
-       <table class="order-table">
+      <table class="order-table">
     <thead>
       <tr>
         <th>影片</th>
@@ -293,13 +293,15 @@
     </thead>
     <tbody>
       <tr>
-        <td class="movie-name" th:text="${session.order.movieName}">《千与千寻》</td>
-        <td class="showtime" th:text="${session.order.startTime}">今天 7月8日 20:20</td>
-        <td class="cinema-name" th:text="${session.order.cinemaName}">万达影城（梅溪湖步步高广场店）</td>
+        <td class="movie-name">《夏目友人帐》</td>
+        <td class="showtime">周四 3月7日 21:30</td>
+        <td class="cinema-name">鑫都国际影城</td>
         <td>
+          <span class="hall">二号大厅</span>
           <div class="seats">
             <div>
-                <span class="" th:text="${session.order.orderSeat}"> </span>
+                <span class=""><i>6</i>排<i>6</i>座</span>
+                <span class="border"><i>6</i>排<i>7</i>座</span>
             </div>
             <div>
             </div>
@@ -313,13 +315,14 @@
     <div class="order-bottom">
       <div class="clearfix">
         <div class="cinema-info">
-          <p class="name" th:text="${session.order.cinemaName}">鑫都国际影城</p>
+          <p class="name">鑫都国际影城</p>
+          <p class="address">地址: 鑫都国际广场5楼（火车站对面）</p>
           <p class="phone">电话: 0734-8599858</p>
         </div>
 
         <div class="price-box">
           <span>总价:</span>
-          <span class="price" th:text="${session.order.sumprice}">64</span>
+          <span class="price">64</span>
         </div>
       </div>
 

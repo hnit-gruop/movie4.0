@@ -32,6 +32,11 @@
 <meta name="lx:autopv" content="off"><meta name="lx:appnm" content="movie"><meta name="lx:category" content="movie"></head>
 <body>
 
+<!-- 头部选项 -->
+	<div th:replace="include::head(index=${index})"></div>
+
+	<div class="header-placeholder"></div>
+
 
     <div class="container" id="app">
   <div class="order-progress-bar">
@@ -131,13 +136,8 @@
   </table>
 	<script type="text/javascript">
 		function pay(){
-			var movieName = "[[${movieName}]]";
-			var startTime = "[[${startTime}]]";
-			var cinemaName = "[[${cinemaName}]]";
-			var orderSeat = "[[${orderSeat}]]";
-			var sumPrice = "[[${sumPrice}]]";
-			
-			location.href="/goAlipay?price="+100;  //这个数字只是为了演示，实际应用肯定是写活的。
+			var sumPrice = "[[${session.order.sumprice}]]";
+			location.href="/goAlipay?price="+sumPrice;  //这个数字只是为了演示，实际应用肯定是写活的。
 		}
 	
 	</script>

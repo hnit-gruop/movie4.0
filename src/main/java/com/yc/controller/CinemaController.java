@@ -1,6 +1,7 @@
 package com.yc.controller;
 
 import java.sql.Timestamp;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,18 +26,24 @@ import com.yc.bean.Actor;
 import com.yc.bean.Cinema;
 import com.yc.bean.Hall;
 import com.yc.bean.Movie;
+import com.yc.bean.MovieOrder;
 import com.yc.bean.Schedule;
 import com.yc.bean.Ticket;
 import com.yc.bean.Type;
 import com.yc.service.CinemaService;
 import com.yc.service.MovieService;
+import com.yc.service.OrderService;
 import com.yc.service.ScheduleService;
 import com.yc.service.TicketService;
 import com.yc.util.DateUtil;
 import com.yc.util.DateUtils;
+import com.yc.util.OrderNoGenerator;
 
 @Controller
 public class CinemaController {
+	
+	@Autowired
+	OrderService orderService;
 	
 	@Autowired
 	CinemaService cinemaService;
@@ -217,6 +224,21 @@ public class CinemaController {
 		//总价
 		m.addAttribute("sumPrice", sumPrice);
 		
+		OrderNoGenerator orderNoGenerator = new OrderNoGenerator(5, 11);
+		String orderNo = orderNoGenerator.generatorOrderNo();
+		
+		MovieOrder order = new MovieOrder();
+		order.setOrderId(null);
+		order.setCinemaName(cinema.getName());
+		order.setMovieName(movie.getName());
+		order.setOrderNo(orderNo);
+		order.setOrderSeat(orderSeat);
+		order.setOrderTime(new Timestamp(System.currentTimeMillis()));
+		order.setStartTime(startTime);
+		order.setStatus(0);
+		order.setSumprice(sumPrice);
+		order.setUserId(userId);
+		request.getSession().setAttribute("order", order);
 		return "pages/OrderConfirm";
 	}
 	
