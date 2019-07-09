@@ -57,25 +57,18 @@
 			<table class="layui-table">
 				<thead>
 					<tr>
-						<th>头像</th>
-						<th>姓名</th>
-						<th>邮箱</th>
-						<th>电话</th>
-						<th>操作</th>
+						<th>用户</th>
+						<th>电影名称</th>
+						<th>价格</th>
+						<th>开始时间</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
-					<tr th:each="u:${userList}" >
-						<td>
-							<img th:src="'userHead/'+${u.headImg}">
-						</td>
-						<td th:text="${u.username}"></td>
-						<td th:text="${u.email}"></td>
-						<td th:text="${u.phone}"></td>
-						<td>
-							<button class="layui-btn" th:if="${u.status} == '1'" th:onclick="'javascript:changeStatus('+${u.userId}+',0'+')' ">取消管理</button>
-							<button class="layui-btn" th:if="${u.status} == '0'" th:onclick="'javascript:changeStatus('+${u.userId}+',1'+')' ">添加管理</button>
-						</td>
+					<tr th:each="t:${ticketList}" >
+						<td th:text="${t.username}"></td>
+						<td th:text="${t.name}"></td>
+						<td th:text="${t.price}"></td>
+						<td th:text="${t.start_time}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -95,32 +88,18 @@
 				pageNum: total,
 				current: 1,
 				backfun: function(data) {
-					var name = $("#aname").val();
-					$.post("getAllUserByPage",{
-						name:name,
-						current:data.current
+					$.post("getAllTicketByPage",{
+						pageNum:data.current
 					},function(data){
 						$("#tbody").empty();
 						$.each(data,function(k,v){
 							if(v.total == "" || v.total == null){
-								var s = "";
-								if(v.status == 1){
-									s = '<button class="layui-btn" onclick="changeStatus('+v.userId+',0) ">取消管理</button>';
-								}else{
-									s = '<button class="layui-btn" onclick="changeStatus('+v.userId+',1) ">添加管理</button>';
-								}
 								$("#tbody").append(
 									'<tr>'+
-										'<td>'+
-											'<img src="userHead/+'+v.headImg+'">'+
-										'</td>'+
 										'<td>'+v.username+'</td>'+
-										'<td>'+v.email+'</td>'+
-										'<td>'+v.phone+'</td>'+
-										'<td>'+
-											s+
-										'</td>'+
-										
+										'<td>'+v.name+'</td>'+
+										'<td>'+v.price+'</td>'+
+										'<td>'+v.start_time+'</td>'+
 									'</tr>'
 								)
 							}else{
@@ -133,35 +112,20 @@
 		}
 	
 		 function search(){
-				var name = $("#aname").val();
-				$.post("getAllUserByPage",{
-					name:name,
-					current:1
+				$.post("getAllTicketByPage",{
+					pageNum:1
 				},function(data){
 					$("#tbody").empty();
-					
 					$.each(data,function(k,v){
 						if(v.total == "" || v.total == null){
-							var s = "";
-							if(v.status == 1){
-								s = '<button class="layui-btn" onclick="changeStatus('+v.userId+',0) ">取消管理</button>';
-							}else{
-								s = '<button class="layui-btn" onclick="changeStatus('+v.userId+',1) ">添加管理</button>';
-							}
 							$("#tbody").append(
-								'<tr>'+
-									'<td>'+
-										'<img src="userHead/+'+v.headImg+'">'+
-									'</td>'+
-									'<td>'+v.username+'</td>'+
-									'<td>'+v.email+'</td>'+
-									'<td>'+v.phone+'</td>'+
-									'<td>'+
-										s+
-									'</td>'+
-									
-								'</tr>'
-							)
+									'<tr>'+
+										'<td>'+v.username+'</td>'+
+										'<td>'+v.name+'</td>'+
+										'<td>'+v.price+'</td>'+
+										'<td>'+v.start_time+'</td>'+
+									'</tr>'
+								)
 						}else{
 							$("#total").val(v.total);
 						}
@@ -170,15 +134,6 @@
 					addThePage();
 				});
 			}
-		 
-		 function changeStatus(id,status){
-			 $.post("changeStatus",{
-				 userId:id,
-				 status:status
-			 },function(data){
-				 alert(data.message);
-			 })
-		 }
 	</script>
 	</div>
 	</body>

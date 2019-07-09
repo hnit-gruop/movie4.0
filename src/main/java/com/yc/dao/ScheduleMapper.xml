@@ -68,6 +68,19 @@
 		on c.movie_id = d.movie_id
 		GROUP BY name
 		</select>
+		
+		<select id="getAllTicter" resultType="java.util.HashMap">
+			select s.start_time,s.price,m.name,u.username from ticket a
+			join 
+			user u
+			on a.user_id = u.user_id
+			join
+			schedule s
+			on a.schedule_id = s.schedule_id
+			join 
+			movie m
+			on s.movie_id = m.movie_id
+		</select>
 	
   <sql id="Example_Where_Clause">
     <where>

@@ -91,9 +91,36 @@ public class FrameController {
 	 */
 	@RequestMapping("manage")
 	public String manage() {
-		return "manage/frame";
+		return "manage/login";
 	}
 	
+	@RequestMapping("controllerLogin")
+	public ModelAndView controllerLogin(ModelAndView model,@RequestParam(name="name") String name,@RequestParam(name="password") String password) {
+		User login = usi.login(name,password);
+		if(login == null) {
+			model.addObject("msg","手机号暂未注册，请先行前往官网注册，并联系管理员开通管理权限");
+			model.setViewName("manage/login");
+		}else if(login.getStatus() == 0){
+			model.addObject("msg","您的号码暂未开通管理权限，请联系管理开通");
+			model.setViewName("manage/login");
+		}else {
+			model.setViewName("manage/frame");
+		}
+		return model;
+	}
+	
+	@RequestMapping("changeStatus")
+	@ResponseBody
+	public Result changeStatus(User user) {
+		int updata = usi.updata(user);
+		Result re;
+		if(updata > 0) {
+			re = new Result(updata,"修改成功");
+		}else {
+			re = new Result(updata,"修改失败");
+		}
+		return re;
+	}
 	/**
 	 * 获得全部电影信息
 	 * @param model

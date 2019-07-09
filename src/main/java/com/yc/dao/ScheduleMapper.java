@@ -38,4 +38,6 @@ public interface ScheduleMapper {
 	List<Map<String,Object>> getTotalTicketOfWeek();
 	
 	List<Map<String,Object>> getMainMovieTicket();
+	
+	List<Map<String,Object>> getAllTicter();
 }

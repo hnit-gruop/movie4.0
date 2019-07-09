@@ -30,4 +30,5 @@ public interface UserService {
 	List<MovieOrder> getOrders(int userId);
 	void setOrderImg(List<MovieOrder> os);
 	void setOrderImg(MovieOrder os);
+	int updata(User user);
 }

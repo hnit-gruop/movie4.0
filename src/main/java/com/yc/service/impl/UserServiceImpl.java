@@ -226,4 +226,8 @@ public class UserServiceImpl implements UserService{
 		os.setPic(image);
 	}
 	
+	@Override
+	public int updata(User user) {
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
 }

@@ -1,6 +1,7 @@
 package com.yc.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -12,16 +13,22 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 import com.yc.service.impl.ScheduleServiceImpl;
+import com.yc.service.impl.TicketServiceImpl;
 
 @Controller
 public class DataStaticController {
 	@Resource
 	ScheduleServiceImpl ssi;
+	@Resource
+	TicketServiceImpl tsi;
+	
 	@RequestMapping("getData")
 	public ModelAndView getData(ModelAndView model){
 		model.setViewName("manage/dateStatistics");
@@ -92,5 +99,39 @@ public class DataStaticController {
 	@ResponseBody
 	public Map<String,Object> mainMovieTicket(){
 		return ssi.getMainMovieTicket();
+	}
+	
+	@RequestMapping("getAllTicket")
+	public ModelAndView getAllTicket(ModelAndView model){
+		PageInfo<Map<String, Object>> allTicket = tsi.getAllTicket(1);
+		int total = (int) allTicket.getTotal();
+		if(total % 5 == 0) {
+			total = total / 5;
+		}else {
+			total = total / 5 + 1;
+		}
+		List<Map<String,Object>> list = new ArrayList<>();
+		list = allTicket.getList();
+		model.addObject("total",total);
+		model.addObject("ticketList",list);
+		model.setViewName("manage/allticket");
+		return model;
+	}
+	
+	@RequestMapping("getAllTicketByPage")
+	@ResponseBody
+	public List<Map<String,Object>> getAllTicket(@RequestParam(name="pageNum",defaultValue="1") int pageNum){
+		PageInfo<Map<String, Object>> allTicket = tsi.getAllTicket(pageNum);
+		int total = (int) allTicket.getTotal();
+		if(total % 5 == 0) {
+			total = total / 5;
+		}else {
+			total = total / 5 + 1;
+		}
+		List<Map<String,Object>> list = allTicket.getList();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total",total);
+		list.add(map);
+		return list;
 	}
 }
