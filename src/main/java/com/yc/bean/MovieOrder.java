@@ -14,7 +14,7 @@ public class MovieOrder {
 
     private String movieName;
 
-    private Timestamp startTime;
+    private String startTime;
 
     private String cinemaName;
 
@@ -23,8 +23,32 @@ public class MovieOrder {
     private String sumprice;
 
     private Integer status;
+    
+    private String showOrderTime;
+    
+    
+    
+    
+    public String getShowOrderTime() {
+		return showOrderTime;
+	}
 
-    public Integer getOrderId() {
+	public void setShowOrderTime(String showOrderTime) {
+		this.showOrderTime = showOrderTime;
+	}
+
+	private String pic;
+    
+
+    public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public Integer getOrderId() {
         return orderId;
     }
 
@@ -64,11 +88,11 @@ public class MovieOrder {
         this.movieName = movieName == null ? null : movieName.trim();
     }
 
-    public Timestamp getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 

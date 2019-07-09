@@ -7,8 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yc.bean.Movie;
+import com.yc.bean.MovieOrder;
+import com.yc.bean.MovieOrderExample;
+import com.yc.bean.Ticket;
+import com.yc.bean.TicketExample;
 import com.yc.bean.User;
 import com.yc.bean.UserExample;
+import com.yc.dao.MovieMapper;
+import com.yc.dao.MovieOrderMapper;
+import com.yc.dao.TicketMapper;
 import com.yc.dao.UserMapper;
 import com.yc.service.UserService;
 
@@ -17,6 +25,12 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	MovieOrderMapper movieOrderMapper;
+	
+	@Autowired
+	MovieMapper movieMapper;
 	
 	@Override
 	public User login(String username, String password) {
@@ -186,6 +200,30 @@ public class UserServiceImpl implements UserService{
 		user.setEmail(email);
 		userMapper.updateByExample(user, example);
 		
+	}
+
+	@Override
+	public List<MovieOrder> getOrders(int userId) {
+		MovieOrderExample example = new MovieOrderExample();
+		example.createCriteria().andUserIdEqualTo(userId);
+		List<MovieOrder> list = movieOrderMapper.selectByExample(example);
+		if(list.size()>0)
+			return list;
+		return null;
+	}
+
+	@Override
+	public void setOrderImg(List<MovieOrder> os) {
+		for (MovieOrder movieOrder : os) {
+			setOrderImg(movieOrder);
+		}
+	}
+
+	@Override
+	public void setOrderImg(MovieOrder os) {
+		Movie movie = movieMapper.getImageByName(os.getMovieName());
+		String image = movie.getMovieImage().getImage();
+		os.setPic(image);
 	}
 	
 }

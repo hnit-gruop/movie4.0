@@ -260,32 +260,29 @@ var filechange=function(event){
 <div class="orders-container" id="box222" style="display: none;">
   <div class="profile-title">我的订单</div>
 
-    <div class="order-box" data-orderid="1856822106">
+
+	    <div class="order-box" th:each="o:${os}">
       <div class="order-header">
-        <span class="order-date">2018-02-25</span>
-        <span class="order-id">猫眼订单号:1856822106</span>
+        <span class="order-date" th:text="${'下单时间: '+o.showOrderTime}">2018-02-25</span>
+        <span class="order-id" th:text="${'猫眼订单号 '+o.orderNo}">猫眼订单号:1856822106</span>
           <span class="del-order" data-orderid="1856822106"></span>
       </div>
 
       <div class="order-body">
         <div class="poster">
-          <img src="https://p0.meituan.net/movie/4aa41a512c44f4a7d613c05a8d47fbb0411851.jpg@66w_91h_1e_1c" style="width: 66px;height: 91px;">
+          <img th:src="@{/movieImg/cover/{img}(img=${o.pic})}" style="width: 66px;height: 91px;">
         </div>
 
         <div class="order-content">
-          <div class="movie-name">《红海行动》</div>
-          <div class="cinema-name">美达国际影城</div>
+          <div class="movie-name" th:text="${o.movieName}">《红海行动》</div>
+          <div class="cinema-name" th:text="${o.cinemaName}">美达国际影城</div>
           <div class="hall-ticket">
-            <span>四号厅</span>
-              <span>4排4座</span>
-              <span>4排3座</span>
-              <span>5排4座</span>
-              <span>5排5座</span>
+            <span th:text="${o.orderSeat}">四号厅</span>
           </div>
-          <div class="show-time">周日 2月25日 19:00</div>
+          <div class="show-time" th:text="${o.startTime}">周日 2月25日 19:00</div>
         </div>
 
-        <div class="order-price">￥144</div>
+        <div class="order-price" th:text="${'￥'+o.sumprice}">144</div>
 
         <div class="order-status">
           已完成
@@ -293,7 +290,7 @@ var filechange=function(event){
 
         <div class="actions">
           <div>
-            <a href="/order/detail/1856822106" class="order-detail" data-act="orders-detail-click" data-bid="b_y190atas">查看详情</a>
+            <a href="#"  >查看详情</a>
           </div>
         </div>
       </div>

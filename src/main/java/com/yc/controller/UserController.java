@@ -2,11 +2,14 @@ package com.yc.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +19,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +27,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.yc.bean.MovieImage;
+import com.yc.bean.MovieOrder;
 import com.yc.bean.User;
 import com.yc.service.MovieImageService;
+import com.yc.service.MovieService;
 import com.yc.service.UserService;
 import com.yc.util.PhoneUtil;
 
@@ -267,6 +274,9 @@ public class UserController {
 		m.addAttribute("msg1","1");
 		return "pages/GetBack2";
 	}
+	
+	
+	
 	@RequestMapping("/getback3")
 	public void  getback3(String code,String code2,String email,HttpServletResponse response){
 		if(code.trim().equals(code2.trim())){
@@ -371,8 +381,16 @@ public class UserController {
 			}		
 	}
 	
+	
 	@RequestMapping("/userdetail")
-	public String userdetail(Model m){
+	public String userdetail(Model m,@SessionAttribute User user){
+		List<MovieOrder> os = userService.getOrders(user.getUserId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		for (MovieOrder o : os) {
+			o.setShowOrderTime(sdf.format(o.getOrderTime()));
+		}
+		userService.setOrderImg(os);
+		m.addAttribute("os", os);
 		m.addAttribute("index", 0);
 		return "pages/UserDetail";
 	}

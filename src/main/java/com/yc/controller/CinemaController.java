@@ -234,10 +234,14 @@ public class CinemaController {
 		order.setOrderNo(orderNo);
 		order.setOrderSeat(orderSeat);
 		order.setOrderTime(new Timestamp(System.currentTimeMillis()));
-		order.setStartTime(startTime);
+		order.setStartTime(format);
 		order.setStatus(0);
 		order.setSumprice(sumPrice);
 		order.setUserId(userId);
+		
+		
+		
+		
 		request.getSession().setAttribute("order", order);
 		return "pages/OrderConfirm";
 	}

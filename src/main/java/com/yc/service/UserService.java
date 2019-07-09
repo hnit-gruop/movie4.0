@@ -1,6 +1,9 @@
 package com.yc.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
+import com.yc.bean.MovieOrder;
 import com.yc.bean.User;
 
 public interface UserService {
@@ -22,4 +25,9 @@ public interface UserService {
 	void updateImg(String fileName, String userId);
 	Boolean isPhoneExist(String phone);
 	void updatedetail(String username, String phone, String email, String userId);
+	
+	
+	List<MovieOrder> getOrders(int userId);
+	void setOrderImg(List<MovieOrder> os);
+	void setOrderImg(MovieOrder os);
 }
