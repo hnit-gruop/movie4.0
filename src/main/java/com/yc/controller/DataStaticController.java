@@ -71,7 +71,6 @@ public class DataStaticController {
 	@ResponseBody
 	public Map<String,Object> getTotalTicketOfWeek() {
 		Map<String, Object> totalTicketOfWeek = ssi.getTotalTicketOfWeek();
-		System.err.println(totalTicketOfWeek);
 		Date data = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String[] nameList = new String[7];
@@ -89,4 +88,9 @@ public class DataStaticController {
 		return map;
 	}
 	
+	@RequestMapping("mainMovieTicket")
+	@ResponseBody
+	public Map<String,Object> mainMovieTicket(){
+		return ssi.getMainMovieTicket();
+	}
 }

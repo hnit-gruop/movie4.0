@@ -14,11 +14,13 @@
 </head>
 <body>
     <div id="char1" style="width: 1000px;height:400px;"></div><br>
-    <div id="char2" style="width: 1000px;height:400px;"></div>
+    <div id="char2" style="width: 800px;height:400px;"></div><br>
+    <div id="char3" style="width: 800px;height:400px;"></div>
     <script type="text/javascript">
     	$(function(){
     		f1();
     		f2();
+    		f3();
     	})
         // 基于准备好的dom，初始化echarts实例
         function f1(){
@@ -73,6 +75,46 @@
     				};
     			myChart.setOption(option);
     		})
+    	}
+    	function f3(){
+    		$.post("mainMovieTicket",{},function(data){
+    			var myChart = echarts.init(document.getElementById('char3'));
+        		
+        		var option = {
+        			    title : {
+        			        text: '一周内主要电影票房占比',
+        			        x:100
+        			    },
+        			    tooltip : {
+        			        trigger: 'item',
+        			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        			    },
+        			    legend: {
+        			        orient: 'vertical',
+        			        left: 'left',
+        			        data: data.nameList
+        			    },
+        			    series : [
+        			        {
+        			            name: '访问来源',
+        			            type: 'pie',
+        			            radius : '55%',
+        			            center: ['50%', '60%'],
+        			            data:data.valueList,
+        			            itemStyle: {
+        			                emphasis: {
+        			                    shadowBlur: 10,
+        			                    shadowOffsetX: 0,
+        			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        			                }
+        			            }
+        			        }
+        			    ]
+        			};
+        		
+        		myChart.setOption(option);
+    		})
+    		
     	}
     </script>
 </body>

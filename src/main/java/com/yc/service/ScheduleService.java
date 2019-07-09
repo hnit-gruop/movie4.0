@@ -24,4 +24,6 @@ public interface ScheduleService {
 	int getAllScheduleNum();
 	
 	Map<String, Object> getTotalTicketOfWeek();
+	
+	Map<String,Object> getMainMovieTicket();
 }	

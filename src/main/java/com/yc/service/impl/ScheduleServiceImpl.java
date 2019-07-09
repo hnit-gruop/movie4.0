@@ -3,6 +3,7 @@ package com.yc.service.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yc.bean.Movie;
@@ -147,4 +150,47 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> getMainMovieTicket() {
+		List<Map<String, Object>> mainMovieTicket = sm.getMainMovieTicket();
+		double total = 0;
+		double num = 0;
+	
+		int count = 0;
+		if(mainMovieTicket.size() > 5) {
+			count = 5;
+		}else {
+			count = mainMovieTicket.size();
+		}
+		String[] nameList = new String[count];
+		double[] valueList = new double[count];
+		Map<String,Object> map = new HashMap<>();
+		int index = 0;
+		for(Map<String,Object> m:mainMovieTicket) {
+			double price = Double.parseDouble(m.get("value").toString());
+			if(index < 5) {
+				nameList[index] = m.get("name").toString();
+				valueList[index] = price;
+				num+=price;
+			}
+			index++;
+			total += price; 
+		}
+		if(mainMovieTicket.size() > 5) {
+			nameList[4] = "其他";
+			valueList[4] = total - num;
+		}
+		List<Map<String,Object>> list = new ArrayList<>();
+		for(int i = 0; i < count; i++) {
+			Map<String,Object> temp = new LinkedHashMap<>();
+			temp.put("value",valueList[i]);
+			temp.put("name",nameList[i]);
+			
+			list.add(temp);
+		}
+		map.put("nameList",nameList);
+		map.put("valueList",list);
+		return map;
+	}
 }
+	
