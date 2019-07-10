@@ -108,6 +108,9 @@
 			}
 			
 			function openAddSchedule(){
+				if($("#hallId").val() == null || $("#hallId").val() == ""){
+					window.location.reload();
+				}
 				$("#addSchedule").window("open");
 			}
 			function addSchedule(){
