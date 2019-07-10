@@ -50,10 +50,6 @@
 	<input type="hidden" id="num" value="1">
 		<div class="cBody">
 			<div class="console">
-				<div class="layui-input-inline">
-					<input type="text" name="name" lay-verify="required" id="aname" placeholder="请输入影院名称" autocomplete="off" class="layui-input">
-				</div> 
-				<button class="layui-btn" onclick="search()">查询</button>
 			<table class="layui-table">
 				<thead>
 					<tr>
@@ -110,30 +106,6 @@
 				}
 			});
 		}
-	
-		 function search(){
-				$.post("getAllTicketByPage",{
-					pageNum:1
-				},function(data){
-					$("#tbody").empty();
-					$.each(data,function(k,v){
-						if(v.total == "" || v.total == null){
-							$("#tbody").append(
-									'<tr>'+
-										'<td>'+v.username+'</td>'+
-										'<td>'+v.name+'</td>'+
-										'<td>'+v.price+'</td>'+
-										'<td>'+v.start_time+'</td>'+
-									'</tr>'
-								)
-						}else{
-							$("#total").val(v.total);
-						}
-					});
-					$(".zxf_pagediv").empty();
-					addThePage();
-				});
-			}
 	</script>
 	</div>
 	</body>
