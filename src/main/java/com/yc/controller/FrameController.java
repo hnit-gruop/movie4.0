@@ -559,7 +559,9 @@ public class FrameController {
  		String gps_1 = "";
  		String gps_2 = "";
  		
- 		if(gps_s != null && gps_s.length > 2) {
+ 		
+ 		
+ 		if(gps_s != null) {
  			gps_1 = gps_s[0];
  			gps_2 = gps_s[1];
  		}
@@ -571,7 +573,7 @@ public class FrameController {
  		map.put("path", path);
  		map.put("id", cid);
  		map.put("img", img);
- 		map.put("gps_1", gps_1);
+ 		map.put("gps_1",gps_1);
  		map.put("gps_2",gps_2);
  		return map;
  	}
