@@ -99,13 +99,14 @@
 			}
 			
 			function alterActor(){
-				var date;
-				try{
-					date = new Date($("#birth").val());
-				}catch(err){
-					alert("日期格式为:年-月-日");
-				}
-				if(date == null && date == ""){
+				if($("#birth").val() != null && $("#birth").val() != ""){
+					var date;
+					try{
+						date = new Date($("#birth").val());
+					}catch(err){
+						alert("日期格式为:年-月-日");
+						return;
+					}
 					$.post("alterActor",{
 						actorId:$("#actorId").val(),
 						aname:$("#atname").val(),
@@ -249,7 +250,8 @@
 						<td th:text="${#dates.format(a.birthday, 'yyyy-MM-dd')}"></td>
 						<td th:text="${a.country}"></td>
 						<td th:text="${a.nation}"></td>
-						<td th:text="${a.position}"></td>
+						<td th:if="${a.position == 'actor'}">演员</td>
+						<td th:if="${a.position == 'director'}">导演</td>
 						<td>
 							<button class="layui-btn" th:onclick="'javascript:details('+${a.actorId}+')' ">详细信息</button>
 						</td>
@@ -281,14 +283,43 @@
 					$("#tbody").empty();
 					$.each(data,function(k,v){
 						if(v.total == "" || v.total == null){
+							var aname = "";
+							var sex = "";
+							var birthday = "";
+							var country = "";
+							var nation = "";
+							var position = "";
+							if(v.aname != null){
+								aname = v.aname;
+							}
+							if(v.sex != null){
+								sex = v.sex;
+							}
+							if(v.birthday != null){
+								birthday = v.birthday;
+							}
+							if(v.country != null){
+								country != null;
+							}
+							if(v.nation != null){
+								nation = v.nation;
+							}
+							if(v.position != null){
+								if(v.position == "actor"){
+									position = "演员";
+								}else{
+									position = "导演";
+								}
+								
+							}
 							$("#tbody").append(
 									 '	<tr>' +
-									 '		<td>'+v.aname+'</td>' +
-									 '		<td>'+v.sex+'</td>' +
-									 '		<td>'+v.birthday+'</td>' +
-									 '		<td>'+v.country+'</td>' +
-									 '		<td>'+v.nation+'</td>' +
-									 '		<td>'+v.position+'</td>' +
+									 '		<td>'+aname+'</td>' +
+									 '		<td>'+sex+'</td>' +
+									 '		<td>'+birthday+'</td>' +
+									 '		<td>'+country+'</td>' +
+									 '		<td>'+nation+'</td>' +
+									 '		<td>'+position+'</td>' +
 									 '		<td>' +
 									 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
 									 '		</td>' +
@@ -313,14 +344,43 @@
 			$("#tbody").empty();
 			$.each(data,function(k,v){
 				if(v.total == "" || v.total == null){
+					var aname = "";
+					var sex = "";
+					var birthday = "";
+					var country = "";
+					var nation = "";
+					var position = "";
+					if(v.aname != null){
+						aname = v.aname;
+					}
+					if(v.sex != null){
+						sex = v.sex;
+					}
+					if(v.birthday != null){
+						birthday = v.birthday;
+					}
+					if(v.country != null){
+						country != null;
+					}
+					if(v.nation != null){
+						nation = v.nation;
+					}
+					if(v.position != null){
+						if(v.position == "actor"){
+							position = "演员";
+						}else{
+							position = "导演";
+						}
+						
+					}
 					$("#tbody").append(
 							 '	<tr>' +
-							 '		<td>'+v.aname+'</td>' +
-							 '		<td>'+v.sex+'</td>' +
-							 '		<td>'+v.birthday+'</td>' +
-							 '		<td>'+v.country+'</td>' +
-							 '		<td>'+v.nation+'</td>' +
-							 '		<td>'+v.position+'</td>' +
+							 '		<td>'+aname+'</td>' +
+							 '		<td>'+sex+'</td>' +
+							 '		<td>'+birthday+'</td>' +
+							 '		<td>'+country+'</td>' +
+							 '		<td>'+nation+'</td>' +
+							 '		<td>'+position+'</td>' +
 							 '		<td>' +
 							 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
 							 '		</td>' +

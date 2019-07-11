@@ -66,14 +66,15 @@
 		function addActor(){
 			var file = $("#file").val();
 			var pic = getFileName(file);
-			var date;
-			try{
-				date = new Date($("#birth").val());
-			}catch(err){
-				alert("日期格式为:年-月-日");
-			}
-			if($(date == null && date == ""){
-				$.post("alterActor",{
+			if($("#birth").val() != null && $("#birth").val() != ""){
+				var date;
+				try{
+					date = new Date($("#birth").val());
+				}catch(err){
+					alert("日期格式为:年-月-日");
+					return;
+				}
+				$.post("addActor",{
 					actorId:$("#actorId").val(),
 					aname:$("#atname").val(),
 					sex:$("#sex").val(),
@@ -93,9 +94,8 @@
 					alert(data.message);
 					$('#win').window('close');
 				});
-			}
 			}else{
-				$.post("alterActor",{
+				$.post("addActor",{
 					actorId:$("#actorId").val(),
 					aname:$("#atname").val(),
 					sex:$("#sex").val(),
@@ -115,7 +115,7 @@
 					$('#win').window('close');
 				});
 			}
-		} 
+		}
 		
 		</script>
 </head>
