@@ -280,20 +280,23 @@
 				},function(data){
 					$("#tbody").empty();
 					$.each(data,function(k,v){
-						$("#tbody").append(
-								 '	<tr>' +
-								 '		<td>'+v.aname+'</td>' +
-								 '		<td>'+v.sex+'</td>' +
-								 '		<td>'+v.birthday+'</td>' +
-								 '		<td>'+v.country+'</td>' +
-								 '		<td>'+v.nation+'</td>' +
-								 '		<td>'+v.position+'</td>' +
-								 '		<td>' +
-								 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
-								 '		</td>' +
-								 '	</tr>'
-						)
-						
+						if(v.total == "" || v.total == null){
+							$("#tbody").append(
+									 '	<tr>' +
+									 '		<td>'+v.aname+'</td>' +
+									 '		<td>'+v.sex+'</td>' +
+									 '		<td>'+v.birthday+'</td>' +
+									 '		<td>'+v.country+'</td>' +
+									 '		<td>'+v.nation+'</td>' +
+									 '		<td>'+v.position+'</td>' +
+									 '		<td>' +
+									 '			<button class="layui-btn" onclick="details('+v.actorId+')">详细信息</button>\n' +
+									 '		</td>' +
+									 '	</tr>'
+							)
+						}else{
+							$("#total").val(v.total);
+						}
 					}); 
 				})
 			}
