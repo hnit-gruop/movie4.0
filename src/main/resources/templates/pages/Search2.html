@@ -93,10 +93,10 @@ $(function(){
 	<div class="subnav">
 		<ul class="navbar" id="s1">
     <li>
-      <a data-act="subnav-click" data-val="{subnavClick:0}" data-state-val="{subnavId:0}"  th:text="'电影('+${anum}+')'" th:href="'search?type=1&pageNum=1&kw='+${kw}"  id="1">电影（0）</a>
+      <a data-act="subnav-click" data-val="{subnavClick:0}" data-state-val="{subnavId:0}"  th:text="'电影('+${movie.getTotal()}+')'" th:href="'search?type=1&pageNum=1&kw='+${kw}"  id="1">电影（0）</a>
     </li>
     <li>
-      <a data-act="subnav-click" data-val="{subnavClick:1}"  th:text="'影人('+${bnum}+')'" th:href="'search?type=2&pageNum=1&kw='+${kw}" id="2">影人（0）</a>
+      <a data-act="subnav-click" data-val="{subnavClick:1}"  th:text="'影人('+${actor.getTotal()}+')'" th:href="'search?type=2&pageNum=1&kw='+${kw}" id="2">影人（0）</a>
     </li>
     <!-- <li>
       <a data-act="subnav-click" data-val="{subnavClick:2}" href="/query?kw=&amp;type=2">影院（0）</a>
@@ -105,9 +105,9 @@ $(function(){
 	</div>
 	<div class="container" id="app">
 		<div class="search-result-box" id="box">
-		<div id="box1" style="display: none;">
-		<dl class="movie-list"  th:if="${anum}>0">
-		<dd th:each="a,userStat:${movie.getContent()}" >
+		
+		<dl class="movie-list"  id="box1" style="display: none;">
+		<dd th:each="a,userStat:${movie.getList()}">
     <div class="movie-item" id="detail1">
       <a href="/films/248172" target="_blank" data-act="movie-click" data-val="{movieid:248172}">
       <div class="movie-poster">
@@ -118,10 +118,10 @@ $(function(){
         
         
     </div>
-    <div class="channel-detail movie-item-title" th:utitle="${a.name}"  >
-      <a href="/films/248172" target="_blank" data-act="movies-click" data-val="{movieId:248172}" th:utext="${a.name}">复仇者联盟4：终局之战</a>
+    <div class="channel-detail movie-item-title" th:title="${a.name}"  >
+      <a href="/films/248172" target="_blank" data-act="movies-click" data-val="{movieId:248172}" th:text="${a.name}">复仇者联盟4：终局之战</a>
     </div>
-<div class="movie-item-subtitle" th:utext="${a.foreignName}">Avengers: Endgame</div>
+<div class="movie-item-subtitle" th:text="${a.foreignName}">Avengers: Endgame</div>
 <div class="absolute-info">
      <div class="channel-detail channel-detail-orange"><i class="integer">9.</i><i class="fraction">0</i></div>
 
@@ -133,21 +133,20 @@ $(function(){
   </dd>
 		
 		</dl>
-		</div>
-		<div id="box2" style="display: none;">
-		<ul class="celebrity-list" th:if="${bnum}>0">
-		<li th:each="a,userStat:${actor.getContent()}">
+		
+		<ul class="celebrity-list" id="box2" style="display: none;">
+		<li th:each="a,userStat:${actor.getList()}">
           <div class="item-poster" id="detail2">
             <a href="/films/celebrity/28633" target="_blank" data-act="celebrity-click" data-val="{celebrityId:28633}">
               <div class="poster">
                 <img src="//s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:5788b470/image/loading_2.e3d934bf.png" class="poster-default">
-                <img th:src="'/actorImg/cover/'+${a.pic}" th:ualt="${a.aname}" style="width: 160px;height: 220px">
+                <img th:src="'/actorImg/cover/'+${a.pic}" th:alt="${a.aname}" style="width: 160px;height: 220px">
               </div>
             </a>
           </div>
           <div class="item-title">
-          <a href="/films/celebrity/28633" target="_blank" data-act="celebrity-click" data-val="{celebrityId:28633}" th:utext="${a.aname}">林峯</a></div>
-          <div class="item-subtitle" th:utext="${a.secondName}">Raymond Lam</div>
+          <a href="/films/celebrity/28633" target="_blank" data-act="celebrity-click" data-val="{celebrityId:28633}" th:text="${a.aname}">林峯</a></div>
+          <div class="item-subtitle" th:text="${a.secondName}">Raymond Lam</div>
           <div class="absolute-info">
             <!-- <div class="item-detail item-detail-orange"><b><span class="stonefont"></span></b>人关注</div> -->
             <div class="item-detail item-detail-two-line line-clamp" th:text="'代表作：'+${actormovie.get(userStat.count-1).toString().substring(1,actormovie.get(userStat.count-1).toString().length()-1)}">代表作：《反贪风暴4》 《忠烈杨家将》 《六福喜事》</div>
@@ -155,41 +154,41 @@ $(function(){
         </li>
         
 		</ul>
-		</div>
+		
     
     
     <div class="pager">
       
   <div th:if="${type} eq 1" >
-  <ul class="list-pager" th:if="${apages}  >1">
-<li>  <a th:class="page_l" th:if="${pageNum} > 1" 
-      th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${pageNum-1}"
+  <ul class="list-pager" th:if="${movie.getPages()}  gt 1">
+<li>  <a th:class="page_l" th:if="${movie.getPageNum()-1} ge 1" 
+      th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${movie.getPageNum()-1}"
   >上一页</a>
 </li>
-<li th:each="i:${#numbers.sequence(1,apages)}">
+<li th:each="i:${#numbers.sequence(1,movie.getPages())}">
 <a th:class="'page_'+${i}" th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${i}"
 		th:text="${i}"></a>
 </li>
 
-<li>  <a class="page_n" th:if="${pageNum} < ${apages}" 
-		th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${pageNum-(-1)}">下一页</a>
+<li>  <a class="page_n" th:if="${movie.getPageNum()+1} le ${movie.getPages()}" 
+		th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${movie.getPageNum()+1}">下一页</a>
 </li>
 </ul>
 </div>
 
 <div th:if="${type} eq 2" >
-  <ul class="list-pager" th:if="${bpages}  > 1">
-<li>  <a th:class="page_l" th:if="${pageNum} > 1" 
-      th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${pageNum-1}"
+  <ul class="list-pager" th:if="${actor.getPages()}  gt 1">
+<li>  <a th:class="page_l" th:if="${actor.getPageNum()-1} ge 1" 
+      th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${actor.getPageNum()-1}"
   >上一页</a>
 </li>
-<li th:each="i:${#numbers.sequence(1,bpages)}">
+<li th:each="i:${#numbers.sequence(1,actor.getPages())}">
 <a th:class="'page_'+${i}" th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${i}"
 		th:text="${i}"></a>
 </li>
 
-<li>  <a class="page_n" th:if="${pageNum} < ${bpages}" 
-		th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${pageNum-(-1)}">下一页</a>
+<li>  <a class="page_n" th:if="${actor.getPageNum()+1} le ${actor.getPages()}" 
+		th:href="'?kw='+${kw}+'&type='+${type}+'&pageNum='+${actor.getPageNum()+1}">下一页</a>
 </li>
 </li>
 </ul>

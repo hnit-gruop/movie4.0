@@ -80,15 +80,7 @@ public class MovieBiz {
 		return list;
 	}
 
-	public PageInfo<Movie> findByMovieName(String kw ,Integer pageNum) {
-		//PageHelper.offsetPage(offset, 2);
-		PageHelper.startPage(pageNum, 2);
-		 kw="%"+kw+"%";
-		MovieExample example=new MovieExample();
-		List<Movie> a=mm.selectByName(kw, kw, example);
-		PageInfo<Movie> list = new PageInfo<>(a);
-		return list;
-	}
+	
 
 	public List<MovieType> getTypeId(Integer id) {
 		MovieTypeExample example = new MovieTypeExample();
@@ -104,15 +96,7 @@ public class MovieBiz {
 		return list;
 	}
 
-	public PageInfo<Actor> findByActorName(String kw,Integer pageNum) {
-		//PageHelper.startPage(offset, 2);
-		PageHelper.startPage(pageNum, 2);
-			kw="%"+kw+"%";
-			ActorExample example=new ActorExample();
-			List<Actor> a=am.selectByName(kw, kw, example);
-			PageInfo<Actor> list = new PageInfo<>(a);
-			return list;
-	}
+	
 
 	public List<MovieActor> getMovieId(Integer id) {
 		MovieActorExample example=new MovieActorExample();
@@ -126,5 +110,39 @@ public class MovieBiz {
 		example.createCriteria().andMovieIdEqualTo(movieId);
 		List<Movie> list=mm.selectByExample(example);
 		return list;
+	}
+	
+	public PageInfo<Movie> findByMovieName(String kw ,Integer pageNum) {
+		//PageHelper.offsetPage(offset, 2);
+		PageHelper.startPage(pageNum, 2);
+		 kw="%"+kw+"%";
+		MovieExample example=new MovieExample();
+		List<Movie> a=mm.selectByName(kw, kw, example);
+		PageInfo<Movie> list = new PageInfo<>(a);
+		return list;
+	}
+	
+	public PageInfo<Actor> findByActorName(String kw,Integer pageNum) {
+		//PageHelper.startPage(offset, 2);
+		PageHelper.startPage(pageNum, 2);
+			kw="%"+kw+"%";
+			ActorExample example=new ActorExample();
+			List<Actor> a=am.selectByName(kw, kw, example);
+			PageInfo<Actor> list = new PageInfo<>(a);
+			return list;
+	}
+	
+	public List<Movie> findByMovieName2(String kw ) {
+		 kw="%"+kw+"%";
+		MovieExample example=new MovieExample();
+		List<Movie> a=mm.selectByName(kw, kw, example);
+		return a;
+	}
+	
+	public List<Actor> findByActorName2(String kw) {
+			kw="%"+kw+"%";
+			ActorExample example=new ActorExample();
+			List<Actor> a=am.selectByName(kw, kw, example);
+			return a;
 	}
 }

@@ -3,26 +3,32 @@ package com.yc.bean;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+@Document(indexName = "movie",type = "movie", shards = 1, replicas = 0)
 public class Movie {
-	
+	@Id 
     private Integer movieId;
-
+	@Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String name;
-
+	@Field(index=false,type = FieldType.Integer)
     private Integer duration;
-
+	@Field(type = FieldType.Date)
     private Date releaseTime;
-
+	@Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String foreignName;
-
+	@Field(index=false,type = FieldType.Text)
     private String region;
-
+	@Field(index=false,type = FieldType.Text)
     private String language;
-
+	@Field(type = FieldType.Text)
     private String description;
-
+	@Field(index=false,type = FieldType.Text)
     private String status;
-    
+	@Field(index=false,type = FieldType.Object)
     private MovieImage movieImage;
     
     public MovieImage getMovieImage() {

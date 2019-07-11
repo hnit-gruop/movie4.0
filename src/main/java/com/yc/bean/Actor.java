@@ -2,31 +2,37 @@ package com.yc.bean;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+@Document(indexName = "actor",type = "actor", shards = 1, replicas = 0)
 public class Actor {
+	@Id 
     private Integer actorId;
-
+	@Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String aname;
-
+	@Field(index=false,type = FieldType.Integer)
     private Integer height;
-
+	@Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String secondName;
-
+	@Field(index=false,type = FieldType.Text)
     private String position;
-
+	@Field(index=false,type = FieldType.Text)
     private String country;
-
+	@Field(index=false,type = FieldType.Text)
     private String sex;
-
+	@Field(index=false,type = FieldType.Date)
     private Date birthday;
-
+	@Field(index=false,type = FieldType.Text)
     private String nation;
-
+	@Field(index=false,type = FieldType.Text)
     private String birthplace;
-
+	@Field(index=false,type = FieldType.Text)
     private String constellation;
-
+	@Field(index=false,type = FieldType.Text)
     private String description;
-
+	@Field(index=false,type = FieldType.Text)
     private String pic;
 
     public Integer getActorId() {
