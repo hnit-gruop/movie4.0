@@ -50,16 +50,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 			<!-- 1.5的版本默认采用的连接池技术是jedis 2.0以上版本默认连接池是lettuce, 在这里采用jedis，所以需要排除lettuce的jar -->
-			<exclusions>
-				<exclusion>
-					<groupId>redis.clients</groupId>
-					<artifactId>jedis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>io.lettuce</groupId>
-					<artifactId>lettuce-core</artifactId>
-				</exclusion>
-			</exclusions>
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>redis.clients</groupId> -->
+<!-- 					<artifactId>jedis</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>io.lettuce</groupId> -->
+<!-- 					<artifactId>lettuce-core</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
 		</dependency>
 
 		<!-- 添加jedis客户端 -->
@@ -68,13 +68,7 @@
 			<artifactId>jedis</artifactId>
 		</dependency>
 
-		<!--spring2.0集成redis所需common-pool2 -->
-		<!-- 必须加上，jedis依赖此 -->
-		<!-- spring boot 2.0 的操作手册有标注 大家可以去看看 地址是：https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/htmlsingle/ -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-pool2</artifactId>
-		</dependency>
+	
 
 		<!-- 将作为Redis对象序列化器 -->
 		<dependency>
@@ -146,14 +140,6 @@
 		<version>4.0.6</version> <!-- 注：如提示报错，先升级基础包版，无法解决可联系技术支持 -->
 	</dependency>
 	
-	 
-	 <!--jsp支持-->
-    <!-- servlet 依赖. -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
     
     
     <!-- 沙箱支付 -->
@@ -163,14 +149,30 @@
             <version>0.0.1-beta</version>
         </dependency>
 
+
+	<!-- 短信服务 -->
 	<dependency>
-
 		<groupId>com.aliyun</groupId>
-
 		<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-
 		<version>1.1.0</version>
-
+	</dependency>
+	
+	
+	<!--  springSession配置 -->
+	<dependency>  
+        <groupId>org.springframework.session</groupId>  
+        <artifactId>spring-session-data-redis</artifactId>  
+   </dependency> 
+	
+	
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-web</artifactId>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
 	</dependency>
 	
 	 <!-- elasticsearch启动器 (必须)-->
@@ -183,39 +185,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-
-        <dependency>
-        	<groupId>junit</groupId>
-        	<artifactId>junit</artifactId>
-        </dependency>
+	
+	
+	
 	</dependencies>
 
 
-	<build>
-
-		<!-- <resources> -->
-		<!-- <resource> -->
-		<!-- <directory>${basedir}/src/main/webapp</directory> -->
-		<!-- 注意此次必须要放在此目录下才能被访问到 -->
-		<!-- <targetPath>/</targetPath> -->
-		<!-- <includes> -->
-		<!-- <include>**/**</include> -->
-		<!-- </includes> -->
-		<!-- </resource> -->
-		<!-- <resource> -->
-		<!-- <directory>${basedir}/src/main/resources</directory> -->
-		<!-- <includes> -->
-		<!-- <include>**/**</include> -->
-		<!-- </includes> -->
-		<!-- </resource> -->
-		<!-- </resources> -->
-
-
-
-
-
-
+<build>
 
 		<plugins>
 			<plugin>
