@@ -93,10 +93,10 @@ $(function(){
 	<div class="subnav">
 		<ul class="navbar" id="s1">
     <li>
-      <a data-act="subnav-click" data-val="{subnavClick:0}" data-state-val="{subnavId:0}"  th:text="'电影('+${movie.getTotal()}+')'" th:href="'search?type=1&pageNum=1&kw='+${kw}"  id="1">电影（0）</a>
+      <a data-act="subnav-click" data-val="{subnavClick:0}" data-state-val="{subnavId:0}"  th:text="'电影('+${movie.getTotal()}+')'" th:href="'search2?type=1&pageNum=1&kw='+${kw}"  id="1">电影（0）</a>
     </li>
     <li>
-      <a data-act="subnav-click" data-val="{subnavClick:1}"  th:text="'影人('+${actor.getTotal()}+')'" th:href="'search?type=2&pageNum=1&kw='+${kw}" id="2">影人（0）</a>
+      <a data-act="subnav-click" data-val="{subnavClick:1}"  th:text="'影人('+${actor.getTotal()}+')'" th:href="'search2?type=2&pageNum=1&kw='+${kw}" id="2">影人（0）</a>
     </li>
     <!-- <li>
       <a data-act="subnav-click" data-val="{subnavClick:2}" href="/query?kw=&amp;type=2">影院（0）</a>

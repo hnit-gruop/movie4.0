@@ -106,7 +106,8 @@ $(function(){
 	<div class="container" id="app">
 		<div class="search-result-box" id="box">
 		<div id="box1" style="display: none;">
-		<dl class="movie-list"  th:if="${anum}>0">
+		<div th:if="${anum}>0">
+		<dl class="movie-list"  th:if="${pageNum}<=${apages}">
 		<dd th:each="a,userStat:${movie.getContent()}" >
     <div class="movie-item" id="detail1">
       <a href="/films/248172" target="_blank" data-act="movie-click" data-val="{movieid:248172}">
@@ -134,9 +135,11 @@ $(function(){
 		
 		</dl>
 		</div>
+		</div>
 		<div id="box2" style="display: none;">
-		<ul class="celebrity-list" th:if="${bnum}>0">
-		<li th:each="a,userStat:${actor.getContent()}">
+		<div th:if="${bnum}>0">
+		<ul class="celebrity-list" th:if="${pageNum}<=${bpages}">
+		<li th:each="a,userStat:${actor.getContent()}" >
           <div class="item-poster" id="detail2">
             <a href="/films/celebrity/28633" target="_blank" data-act="celebrity-click" data-val="{celebrityId:28633}">
               <div class="poster">
@@ -155,6 +158,7 @@ $(function(){
         </li>
         
 		</ul>
+		</div>
 		</div>
     
     

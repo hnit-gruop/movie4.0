@@ -132,17 +132,15 @@ public class MovieBiz {
 			return list;
 	}
 	
-	public List<Movie> findByMovieName2(String kw ) {
-		 kw="%"+kw+"%";
+	public List<Movie> findByMovieName2( ) {
 		MovieExample example=new MovieExample();
-		List<Movie> a=mm.selectByName(kw, kw, example);
+		List<Movie> a=mm.selectByName2(example);
 		return a;
 	}
 	
-	public List<Actor> findByActorName2(String kw) {
-			kw="%"+kw+"%";
+	public List<Actor> findByActorName2() {
 			ActorExample example=new ActorExample();
-			List<Actor> a=am.selectByName(kw, kw, example);
+			List<Actor> a=am.selectByExample(example);
 			return a;
 	}
 }

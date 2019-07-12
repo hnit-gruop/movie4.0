@@ -45,10 +45,7 @@ public class SearchController {
 	
 	@Autowired
 	private ElasticsearchTemplate elasticsearchTemplate;
-	@Autowired
-	private MovieRepository movieRepository;
-	@Autowired
-	private ActorRepository actorRepository;
+	
 	List<String> bList=null;
 	List<List<String>> aList=null;
 	List<String> cList=null;
@@ -114,27 +111,11 @@ public class SearchController {
 	
 	@RequestMapping("search" )
 	public String search2(Model m,String kw,String type,String pageNum) {
-		String preTag = "<font color='#dd4b39'>";//google的色值
-        String postTag = "</font>";
 		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
 		NativeSearchQueryBuilder queryBuilder2 = new NativeSearchQueryBuilder();
-		movieRepository.deleteAll();
-		actorRepository.deleteAll();
 		aList=new ArrayList<>();
 		dList=new ArrayList<>();
-		List<Movie> a=null;	
-		List<Actor> b=null;
-			 a=mb.findByMovieName2(kw);		
-			 b=mb.findByActorName2(kw);
-			
-			 if(a.size()>0){
-				 movieRepository.saveAll(a);
-			 }
-			 if(b.size()>0){
-				 actorRepository.saveAll(b);
-			 }
-			
-			 
+	 
 			 /**
 			     * 组合查询
 			     * must(QueryBuilders) :   AND
@@ -149,8 +130,8 @@ public class SearchController {
 			 queryBuilder.withQuery(boolQueryBuilder);
 			 queryBuilder.withPageable(PageRequest.of(Integer.parseInt(pageNum)-1,2));
 			//设置高亮
-		        queryBuilder.withHighlightFields(new HighlightBuilder.Field("name").preTags("<font color='red'>").postTags("</font>"),
-		        		new HighlightBuilder.Field("foreignName").preTags("<font color='red'>").postTags("</font>"));
+		        queryBuilder.withHighlightFields(new HighlightBuilder.Field("name").preTags("<font color='#dd4b39'>").postTags("</font>"),
+		        		new HighlightBuilder.Field("foreignName").preTags("<font color='#dd4b39'>").postTags("</font>"));
 			 
 			//使用es查询
 			 AggregatedPage<Movie>aa= elasticsearchTemplate.queryForPage(queryBuilder.build(), Movie.class, new SearchResultMapper() {
@@ -237,8 +218,8 @@ public class SearchController {
 			 queryBuilder2.withQuery(boolQueryBuilder2);
 			 queryBuilder2.withPageable(PageRequest.of(Integer.parseInt(pageNum)-1,2));
 			//设置高亮
-		        queryBuilder2.withHighlightFields(new HighlightBuilder.Field("aname").preTags("<font color='red'>").postTags("</font>"),
-		        		new HighlightBuilder.Field("secondName").preTags("<font color='red'>").postTags("</font>"));
+		        queryBuilder2.withHighlightFields(new HighlightBuilder.Field("aname").preTags("<font color='#dd4b39'>").postTags("</font>"),
+		        		new HighlightBuilder.Field("secondName").preTags("<font color='#dd4b39'>").postTags("</font>"));
 			 
 			//使用es查询
 			 AggregatedPage<Actor>bb= elasticsearchTemplate.queryForPage(queryBuilder2.build(), Actor.class, new SearchResultMapper() {

@@ -39,6 +39,7 @@ public interface MovieMapper {
     
     List<Movie> selectByName(@Param("kw1") String kw1,@Param("kw2") String kw2, @Param("example")MovieExample example);
     
+    List<Movie> selectByName2(MovieExample example);
 	
     List<Movie> listActor(Integer movieId);
     
