@@ -339,7 +339,19 @@
 	</select>
 
 
-
+<select id="selectByName2"
+		parameterType="com.yc.bean.MovieExample" resultMap="BaseResultMap1">
+		SELECT
+		a.*,TYPE,image,sum_score,sum_people,sum_score/sum_people score
+		FROM movie a LEFT JOIN movie_image b ON a.movie_id=b.movie_id
+		and
+		type='cover_type'
+		LEFT JOIN score c ON a.movie_id=c.movie_id
+		
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
 
 	<select id="selectByPrimaryKey"
 		parameterType="java.lang.Integer" resultMap="BaseResultMap">
